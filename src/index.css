@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-sand-50 text-ink-800 font-sans antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  h1, h2, h3, h4 {
+    @apply font-display tracking-tight text-ink-900;
+  }
+  ::selection {
+    @apply bg-sage-200 text-sage-900;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-sage-600;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sage-500;
+  }
+  .btn-primary {
+    @apply btn bg-sage-600 text-white shadow-soft hover:bg-sage-700 hover:shadow-card;
+  }
+  .btn-secondary {
+    @apply btn bg-sand-100 text-sage-800 ring-1 ring-inset ring-sage-200 hover:bg-sand-200 hover:ring-sage-300;
+  }
+  .btn-ghost {
+    @apply btn text-ink-700 hover:bg-sand-100;
+  }
+  .card {
+    @apply rounded-3xl bg-white shadow-soft ring-1 ring-sand-200/70 transition-all duration-300;
+  }
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-card hover:ring-sage-200;
+  }
+  .link-underline {
+    @apply relative inline-flex items-center gap-1.5 font-medium text-sage-700 transition-colors hover:text-sage-900;
+  }
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-sage-500 transition-transform duration-300;
+  }
+  .link-underline:hover::after {
+    @apply scale-x-100;
+  }
+}
+
+/* Reveal-on-scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subtle grain / texture overlay helper */
+.bg-grain {
+  background-image: radial-gradient(rgba(47, 44, 38, 0.025) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
