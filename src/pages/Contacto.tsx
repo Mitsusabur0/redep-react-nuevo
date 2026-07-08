@@ -19,12 +19,12 @@ export default function Contacto() {
     <>
       <PageHero
         title="Contacto"
-        subtitle="[Texto de relleno introductorio. Invita a la paciente a contactar al equipo REDEP para una evaluación expedita, resolver dudas o solicitar información sobre los servicios clínicos.]"
+        subtitle="Estamos disponibles para orientar tus consultas, coordinar una evaluación y entregar información clara sobre las alternativas de atención del equipo REDEP."
         image={contactImage}
         imageAlt="Imagen de apoyo para contacto de REDEP Chile"
       />
 
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
             <ContactInfo />
@@ -53,9 +53,6 @@ function ContactInfo() {
     <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} flex flex-col overflow-hidden rounded-4xl`}>
       <div className="flex flex-1 flex-col p-8 md:p-10">
       <h2 className="font-display text-2xl font-semibold text-ink-900">Información de contacto</h2>
-      <p className="mt-3 text-sm leading-relaxed text-ink-600">
-        [Texto de relleno. Indica los canales disponibles para contactar al equipo REDEP Chile.]
-      </p>
 
       <ul className="mt-8 space-y-5">
         {items.map(({ icon: Icon, label, value, href }) => (
@@ -117,7 +114,7 @@ function ContactForm() {
     <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} rounded-4xl bg-white p-8 shadow-card ring-1 ring-sand-200 md:p-10`}>
       <h2 className="font-display text-2xl font-semibold text-ink-900">Envíanos un mensaje</h2>
       <p className="mt-3 text-sm leading-relaxed text-ink-600">
-        [Texto de relleno. Completa el formulario y el equipo se pondrá en contacto contigo a la brevedad.]
+        Completa el formulario y el equipo se pondrá en contacto contigo a la brevedad.
       </p>
 
       {submitted ? (
@@ -154,7 +151,7 @@ function ContactForm() {
                 required
                 value={form.nombre}
                 onChange={handleChange}
-                placeholder="[Tu nombre]"
+                placeholder="Tu nombre"
                 className={fieldCls}
               />
             </div>
@@ -169,7 +166,7 @@ function ContactForm() {
                 required
                 value={form.email}
                 onChange={handleChange}
-                placeholder="[tu@correo.cl]"
+                placeholder="tu@correo.cl"
                 className={fieldCls}
               />
             </div>
@@ -202,7 +199,7 @@ function ContactForm() {
               rows={5}
               value={form.mensaje}
               onChange={handleChange}
-              placeholder="[Cuéntanos tu caso o consulta aquí]"
+              placeholder="Cuéntanos tu caso o consulta"
               className={`${fieldCls} resize-none`}
             />
           </div>

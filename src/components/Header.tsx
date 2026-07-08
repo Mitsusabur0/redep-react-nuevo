@@ -44,14 +44,14 @@ export function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex xl:gap-1">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               end={link.path === '/'}
               className={({ isActive }) =>
-                `rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                `rounded-full px-3 py-2 text-sm font-medium transition-colors xl:px-4 ${
                   isActive
                     ? 'bg-sage-100 text-sage-800'
                     : 'text-ink-600 hover:bg-sand-100 hover:text-ink-900'
@@ -67,7 +67,7 @@ export function Header() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-ink-800 hover:bg-sand-100 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-ink-800 hover:bg-sand-100 lg:hidden"
           aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
           aria-expanded={open}
         >
@@ -77,17 +77,17 @@ export function Header() {
 
       {/* Mobile menu overlay */}
       <div
-        className={`md:hidden ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        className={`lg:hidden ${open ? 'pointer-events-auto' : 'pointer-events-none'}`}
         aria-hidden={!open}
       >
         <div
-          className={`fixed inset-0 top-16 bg-ink-900/30 backdrop-blur-sm transition-opacity duration-300 ${
+          className={`fixed inset-0 top-16 bg-ink-900/30 backdrop-blur-sm transition-opacity duration-300 md:top-20 ${
             open ? 'opacity-100' : 'opacity-0'
           }`}
           onClick={() => setOpen(false)}
         />
         <nav
-          className={`fixed inset-x-0 top-16 origin-top bg-sand-50 px-5 pb-8 pt-4 shadow-lift transition-all duration-300 ${
+          className={`fixed inset-x-0 top-16 origin-top bg-sand-50 px-5 pb-8 pt-4 shadow-lift transition-all duration-300 md:top-20 ${
             open ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
           }`}
         >

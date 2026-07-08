@@ -39,6 +39,7 @@ type TeamMember = {
 
 export const NAV_LINKS = [
   { label: 'Inicio', path: '/' },
+  { label: 'Quiénes Somos', path: '/quienes-somos' },
   { label: 'Cirugías', path: '/cirugias' },
   { label: 'Problemas Clínicos', path: '/problemas-clinicos' },
   { label: 'Apoyo al Paciente', path: '/apoyo-al-paciente' },
@@ -207,12 +208,12 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
     id: 'sangrado-menstrual-abundante',
     title: 'Sangrado menstrual abundante',
     description:
-      'Reglas muy largas, cambios de protección muy frecuentes, coágulos, anemia o fatiga. No hay que normalizarlo cuando afecta tu vida.',
+      'No hay que normalizarlo cuando afecta tu vida.',
     image: heavyBleedingImage,
     imageAlt: 'Imagen ilustrativa de sangrado menstrual abundante',
     sections: [
+      { title: 'Señales', content: 'Reglas muy largas, cambios de protección muy frecuentes, coágulos, anemia o fatiga.' },
       { title: 'Causas', content: 'Adenomiosis, miomas, pólipos, alteraciones hormonales o de coagulación.' },
-      // { title: 'Diagnóstico', content: '[Texto de relleno sobre el abordaje diagnóstico del sangrado abundante.]' },
       { title: 'Qué hacemos', content: 'Identificamos si el origen es estructural, hormonal o mixto, y tratamos según la causa.' },
     ],
   },

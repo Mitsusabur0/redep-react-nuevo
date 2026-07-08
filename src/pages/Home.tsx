@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Users, MessageSquare } from 'lucide-react';
+import { ArrowRight, BookOpen, MessageSquare, Users } from 'lucide-react';
 import { CTAButton } from '../components/CTAButton';
 import { SectionHeader } from '../components/SectionHeader';
 import { useReveal } from '../hooks/useReveal';
@@ -8,10 +8,14 @@ import heroImage from '../assets/images/home/h-hero.png';
 import patientSupportImage from '../assets/images/home/h-pasos_cirugia_palette_highres-scaled.png';
 import teamImage from '../assets/images/home/h-team.jpg';
 
+const medicalCenterExteriorImage =
+  'https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&fm=jpg&q=80&w=1600';
+
 export default function Home() {
   return (
     <>
       <Hero />
+      <QuienesSomosTeaser />
       <SurgeryTeaser />
       <ProblemsTeaser />
       <ApoyoTeaser />
@@ -60,10 +64,47 @@ function Hero() {
   );
 }
 
-function SurgeryTeaser() {
+function QuienesSomosTeaser() {
   const { ref, visible } = useReveal();
   return (
     <section className="bg-sand-100 py-20 md:py-28">
+      <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
+          <div>
+            <SectionHeader
+              eyebrow="Quiénes Somos"
+              title="Una red clínica construida para mirar el dolor pélvico de forma integral"
+              intro="REDEP integra cirugía, terapias de apoyo e investigación para abordar la endometriosis, adenomiosis y dolor pélvico persistente con una mirada multidisciplinaria."
+              className="[&_h2]:text-[#103F3F]"
+            />
+            <div className="mt-8">
+              <CTAButton to="/quienes-somos">
+                <Users className="h-4 w-4" />
+                Conocer REDEP
+              </CTAButton>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
+              <img
+                src={medicalCenterExteriorImage}
+                alt="Exterior de un centro médico moderno"
+                className="aspect-[16/10] h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SurgeryTeaser() {
+  const { ref, visible } = useReveal();
+  return (
+    <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="grid items-center gap-10 lg:grid-cols-[3fr_2fr] lg:gap-16">
           <SectionHeader
@@ -103,7 +144,7 @@ function SurgeryTeaser() {
 function ProblemsTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-50 py-20 md:py-28">
+    <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="max-w-3xl">
           <span className="eyebrow mb-4">
@@ -139,7 +180,7 @@ function ProblemsTeaser() {
 function ApoyoTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-100 py-20 md:py-28">
+    <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="max-w-3xl">
           <SectionHeader
@@ -163,7 +204,7 @@ function ApoyoTeaser() {
 function EquipoTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-50 py-20 md:py-28">
+    <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -197,7 +238,7 @@ function EquipoTeaser() {
 function ClosingCTA() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-100 py-20 md:py-28">
+    <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page text-center`}>
         <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-100 text-sage-700 ring-1 ring-sage-200">
           <MessageSquare className="h-6 w-6" />

@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
 import Home from './pages/Home';
+import QuienesSomos from './pages/QuienesSomos';
 import Cirugias from './pages/Cirugias';
 import ProblemasClinicos from './pages/ProblemasClinicos';
 import ApoyoAlPaciente from './pages/ApoyoAlPaciente';
@@ -18,6 +19,7 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/quienes-somos" element={<QuienesSomos />} />
             <Route path="/cirugias" element={<Cirugias />} />
             <Route path="/problemas-clinicos" element={<ProblemasClinicos />} />
             <Route path="/apoyo-al-paciente" element={<ApoyoAlPaciente />} />
