@@ -1,5 +1,6 @@
 // Central content for REDEP Chile. All body text is placeholder.
 // Titles, labels, and navigation are final content as specified.
+import type { ReactNode } from 'react';
 import endometriosisSurgeryImage from '../assets/images/cirugias/c-endometriosis.png';
 import hysterectomyImage from '../assets/images/cirugias/c-histerectomia.png';
 import uterinePreservationImage from '../assets/images/cirugias/c-ablacion-preservacion-uterina.png';
@@ -12,6 +13,20 @@ import heavyBleedingImage from '../assets/images/problemas/p-sangrado.png';
 import pelvicPainImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
 import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
 import mauricioImage from '../assets/images/equipo/mauricio.webp';
+
+type ClinicalProblemSection = {
+  title: string;
+  content: ReactNode;
+};
+
+type ClinicalProblem = {
+  id: string;
+  title: string;
+  description: ReactNode;
+  image: string;
+  imageAlt: string;
+  sections: ClinicalProblemSection[];
+};
 
 export const NAV_LINKS = [
   { label: 'Inicio', path: '/' },
@@ -129,7 +144,7 @@ export const SURGERIES = [
   },
 ];
 
-export const CLINICAL_PROBLEMS = [
+export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
   {
     id: 'endometriosis',
     title: 'Endometriosis',
@@ -138,72 +153,95 @@ export const CLINICAL_PROBLEMS = [
     image: endometriosisProblemImage,
     imageAlt: 'Imagen ilustrativa de endometriosis',
     sections: [
-      { title: 'Señales', text: 'Dolor menstrual intenso, dolor pélvico persistente, dolor sexual, síntomas digestivos o urinarios cíclicos, infertilidad. <br> La intensidad del dolor no depende del tamaño de las lesiones.' },
+      {
+        title: 'Señales',
+        content: (
+          <>
+            Dolor menstrual intenso, dolor pélvico persistente, dolor sexual, síntomas digestivos o urinarios
+            cíclicos, infertilidad.
+          </>
+        ),
+      },
       // { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico de la endometriosis.]' },
-      { title: 'Qué hacemos', text: 'Mapeo de la enfermedad y un plan individualizado de manejo del dolor. La mayoría no requiere cirugía.' },
+      {
+        title: 'Qué hacemos',
+        content: 'Mapeo de la enfermedad y un plan individualizado de manejo del dolor. La mayoría no requiere cirugía.',
+      },
     ],
   },
   {
     id: 'adenomiosis',
     title: 'Adenomiosis',
     description:
-      '[Descripción de la condición aquí. Texto de relleno que explica brevemente la adenomiosis.]',
+      'Tejido endometrial dentro del músculo uterino: el útero se agranda, se vuelve más sensible y se contrae con dolor.',
     image: adenomyosisProblemImage,
     imageAlt: 'Imagen ilustrativa de adenomiosis',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas de la adenomiosis.]' },
-      { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico de la adenomiosis.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Señales', content: 'Sangrado abundante, dolor menstrual progresivo, dolor pélvico crónico y, a veces, dificultad para embarazarse.' },
+      { title: 'Diagnóstico', content: 'Ecografía ginecológica avanzada o resonancia.' },
+      { title: 'Qué hacemos', content: 'Tratamiento médico, procedimientos conservadores o cirugía, según tus objetivos.' },
     ],
   },
   {
     id: 'dolor-menstrual-invalidante',
     title: 'Dolor menstrual invalidante',
     description:
-      '[Descripción de la condición aquí. Texto de relleno sobre el dolor menstrual que interfiere con la vida cotidiana.]',
+      'El dolor que te impide estudiar, trabajar o dormir no es normal.',
     image: menstrualPainImage,
     imageAlt: 'Imagen ilustrativa de dolor menstrual invalidante',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor menstrual invalidante.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Señales', content: 'Puede ser endometriosis, adenomiosis, miomas u otra causa. Tomar analgésicos sin estudiarlo retrasa el diagnóstico. Es frecuente que tras un tiempo, los análgesicos dejen de funcionar.' },
+      { title: 'Qué hacemos', content: 'Diferenciamos un dolor menstrual común de uno secundario a una enfermedad pélvica.' },
     ],
   },
   {
     id: 'sangrado-menstrual-abundante',
     title: 'Sangrado menstrual abundante',
     description:
-      '[Descripción de la condición aquí. Texto de relleno sobre el sangrado menstrual excesivo.]',
+      'Reglas muy largas, cambios de protección muy frecuentes, coágulos, anemia o fatiga. No hay que normalizarlo cuando afecta tu vida.',
     image: heavyBleedingImage,
     imageAlt: 'Imagen ilustrativa de sangrado menstrual abundante',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del sangrado abundante.]' },
-      { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico del sangrado abundante.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Causas', content: 'Adenomiosis, miomas, pólipos, alteraciones hormonales o de coagulación.' },
+      // { title: 'Diagnóstico', content: '[Texto de relleno sobre el abordaje diagnóstico del sangrado abundante.]' },
+      { title: 'Qué hacemos', content: 'Identificamos si el origen es estructural, hormonal o mixto, y tratamos según la causa.' },
     ],
   },
   {
     id: 'dolor-pelvico-persistente',
     title: 'Dolor pélvico persistente',
-    description:
-      '[Descripción de la condición aquí. Texto de relleno sobre el dolor pélvico crónico y persistente.]',
+    description: (
+      <>
+        Dolor que se mantiene o reaparece por meses. Casi nunca tiene una sola causa. Pueden convivir inflamación,
+        tensión del piso pélvico, sensibilización del sistema nervioso, cicatrices, endometriosis o causas vesicales e
+        intestinales.
+        <br /><br />
+        <strong>El objetivo no es solo encontrar una lesión, sino entender el mecanismo del dolor.</strong>
+      </>
+    ),
     image: pelvicPainImage,
     imageAlt: 'Imagen ilustrativa de dolor pélvico persistente',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor pélvico persistente.]' },
-      { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico del dolor pélvico persistente.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Señales', content: 'Dolor que se mantiene o reaparece por meses.' },
+      // { title: 'Diagnóstico', content: '[Texto de relleno sobre el abordaje diagnóstico del dolor pélvico persistente.]' },
+      { title: 'Qué hacemos', content: 'Evaluación integral y un plan que combina tratamiento médico, kinesiología, manejo del dolor y apoyo psicológico.' },
     ],
   },
   {
     id: 'dolor-actividad-sexual',
     title: 'Dolor en actividad sexual',
-    description:
-      '[Descripción de la condición aquí. Texto de relleno sobre el dolor durante la actividad sexual.]',
+    description: (
+      <>
+        No debe vivirse con culpa ni resignación. Puede originarse en el fondo vaginal, útero, endometriosis profunda, piso pélvico o sensibilización del dolor.
+        <br /><br />
+        <strong>La kinesiología de piso pélvico es clave en el tratamiento.</strong>
+      </>
+    ),
     image: sexualPainImage,
     imageAlt: 'Imagen ilustrativa de dolor en actividad sexual',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor en actividad sexual.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Señales', content: 'Dolor durante o después del sexo.' },
+      { title: 'Qué hacemos', content: 'Precisamos el tipo de dolor (superficial, profundo, posicional o cíclico) y tratamos con un enfoque interdisciplinario y respetuoso.' },
     ],
   },
 ];

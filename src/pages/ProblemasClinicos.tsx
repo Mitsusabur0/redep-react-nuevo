@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Eye, Stethoscope, Microscope, ArrowRight } from 'lucide-react';
+import { Eye, Microscope, SearchCheck, Stethoscope } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { CTAButton } from '../components/CTAButton';
 import { CLINICAL_PROBLEMS } from '../data/content';
@@ -7,6 +7,7 @@ import { CLINICAL_PROBLEMS } from '../data/content';
 const SECTION_ICONS: Record<string, typeof Eye> = {
   Señales: Eye,
   Diagnóstico: Microscope,
+  Causas: SearchCheck,
   'Qué hacemos': Stethoscope,
 };
 
@@ -85,13 +86,19 @@ export default function ProblemasClinicos() {
                     <h2 className="text-2xl font-semibold leading-tight text-ink-900 md:text-3xl">
                       {current.title}
                     </h2>
-                    <p className="mt-4 leading-relaxed text-ink-600">{current.description}</p>
+                    <div className="mt-4 leading-relaxed text-ink-600 [&_strong]:font-semibold [&_strong]:text-ink-800">
+                      {current.description}
+                    </div>
                   </div>
                 </div>
 
                 {/* Sub-points: Señales / Diagnóstico / Qué hacemos */}
                 <div className="border-t border-sand-200 p-7 md:p-10">
-                  <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                  <div
+                    className={`mx-auto grid gap-5 md:grid-cols-2 ${
+                      current.sections.length === 2 ? 'lg:max-w-3xl' : 'lg:grid-cols-3'
+                    }`}
+                  >
                     {current.sections.map((sec) => {
                       const Icon = SECTION_ICONS[sec.title] ?? Eye;
                       return (
@@ -102,20 +109,20 @@ export default function ProblemasClinicos() {
                             </span>
                             <h3 className="font-display text-lg font-semibold text-sage-800">{sec.title}</h3>
                           </div>
-                          <p className="text-sm leading-relaxed text-ink-600">{sec.text}</p>
+                          <div className="text-sm leading-relaxed text-ink-600 [&_strong]:font-semibold [&_strong]:text-ink-800">
+                            {sec.content}
+                          </div>
                         </div>
                       );
                     })}
                   </div>
 
-                  <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl bg-sage-50 p-5 ring-1 ring-sage-200">
-                    <p className="text-sm text-ink-700">
-                      [Texto de relleno. Invita a la paciente a solicitar una evaluación especialada para
-                      su condición.]
+                  <div className="mt-8">
+                    <p className="max-w-3xl text-sm leading-relaxed text-ink-600">
+                      Si crees tener esta, o cualquier otra condición, te invitamos a solicitar una evaluación especializada con nuestro equipo de profesionales.
                     </p>
-                    <CTAButton to="/contacto" className="ml-auto">
+                    <CTAButton to="/contacto" className="mt-4">
                       Solicitar evaluación
-                      <ArrowRight className="h-4 w-4" />
                     </CTAButton>
                   </div>
                 </div>
