@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Heart, Instagram, Youtube, MessageCircle } from 'lucide-react';
+import { Instagram, Youtube, MessageCircle } from 'lucide-react';
 import { NAV_LINKS } from '../data/content';
+import logoImage from '../assets/images/logo.png';
 
 export function Footer() {
   return (
@@ -10,8 +11,8 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link to="/" className="flex items-center gap-2.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-sage-500 text-white">
-                <Heart className="h-5 w-5" />
+              <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-sand-200">
+                <img src={logoImage} alt="" className="h-full w-full object-contain p-1" />
               </span>
               <span className="font-display text-xl font-semibold text-white">REDEP Chile</span>
             </Link>

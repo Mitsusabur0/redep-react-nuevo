@@ -6,9 +6,10 @@ interface CalloutProps {
   variant?: 'info' | 'note' | 'reference';
   icon?: ReactNode;
   title?: string;
+  className?: string;
 }
 
-export function Callout({ children, variant = 'note', icon, title }: CalloutProps) {
+export function Callout({ children, variant = 'note', icon, title, className = '' }: CalloutProps) {
   const styles = {
     note: {
       wrap: 'bg-sage-50 ring-sage-200',
@@ -28,7 +29,7 @@ export function Callout({ children, variant = 'note', icon, title }: CalloutProp
   }[variant];
 
   return (
-    <div className={`flex gap-4 rounded-2xl p-5 ring-1 ring-inset ${styles.wrap}`}>
+    <div className={`flex gap-4 rounded-2xl p-5 ring-1 ring-inset ${styles.wrap} ${className}`}>
       <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${styles.iconWrap}`}>
         {icon ?? styles.defaultIcon}
       </div>

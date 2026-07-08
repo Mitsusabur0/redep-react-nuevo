@@ -27,11 +27,10 @@ export default function Cirugias() {
       <PageHero
         eyebrow="Cirugías"
         title="Cirugías en REDEP"
-        subtitle="[Texto de relleno introductorio. Descripción general del enfoque quirúrgico del equipo REDEP, enfatizando la decisión compartida y el carácter personalizado de cada intervención.]"
       />
 
       {/* Topic selector + detail */}
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container-page">
           <div className="grid gap-8 lg:grid-cols-[280px_1fr] lg:gap-12">
             {/* Side nav */}
@@ -111,8 +110,21 @@ export default function Cirugias() {
                     </div>
                   )}
 
+                  {current.id === 'endometriosis-multidisciplinaria' && (
+                    <div className="mt-8 max-w-3xl space-y-3">
+                      <p className="font-semibold leading-relaxed text-ink-900">
+                        No toda endometriosis se opera. El tratamiento médico resuelve muchos casos; la cirugía se
+                        reserva para indicaciones precisas, en un equipo especializado.
+                      </p>
+                      <p className="leading-relaxed text-ink-600">
+                        Cirugías realizadas por el Dr. Mauricio Correa junto a un equipo de referencia: ginecología,
+                        urología, coloproctología y cirugía de pared.
+                      </p>
+                    </div>
+                  )}
+
                   {/* Callouts + reference */}
-                  {current.callout && (
+                  {current.callout && current.id !== 'endometriosis-multidisciplinaria' && (
                     <div className="mt-8">
                       <Callout variant="note" title="Nota destacada">
                         {current.callout}
@@ -120,8 +132,12 @@ export default function Cirugias() {
                     </div>
                   )}
                   {current.reference && (
-                    <div className="mt-5">
-                      <Callout variant="reference" title={current.reference.label}>
+                    <div className="mt-10">
+                      <Callout
+                        variant="reference"
+                        title={current.reference.label}
+                        className="[&_a]:text-base [&_div:last-child]:text-base [&_p]:mb-2 [&_p]:text-lg"
+                      >
                         <a
                           href={current.reference.href}
                           target="_blank"
@@ -157,7 +173,7 @@ function StepJourney({ steps }: { steps: { title: string; text: string }[] }) {
       </div>
       <ol className="relative grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {steps.map((step, i) => (
-          <li key={step.title} className="relative rounded-2xl bg-sand-50 p-5 ring-1 ring-sand-200">
+          <li key={step.title} className="relative rounded-2xl p-5 ring-1 ring-sand-200">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-sage-600 font-display text-sm font-semibold text-white shadow-soft">
                 {i + 1}

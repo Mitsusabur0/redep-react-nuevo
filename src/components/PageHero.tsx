@@ -21,7 +21,7 @@ export function PageHero({ eyebrow, title, subtitle, image, imageAlt = '' }: Pag
                 {eyebrow}
               </span>
             )}
-            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.1] text-ink-900 sm:text-5xl md:text-6xl">
+            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.1] text-[#103F3F] sm:text-5xl md:text-6xl">
               {title}
             </h1>
             {subtitle && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ink-600 md:text-xl">{subtitle}</p>}

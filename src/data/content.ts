@@ -27,41 +27,41 @@ export const SURGERIES = [
     id: 'endometriosis-multidisciplinaria',
     title: 'Cirugía de endometriosis multidisciplinaria',
     intro:
-      '[Descripción del procedimiento aquí. Texto de relleno que explica brevemente el enfoque quirúrgico multidisciplinario adoptado por el equipo REDEP para el tratamiento de la endometriosis.]',
+      'Del síntoma a la recuperación. Cada etapa define la siguiente. Operamos solo cuando hay una indicación clara.',
     image: endometriosisSurgeryImage,
     imageAlt: 'Ilustración de la cirugía de endometriosis multidisciplinaria',
     steps: [
       {
         title: 'Síntomas e impacto',
-        text: '[Descripción del primer paso aquí. Texto de relleno sobre la evaluación inicial de síntomas y su impacto en la vida de la paciente.]',
+        text: 'Caracterizamos tu dolor y cómo afecta tu día, tu descanso y tu sexualidad.',
       },
       {
         title: 'Diagnóstico y mapeo',
-        text: '[Descripción del segundo paso aquí. Texto de relleno sobre el proceso de diagnóstico detallado y mapeo de lesiones.]',
+        text: 'Ecografía especializada y/o resonancia con protocolo de endometriosis para localizar cada lesión.',
       },
       {
         title: '¿Hay indicación de cirugía?',
-        text: '[Descripción del tercer paso aquí. Texto de relleno sobre la decisión compartida respecto a la indicación quirúrgica.]',
+        text: 'Muchos casos se controlan sin operar. Lo decidimos juntos',
       },
       {
         title: 'Prehabilitación',
-        text: '[Descripción del cuarto paso aquí. Texto de relleno sobre la preparación física y emocional previa a la cirugía.]',
+        text: 'Preparamos tu cuerpo y el control del dolor para una recuperación más rápida y segura.',
       },
       {
         title: 'Cirugía laparoscópica multidisciplinaria',
-        text: '[Descripción del quinto paso aquí. Texto de relleno sobre el procedimiento quirúrgico laparoscópico realizado por el equipo multidisciplinario.]',
+        text: 'Resección por mínima invasión con el equipo completo.',
       },
       {
         title: 'Rehabilitación',
-        text: '[Descripción del sexto paso aquí. Texto de relleno sobre el proceso de rehabilitación postoperatoria y seguimiento.]',
+        text: 'Kinesiología de piso pélvico y seguimiento para sostener el resultado.',
       },
     ],
     callout:
       '[Nota destacada: No todos los casos de endometriosis requieren cirugía. Texto de relleno que refuerza el enfoque personalizado y la decisión compartida con la paciente.]',
     reference: {
       label: 'Guía clínica de referencia',
-      href: '#',
-      text: '[Enlace a guía clínica externa — placeholder]',
+      href: 'https://sochog.cl/wp-content/uploads/2025/02/GUIA-INFORMATIVA-PARA-EL-ACOMPANAMIENTO-EN-EL-MANEJO-QUIRURGICO-DE-LA-ENDOMETRIOSIS-1.pdf',
+      text: 'Ver archivo PDF',
     },
   },
   {
