@@ -18,7 +18,6 @@ export function SectionHeader({ eyebrow, title, intro, align = 'left', className
     >
       {eyebrow && (
         <span className="eyebrow mb-4">
-          <span className="h-px w-6 bg-sage-400" aria-hidden />
           {eyebrow}
         </span>
       )}

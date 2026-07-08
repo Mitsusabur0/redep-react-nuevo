@@ -24,7 +24,6 @@ export default function Equipo() {
           <div className="mt-16">
             <div className="mb-8 flex items-center gap-3">
               <span className="eyebrow">
-                <span className="h-px w-6 bg-sage-400" aria-hidden />
                 Equipo multidisciplinario
               </span>
             </div>

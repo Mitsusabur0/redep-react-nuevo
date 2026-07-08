@@ -152,7 +152,6 @@ function StepJourney({ steps }: { steps: { title: string; text: string }[] }) {
     <div>
       <div className="mb-6 flex items-center gap-2">
         <span className="eyebrow">
-          <span className="h-px w-6 bg-sage-400" aria-hidden />
           Recorrido del paciente
         </span>
       </div>

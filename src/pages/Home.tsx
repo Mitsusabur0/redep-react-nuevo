@@ -28,11 +28,10 @@ function Hero() {
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page relative`}>
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <span className="eyebrow mb-5">
-              <span className="h-px w-6 bg-sage-400" aria-hidden />
+            <span className="eyebrow mb-5 md:text-sm">
               Red de Endometriosis y Dolor Pélvico
             </span>
-            <h1 className="text-4xl font-semibold leading-[1.08] text-ink-900 sm:text-5xl md:text-6xl lg:text-[4rem]">
+            <h1 className="text-4xl font-semibold leading-[1.08] text-[#103F3F] sm:text-5xl md:text-6xl lg:text-[4rem]">
               Dolor pélvico no es normal.
             </h1>
             <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-600 md:text-xl">
@@ -66,31 +65,35 @@ function SurgeryTeaser() {
   return (
     <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[3fr_2fr] lg:gap-16">
           <SectionHeader
             eyebrow="Cirugías"
             title="Evaluación de cirugías en REDEP"
             intro="Realizadas por equipo de referencia especializado en mínima invasión."
+            className="[&_h2]:text-[#103F3F]"
           />
-          <div className="grid gap-3 sm:grid-cols-2">
-            {SURGERIES.map((s, i) => (
+          <div className="grid w-full gap-3 sm:w-max lg:justify-self-center">
+            {SURGERIES.map((s) => (
               <Link
                 key={s.id}
                 to={`/cirugias#${s.id}`}
                 className="group flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sage-200"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-sage-100 font-display text-sm font-semibold text-sage-700">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm font-medium leading-snug text-ink-800 group-hover:text-sage-800">
-                    {s.title}
-                  </span>
-                </div>
+                <span className="text-sm font-medium leading-snug text-ink-800 group-hover:text-sage-800 sm:whitespace-nowrap">
+                  {s.title}
+                </span>
                 <ArrowRight className="h-4 w-4 shrink-0 text-ink-300 transition-colors group-hover:text-sage-600" />
               </Link>
             ))}
           </div>
+        </div>
+        <div className="mt-12 hidden sm:block md:mt-16">
+          <img
+            src={patientSupportImage}
+            alt="Ilustración del recorrido de cirugía"
+            className="w-full"
+            loading="lazy"
+          />
         </div>
       </div>
     </section>
@@ -102,35 +105,32 @@ function ProblemsTeaser() {
   return (
     <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
-          <div>
-            <span className="eyebrow mb-4">
-              <span className="h-px w-6 bg-sage-400" aria-hidden />
-              Problemas Clínicos
-            </span>
-            <h2 className="text-3xl font-semibold leading-tight text-ink-900 sm:text-4xl md:text-[2.75rem]">
-              Selecciona tu síntoma principal o problema clínico
-            </h2>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-600">
-              Una red interdisciplinaria permite integrar diagnóstico, dolor, fertilidad, rehabilitación y cirugía en un plan coherente.
-            </p>
-            <CTAButton to="/problemas-clinicos" variant="secondary" className="mt-8">
-              Ver todos los problemas clínicos
-            </CTAButton>
-          </div>
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            {CLINICAL_PROBLEMS.map((p) => (
-              <Link
-                key={p.id}
-                to={`/problemas-clinicos#${p.id}`}
-                className="group flex items-center justify-between gap-2 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sage-200"
-              >
-                <span className="text-sm font-medium leading-snug text-ink-800 group-hover:text-sage-800">{p.title}</span>
-                <ArrowRight className="h-4 w-4 shrink-0 text-ink-300 transition-colors group-hover:text-sage-600" />
-              </Link>
-            ))}
-          </div>
+        <div className="max-w-3xl">
+          <span className="eyebrow mb-4">
+            Problemas Clínicos
+          </span>
+          <h2 className="text-3xl font-semibold leading-tight text-[#103F3F] sm:text-4xl md:text-[2.75rem]">
+            Selecciona tu síntoma principal o problema clínico
+          </h2>
+          <p className="mt-5 text-lg leading-relaxed text-ink-600">
+            Una red interdisciplinaria permite integrar diagnóstico, dolor, fertilidad, rehabilitación y cirugía en un plan coherente.
+          </p>
         </div>
+
+        <div className="mt-10 flex flex-wrap gap-x-5 gap-y-5 md:mt-12">
+          {CLINICAL_PROBLEMS.map((p) => (
+            <Link
+              key={p.id}
+              to={`/problemas-clinicos#${p.id}`}
+              className="group inline-flex min-h-10 items-center rounded-full bg-white px-4 py-2 shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sage-200"
+            >
+              <span className="text-base font-medium leading-none text-ink-800 transition-colors group-hover:text-sage-800">
+                {p.title}
+              </span>
+            </Link>
+          ))}
+        </div>
+
       </div>
     </section>
   );
@@ -157,6 +157,7 @@ function ApoyoTeaser() {
               eyebrow="Apoyo al Paciente"
               title="Material de apoyo dirigido a pacientes"
               intro="Accede a toda nuestra biblioteca de recursos, guías de apoyo, formularios y material educativo para tu proceso."
+              className="[&_h2]:text-[#103F3F]"
             />
             <div className="mt-8">
               <CTAButton to="/apoyo-al-paciente">
@@ -182,6 +183,7 @@ function EquipoTeaser() {
               eyebrow="Equipo"
               title="Conoce a nuestro equipo clínico"
               intro="Un grupo multidisciplinario de profesionales altamente comprometidos con tu proceso."
+              className="[&_h2]:text-[#103F3F]"
             />
             <div className="mt-8">
               <CTAButton to="/equipo">

@@ -70,7 +70,7 @@ export function Footer() {
 
         <div className="mt-12 border-t border-ink-700 pt-6">
           <p className="text-center text-xs text-sand-200/50">
-            © {new Date().getFullYear()} REDEP Chile. Todos los derechos reservados.
+            {new Date().getFullYear()} REDEP Chile.
           </p>
         </div>
       </div>
