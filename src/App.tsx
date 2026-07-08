@@ -10,9 +10,11 @@ import ApoyoAlPaciente from './pages/ApoyoAlPaciente';
 import Equipo from './pages/Equipo';
 import Contacto from './pages/Contacto';
 
+const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '');
+
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <ScrollToTop />
       <div className="flex min-h-screen flex-col">
         <Header />
