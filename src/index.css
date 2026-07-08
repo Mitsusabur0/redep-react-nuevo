@@ -67,9 +67,3 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-/* Subtle grain / texture overlay helper */
-.bg-grain {
-  background-image: radial-gradient(rgba(47, 44, 38, 0.025) 1px, transparent 1px);
-  background-size: 18px 18px;
-}

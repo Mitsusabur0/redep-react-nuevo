@@ -40,9 +40,6 @@ export function Header() {
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-semibold text-ink-900 md:text-xl">REDEP Chile</span>
-            <span className="hidden text-[10px] font-medium uppercase tracking-[0.16em] text-sage-600 sm:block">
-              Endometriosis y Dolor Pélvico
-            </span>
           </span>
         </Link>
 

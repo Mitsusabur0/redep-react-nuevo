@@ -12,10 +12,7 @@ interface PageHeroProps {
 export function PageHero({ eyebrow, title, subtitle, image, imageAlt = '' }: PageHeroProps) {
   const { ref, visible } = useReveal();
   return (
-    <section className="relative overflow-hidden bg-grain pt-28 pb-14 md:pt-36 md:pb-20">
-      {/* soft decorative blobs */}
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-sage-200/40 blur-3xl" aria-hidden />
-      <div className="pointer-events-none absolute -left-20 top-10 h-56 w-56 rounded-full bg-clay-200/30 blur-3xl" aria-hidden />
+    <section className="relative overflow-hidden bg-sand-50 pt-28 pb-14 md:pt-36 md:pb-20">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page relative`}>
         <div className={`grid items-center gap-10 ${image ? 'lg:grid-cols-[1fr_0.72fr]' : ''}`}>
           <div>
@@ -34,7 +31,7 @@ export function PageHero({ eyebrow, title, subtitle, image, imageAlt = '' }: Pag
           {image && (
             <div className="relative overflow-hidden rounded-4xl shadow-lift ring-1 ring-sand-200">
               <img src={image} alt={imageAlt} className="aspect-[4/3] h-full w-full object-cover" loading="eager" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/10 to-transparent" aria-hidden />
+              <div className="absolute inset-0 bg-ink-900/10" aria-hidden />
             </div>
           )}
         </div>

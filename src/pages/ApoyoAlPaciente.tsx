@@ -48,7 +48,7 @@ function ResourceCard({ resource }: { resource: (typeof RESOURCES)[number] }) {
       className={`reveal ${visible ? 'is-visible' : ''} group flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-1 hover:shadow-card hover:ring-sage-200`}
     >
       {/* Thumbnail placeholder */}
-      <div className="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-sage-100 to-sand-200">
+      <div className="relative aspect-[16/10] overflow-hidden bg-sage-100">
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/70 text-sage-700 backdrop-blur-sm">
             <Box className="h-7 w-7" />

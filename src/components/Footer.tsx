@@ -15,9 +15,6 @@ export function Footer() {
               </span>
               <span className="font-display text-xl font-semibold text-white">REDEP Chile</span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-sand-200/70">
-              [Texto de relleno sobre la misión de REDEP Chile. Red de Endometriosis y Dolor Pélvico, Valdivia.]
-            </p>
             <div className="mt-5 flex items-center gap-3">
               <a
                 href="#"

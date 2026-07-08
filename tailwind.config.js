@@ -17,18 +17,18 @@ export default {
           800: '#6f533b',
           900: '#5a4431',
         },
-        // Calm sage / eucalyptus greens — primary
+        // Deep rose / wine accent
         sage: {
-          50: '#f3f7f4',
-          100: '#e3ede5',
-          200: '#c7dccc',
-          300: '#a0c4a8',
-          400: '#74a782',
-          500: '#548a66',
-          600: '#3f6e4f',
-          700: '#345840',
-          800: '#2b4734',
-          900: '#243a2c',
+          50: '#fbf4f6',
+          100: '#f7e7ec',
+          200: '#efcfda',
+          300: '#e2a8ba',
+          400: '#cd7893',
+          500: '#a94463',
+          600: '#7F2D45',
+          700: '#6d253b',
+          800: '#5a2133',
+          900: '#4c1f2d',
         },
         // Soft terracotta / clay — accent
         clay: {
