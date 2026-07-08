@@ -21,12 +21,16 @@ export default function Cirugias() {
   }, []);
 
   const current = SURGERIES.find((s) => s.id === active) ?? SURGERIES[0];
+  const hasDetailContent = Boolean(
+    current.steps || current.subParts || current.options || current.callout || current.reference,
+  );
 
   return (
     <>
       <PageHero
-        eyebrow="Cirugías"
         title="Cirugías en REDEP"
+        titleSize="small"
+        subtitle="Realizadas por equipo de referencia especializado en mínima invasión."
       />
 
       {/* Topic selector + detail */}
@@ -79,7 +83,8 @@ export default function Cirugias() {
                   </div>
                 </div>
 
-                <div className="border-t border-sand-200 p-7 md:p-10">
+                {hasDetailContent && (
+                  <div className="border-t border-sand-200 p-7 md:p-10">
                   {/* Endometriosis: 6-step journey */}
                   {current.steps && <StepJourney steps={current.steps} />}
 
@@ -123,8 +128,12 @@ export default function Cirugias() {
                     </div>
                   )}
 
+                  {current.id === 'histerectomia' && current.callout && (
+                    <p className="mt-8 max-w-3xl leading-relaxed text-ink-600">{current.callout}</p>
+                  )}
+
                   {/* Callouts + reference */}
-                  {current.callout && current.id !== 'endometriosis-multidisciplinaria' && (
+                  {current.callout && !['endometriosis-multidisciplinaria', 'histerectomia'].includes(current.id) && (
                     <div className="mt-8">
                       <Callout variant="note" title="Nota destacada">
                         {current.callout}
@@ -150,7 +159,8 @@ export default function Cirugias() {
                       </Callout>
                     </div>
                   )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -19,7 +19,6 @@ export default function Contacto() {
   return (
     <>
       <PageHero
-        eyebrow="Contacto"
         title="Contacto"
         image={contactHeroImage}
         imageAlt="Imagen de apoyo para contacto de REDEP Chile"

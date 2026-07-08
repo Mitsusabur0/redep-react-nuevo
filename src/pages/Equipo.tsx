@@ -10,12 +10,12 @@ export default function Equipo() {
   return (
     <>
       <PageHero
-        eyebrow="Equipo"
         title="Conoce a nuestros profesionales"
+        titleSize="small"
         subtitle="[Texto de relleno introductorio. Presentación del equipo multidisciplinario de REDEP Chile, compuesto por profesionales de ginecología, cirugía, psicología, nutrición, kinesioterapia de piso pélvico y matronería, que trabajan de forma coordinada para acompañar a cada paciente.]"
       />
 
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container-page">
           {/* Featured director */}
           <FeaturedMember member={director} />

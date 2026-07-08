@@ -59,7 +59,7 @@ export const SURGERIES = [
     callout:
       '[Nota destacada: No todos los casos de endometriosis requieren cirugía. Texto de relleno que refuerza el enfoque personalizado y la decisión compartida con la paciente.]',
     reference: {
-      label: 'Guía clínica de referencia',
+      label: 'Guía informativa para el acompañamiento en el manejo quirúrgico de la endometriosis (SOCHOG)',
       href: 'https://sochog.cl/wp-content/uploads/2025/02/GUIA-INFORMATIVA-PARA-EL-ACOMPANAMIENTO-EN-EL-MANEJO-QUIRURGICO-DE-LA-ENDOMETRIOSIS-1.pdf',
       text: 'Ver archivo PDF',
     },
@@ -68,46 +68,46 @@ export const SURGERIES = [
     id: 'histerectomia',
     title: 'Histerectomía (remoción del útero)',
     intro:
-      '[Descripción del procedimiento aquí. Texto de relleno que introduce brevemente la histerectomía como opción quirúrgica.]',
+      'Una opción para casos específicos. Nunca la primera respuesta, nunca automática.',
     image: hysterectomyImage,
     imageAlt: 'Ilustración de la histerectomía',
     subParts: [
       {
         title: 'Qué es',
-        text: '[Descripción aquí. Texto de relleno que explica en qué consiste la histerectomía.]',
+        text: 'Cirugía para extirpar el útero. Cuando es posible, conservamos los ovarios para mantener tu función hormonal y evitar una menopausia quirúrgica.',
       },
       {
         title: 'Cuándo se indica',
-        text: '[Descripción aquí. Texto de relleno sobre las indicaciones clínicas para este procedimiento.]',
+        text: 'Cuando los síntomas no mejoran con tratamiento médico y ya no buscas embarazo. Causas frecuentes: adenomiosis, miomas y sangrado que no responde a otras terapias.',
       },
       {
         title: 'Cómo la hacemos',
-        text: '[Descripción aquí. Texto de relleno sobre el abordaje quirúrgico y la técnica utilizada por el equipo.]',
+        text: 'Mínima invasión siempre que sea posible — menos dolor y recuperación más rápida que la cirugía abierta.',
       },
     ],
     callout:
-      '[Nota destacada: Aclaración de una concepción errónea común sobre la histerectomía. Texto de relleno.]',
+      'La histerectomía resuelve lo que nace del útero, pero no cura la endometriosis — sus lesiones están fuera del útero y requieren resección específica.',
     reference: {
-      label: 'Recurso de referencia',
-      href: '#',
-      text: '[Enlace a recurso externo — placeholder]',
+      label: 'Guía informativa para la realización de una histerectomía (SOCHOG)',
+      href: 'https://sochog.cl/wp-content/uploads/2025/02/GUIA-INFORMATIVA-PARA-EL-ACOMPANAMIENTO-EN-EL-MANEJO-QUIRURGICO-DE-LA-ENDOMETRIOSIS-1.pdf',
+      text: 'Ver archivo PDF',
     },
   },
   {
     id: 'preservacion-uterina',
     title: 'Cirugía de preservación uterina',
     intro:
-      '[Descripción del procedimiento aquí. Texto de relleno que introduce las opciones de cirugía conservadora orientadas a preservar el útero.]',
+      'La mayoría de las condiciones uterinas pueden tratarse conservando el útero.',
     image: uterinePreservationImage,
     imageAlt: 'Ilustración de la cirugía de preservación uterina',
     options: [
       {
         title: 'Histeroscopía',
-        text: '[Descripción aquí. Texto de relleno sobre la histeroscopía como opción de preservación uterina.]',
+        text: 'Por histeroscopía podemos tratar el sangrado actuando sobre el revestimiento interno (ablación endometrial).',
       },
       {
         title: 'Laparoscopía',
-        text: '[Descripción aquí. Texto de relleno sobre la laparoscopía como opción de preservación uterina.]',
+        text: 'Por laparoscopía podemos resecar adenomiosis focal en lesiones seleccionadas.',
       },
     ],
   },
@@ -115,7 +115,7 @@ export const SURGERIES = [
     id: 'cirugia-ovarica',
     title: 'Cirugía ovárica (quistes ováricos)',
     intro:
-      '[Descripción del procedimiento aquí. Texto de relleno sobre el abordaje quirúrgico de quistes ováricos.]',
+      'Algunos quistes solo requieren observación; otros, cirugía. Una evaluación especializada define la conducta. Cuando se opera, el objetivo es retirar el quiste preservando el ovario siempre que sea posible.',
     image: ovarianSurgeryImage,
     imageAlt: 'Ilustración de la cirugía ovárica',
   },
@@ -123,7 +123,7 @@ export const SURGERIES = [
     id: 'miomas',
     title: 'Miomas',
     intro:
-      '[Descripción del procedimiento aquí. Texto de relleno sobre el tratamiento quirúrgico de los miomas uterinos.]',
+      'Tumores benignos del músculo uterino. Pueden causar sangrado abundante, presión pélvica o infertilidad — o no dar síntomas. Se pueden extraer por laparoscopía o histeroscopía sin quitar el útero cuando se desea preservarlo. El tratamiento es a tu medida.',
     image: fibroidsImage,
     imageAlt: 'Ilustración de la cirugía de miomas',
   },
@@ -134,13 +134,13 @@ export const CLINICAL_PROBLEMS = [
     id: 'endometriosis',
     title: 'Endometriosis',
     description:
-      '[Descripción de la condición aquí. Texto de relleno que explica brevemente la endometriosis y su impacto en la vida de la paciente.]',
+      'Tejido similar al endometrio que crece fuera del útero: ovarios, peritoneo, vejiga, intestino y más.',
     image: endometriosisProblemImage,
     imageAlt: 'Imagen ilustrativa de endometriosis',
     sections: [
-      { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas característicos de la endometriosis.]' },
-      { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico de la endometriosis.]' },
-      { title: 'Qué hacemos', text: '[Texto de relleno sobre el enfoque terapéutico del equipo REDEP.]' },
+      { title: 'Señales', text: 'Dolor menstrual intenso, dolor pélvico persistente, dolor sexual, síntomas digestivos o urinarios cíclicos, infertilidad. <br> La intensidad del dolor no depende del tamaño de las lesiones.' },
+      // { title: 'Diagnóstico', text: '[Texto de relleno sobre el abordaje diagnóstico de la endometriosis.]' },
+      { title: 'Qué hacemos', text: 'Mapeo de la enfermedad y un plan individualizado de manejo del dolor. La mayoría no requiere cirugía.' },
     ],
   },
   {

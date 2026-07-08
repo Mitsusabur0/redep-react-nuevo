@@ -7,12 +7,12 @@ export default function ApoyoAlPaciente() {
   return (
     <>
       <PageHero
-        eyebrow="Apoyo al Paciente"
         title="Biblioteca de recursos para diagnóstico, cirugía y rehabilitación"
+        titleSize="small"
         subtitle="[Texto de relleno introductorio. Descripción de la biblioteca de recursos educativos y materiales de apoyo dirigidos a pacientes en distintas etapas de su proceso clínico: diagnóstico, cirugía y rehabilitación.]"
       />
 
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container-page">
           <div className="mb-10 flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-sage-600" />

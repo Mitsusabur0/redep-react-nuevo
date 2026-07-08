@@ -30,18 +30,13 @@ export default function ProblemasClinicos() {
   return (
     <>
       <PageHero
-        eyebrow="Problemas Clínicos"
         title="Problemas clínicos"
+        titleSize="small"
         subtitle="Evaluación especializada para tu condición"
       />
 
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="container-page">
-          <p className="mb-10 max-w-2xl text-lg leading-relaxed text-ink-600">
-            [Texto de relleno introductorio. Invita a la paciente a seleccionar su problema clínico
-            principal para conocer las señales, el abordaje diagnóstico y el enfoque terapéutico del
-            equipo REDEP.]
-          </p>
 
           <div className="grid gap-8 lg:grid-cols-[300px_1fr] lg:gap-12">
             {/* Selector list */}
