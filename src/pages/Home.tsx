@@ -141,30 +141,18 @@ function ApoyoTeaser() {
   return (
     <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="order-2 lg:order-1">
-            <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
-              <img
-                src={patientSupportImage}
-                alt="Imagen ilustrativa de la biblioteca de recursos para pacientes"
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-            </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <SectionHeader
-              eyebrow="Apoyo al Paciente"
-              title="Material de apoyo dirigido a pacientes"
-              intro="Accede a toda nuestra biblioteca de recursos, guías de apoyo, formularios y material educativo para tu proceso."
-              className="[&_h2]:text-[#103F3F]"
-            />
-            <div className="mt-8">
-              <CTAButton to="/apoyo-al-paciente">
-                <BookOpen className="h-4 w-4" />
-                Ir a la biblioteca
-              </CTAButton>
-            </div>
+        <div className="max-w-3xl">
+          <SectionHeader
+            eyebrow="Apoyo al Paciente"
+            title="Material de apoyo dirigido a pacientes"
+            intro="Accede a toda nuestra biblioteca de recursos, guías de apoyo, formularios y material educativo para tu proceso."
+            className="[&_h2]:text-[#103F3F]"
+          />
+          <div className="mt-8">
+            <CTAButton to="/apoyo-al-paciente">
+              <BookOpen className="h-4 w-4" />
+              Ir a la biblioteca
+            </CTAButton>
           </div>
         </div>
       </div>
@@ -210,24 +198,20 @@ function ClosingCTA() {
   const { ref, visible } = useReveal();
   return (
     <section className="bg-sand-100 py-20 md:py-28">
-      <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="relative overflow-hidden rounded-5xl bg-ink-900 px-6 py-16 text-center shadow-lift md:px-16 md:py-24">
-          <div className="relative">
-            <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-500 text-white">
-              <MessageSquare className="h-6 w-6" />
-            </span>
-            <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight text-white sm:text-4xl md:text-5xl">
-              Cuéntanos tu caso
-            </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-sand-200/70">
-              Una coordinadora clínica revisará tu solicitud y orientará el siguiente paso de evaluación.
-            </p>
-            <div className="mt-8">
-              <CTAButton to="/contacto" className="bg-white text-ink-900 hover:bg-sand-100">
-                Contáctanos
-              </CTAButton>
-            </div>
-          </div>
+      <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page text-center`}>
+        <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-100 text-sage-700 ring-1 ring-sage-200">
+          <MessageSquare className="h-6 w-6" />
+        </span>
+        <h2 className="mx-auto max-w-2xl text-3xl font-semibold leading-tight text-[#103F3F] sm:text-4xl md:text-5xl">
+          Cuéntanos tu caso
+        </h2>
+        <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-ink-600">
+          Una coordinadora clínica revisará tu solicitud y orientará el siguiente paso de evaluación.
+        </p>
+        <div className="mt-8">
+          <CTAButton to="/contacto">
+            Contáctanos
+          </CTAButton>
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@ import { NAV_LINKS } from '../data/content';
 
 export function Footer() {
   return (
-    <footer className="mt-24 bg-ink-900 text-sand-100">
+    <footer className="bg-ink-900 text-sand-100">
       <div className="container-page py-14">
         <div className="grid gap-10 md:grid-cols-3">
           {/* Brand */}
