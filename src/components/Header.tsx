@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { Menu, X, Heart } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { NAV_LINKS } from '../data/content';
+import logoImage from '../assets/images/logo.png';
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -34,8 +35,8 @@ export function Header() {
     >
       <div className="container-page flex h-16 items-center justify-between md:h-20">
         <Link to="/" className="group flex items-center gap-2.5" aria-label="REDEP Chile — Inicio">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sage-600 text-white shadow-soft transition-transform group-hover:scale-105 md:h-10 md:w-10">
-            <Heart className="h-5 w-5" />
+          <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-xl bg-white shadow-soft ring-1 ring-sand-200 transition-transform group-hover:scale-105 md:h-10 md:w-10">
+            <img src={logoImage} alt="" className="h-full w-full object-contain p-1" />
           </span>
           <span className="flex flex-col leading-none">
             <span className="font-display text-lg font-semibold text-ink-900 md:text-xl">REDEP Chile</span>

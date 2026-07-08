@@ -4,6 +4,9 @@ import { CTAButton } from '../components/CTAButton';
 import { SectionHeader } from '../components/SectionHeader';
 import { useReveal } from '../hooks/useReveal';
 import { SURGERIES, CLINICAL_PROBLEMS } from '../data/content';
+import heroImage from '../assets/images/home/h-hero.png';
+import patientSupportImage from '../assets/images/home/h-pasos_cirugia_palette_highres-scaled.png';
+import teamImage from '../assets/images/home/h-team.jpg';
 
 export default function Home() {
   return (
@@ -62,7 +65,7 @@ function Hero() {
           <div className="relative">
             <div className="relative overflow-hidden rounded-4xl shadow-lift ring-1 ring-sand-200">
               <img
-                src="https://placehold.co/720x560/c7dccc/243a2c?text=Imagen+cl%C3%ADnica+REDEP"
+                src={heroImage}
                 alt="Imagen ilustrativa del equipo clínico de REDEP Chile"
                 className="h-full w-full object-cover"
                 loading="eager"
@@ -189,7 +192,7 @@ function ApoyoTeaser() {
           <div className="order-2 lg:order-1">
             <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
               <img
-                src="https://placehold.co/640x480/e3ede5/345840?text=Biblioteca+de+recursos"
+                src={patientSupportImage}
                 alt="Imagen ilustrativa de la biblioteca de recursos para pacientes"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -236,7 +239,7 @@ function EquipoTeaser() {
           </div>
           <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
             <img
-              src="https://placehold.co/640x480/dcc9ad/5a4431?text=Foto+del+equipo+cl%C3%ADnico"
+              src={teamImage}
               alt="Foto del equipo clínico de REDEP Chile"
               className="h-full w-full object-cover"
               loading="lazy"

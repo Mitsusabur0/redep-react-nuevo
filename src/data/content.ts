@@ -1,5 +1,17 @@
 // Central content for REDEP Chile. All body text is placeholder.
 // Titles, labels, and navigation are final content as specified.
+import endometriosisSurgeryImage from '../assets/images/cirugias/c-endometriosis.png';
+import hysterectomyImage from '../assets/images/cirugias/c-histerectomia.png';
+import uterinePreservationImage from '../assets/images/cirugias/c-ablacion-preservacion-uterina.png';
+import ovarianSurgeryImage from '../assets/images/cirugias/c-.png';
+import fibroidsImage from '../assets/images/cirugias/c-miomas.png';
+import endometriosisProblemImage from '../assets/images/problemas/p-endometriosis.jpg';
+import adenomyosisProblemImage from '../assets/images/problemas/p-adenomiosis.png';
+import menstrualPainImage from '../assets/images/problemas/p-dolor-menstrual.png';
+import heavyBleedingImage from '../assets/images/problemas/p-sangrado.png';
+import pelvicPainImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
+import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
+import mauricioImage from '../assets/images/equipo/mauricio.webp';
 
 export const NAV_LINKS = [
   { label: 'Inicio', path: '/' },
@@ -16,7 +28,7 @@ export const SURGERIES = [
     title: 'Cirugía de endometriosis multidisciplinaria',
     intro:
       '[Descripción del procedimiento aquí. Texto de relleno que explica brevemente el enfoque quirúrgico multidisciplinario adoptado por el equipo REDEP para el tratamiento de la endometriosis.]',
-    image: 'https://placehold.co/720x540/dcc9ad/5a4431?text=Ilustraci%C3%B3n+cl%C3%ADnica',
+    image: endometriosisSurgeryImage,
     imageAlt: 'Ilustración de la cirugía de endometriosis multidisciplinaria',
     steps: [
       {
@@ -57,7 +69,7 @@ export const SURGERIES = [
     title: 'Histerectomía (remoción del útero)',
     intro:
       '[Descripción del procedimiento aquí. Texto de relleno que introduce brevemente la histerectomía como opción quirúrgica.]',
-    image: 'https://placehold.co/720x540/c7dccc/243a2c?text=Ilustraci%C3%B3n+cl%C3%ADnica',
+    image: hysterectomyImage,
     imageAlt: 'Ilustración de la histerectomía',
     subParts: [
       {
@@ -86,7 +98,7 @@ export const SURGERIES = [
     title: 'Cirugía de preservación uterina',
     intro:
       '[Descripción del procedimiento aquí. Texto de relleno que introduce las opciones de cirugía conservadora orientadas a preservar el útero.]',
-    image: 'https://placehold.co/720x540/e3ede5/345840?text=Ilustraci%C3%B3n+cl%C3%ADnica',
+    image: uterinePreservationImage,
     imageAlt: 'Ilustración de la cirugía de preservación uterina',
     options: [
       {
@@ -104,7 +116,7 @@ export const SURGERIES = [
     title: 'Cirugía ovárica (quistes ováricos)',
     intro:
       '[Descripción del procedimiento aquí. Texto de relleno sobre el abordaje quirúrgico de quistes ováricos.]',
-    image: 'https://placehold.co/720x540/f5e6df/7f3e27?text=Ilustraci%C3%B3n+cl%C3%ADnica',
+    image: ovarianSurgeryImage,
     imageAlt: 'Ilustración de la cirugía ovárica',
   },
   {
@@ -112,7 +124,7 @@ export const SURGERIES = [
     title: 'Miomas',
     intro:
       '[Descripción del procedimiento aquí. Texto de relleno sobre el tratamiento quirúrgico de los miomas uterinos.]',
-    image: 'https://placehold.co/720x540/dcc9ad/5a4431?text=Ilustraci%C3%B3n+cl%C3%ADnica',
+    image: fibroidsImage,
     imageAlt: 'Ilustración de la cirugía de miomas',
   },
 ];
@@ -123,7 +135,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Endometriosis',
     description:
       '[Descripción de la condición aquí. Texto de relleno que explica brevemente la endometriosis y su impacto en la vida de la paciente.]',
-    image: 'https://placehold.co/640x480/c7dccc/243a2c?text=Imagen+cl%C3%ADnica',
+    image: endometriosisProblemImage,
     imageAlt: 'Imagen ilustrativa de endometriosis',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas característicos de la endometriosis.]' },
@@ -136,7 +148,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Adenomiosis',
     description:
       '[Descripción de la condición aquí. Texto de relleno que explica brevemente la adenomiosis.]',
-    image: 'https://placehold.co/640x480/e3ede5/345840?text=Imagen+cl%C3%ADnica',
+    image: adenomyosisProblemImage,
     imageAlt: 'Imagen ilustrativa de adenomiosis',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas de la adenomiosis.]' },
@@ -149,7 +161,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Dolor menstrual invalidante',
     description:
       '[Descripción de la condición aquí. Texto de relleno sobre el dolor menstrual que interfiere con la vida cotidiana.]',
-    image: 'https://placehold.co/640x480/f5e6df/7f3e27?text=Imagen+cl%C3%ADnica',
+    image: menstrualPainImage,
     imageAlt: 'Imagen ilustrativa de dolor menstrual invalidante',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor menstrual invalidante.]' },
@@ -161,7 +173,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Sangrado menstrual abundante',
     description:
       '[Descripción de la condición aquí. Texto de relleno sobre el sangrado menstrual excesivo.]',
-    image: 'https://placehold.co/640x480/dcc9ad/5a4431?text=Imagen+cl%C3%ADnica',
+    image: heavyBleedingImage,
     imageAlt: 'Imagen ilustrativa de sangrado menstrual abundante',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del sangrado abundante.]' },
@@ -174,7 +186,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Dolor pélvico persistente',
     description:
       '[Descripción de la condición aquí. Texto de relleno sobre el dolor pélvico crónico y persistente.]',
-    image: 'https://placehold.co/640x480/c7dccc/243a2c?text=Imagen+cl%C3%ADnica',
+    image: pelvicPainImage,
     imageAlt: 'Imagen ilustrativa de dolor pélvico persistente',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor pélvico persistente.]' },
@@ -187,7 +199,7 @@ export const CLINICAL_PROBLEMS = [
     title: 'Dolor en actividad sexual',
     description:
       '[Descripción de la condición aquí. Texto de relleno sobre el dolor durante la actividad sexual.]',
-    image: 'https://placehold.co/640x480/e3ede5/345840?text=Imagen+cl%C3%ADnica',
+    image: sexualPainImage,
     imageAlt: 'Imagen ilustrativa de dolor en actividad sexual',
     sections: [
       { title: 'Señales', text: '[Texto de relleno sobre las señales y síntomas del dolor en actividad sexual.]' },
@@ -201,7 +213,7 @@ export const TEAM = [
     name: 'Dr. Mauricio Correa',
     role: 'Director Clínico REDEP',
     bio: '[Biografía breve de relleno sobre la trayectoria y enfoque clínico del director.]',
-    image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto+Dr.+Correa',
+    image: mauricioImage,
     imageAlt: 'Foto del Dr. Mauricio Correa',
     featured: true,
   },

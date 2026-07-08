@@ -2,6 +2,8 @@ import { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Youtube, Send, CheckCircle2 } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
+import contactHeroImage from '../assets/images/contacto/contacto-hero.jpg';
+import contactImage from '../assets/images/contacto/contacto.jpg';
 
 const SUBJECTS = [
   'Consulta general',
@@ -19,6 +21,8 @@ export default function Contacto() {
       <PageHero
         eyebrow="Contacto"
         title="Contacto"
+        image={contactHeroImage}
+        imageAlt="Imagen de apoyo para contacto de REDEP Chile"
         subtitle="[Texto de relleno introductorio. Invita a la paciente a contactar al equipo REDEP para una evaluación expedita, resolver dudas o solicitar información sobre los servicios clínicos.]"
       />
 
@@ -48,7 +52,14 @@ function ContactInfo() {
   ];
 
   return (
-    <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} flex flex-col rounded-4xl bg-ink-900 p-8 text-sand-100 shadow-card md:p-10`}>
+    <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} flex flex-col overflow-hidden rounded-4xl bg-ink-900 text-sand-100 shadow-card`}>
+      <img
+        src={contactImage}
+        alt="Imagen de contacto de REDEP Chile"
+        className="aspect-[16/9] w-full object-cover"
+        loading="lazy"
+      />
+      <div className="flex flex-1 flex-col p-8 md:p-10">
       <h2 className="font-display text-2xl font-semibold text-white">Información de contacto</h2>
       <p className="mt-3 text-sm leading-relaxed text-sand-200/70">
         [Texto de relleno. Indica los canales disponibles para contactar al equipo REDEP Chile.]
@@ -84,6 +95,7 @@ function ContactInfo() {
             </a>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
