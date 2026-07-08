@@ -1,4 +1,4 @@
-import { Linkedin, Star } from 'lucide-react';
+import { Linkedin } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
 import { TEAM } from '../data/content';
@@ -12,7 +12,7 @@ export default function Equipo() {
       <PageHero
         title="Conoce a nuestros profesionales"
         titleSize="small"
-        subtitle="[Texto de relleno introductorio. Presentación del equipo multidisciplinario de REDEP Chile, compuesto por profesionales de ginecología, cirugía, psicología, nutrición, kinesioterapia de piso pélvico y matronería, que trabajan de forma coordinada para acompañar a cada paciente.]"
+        subtitle="Equipo experto, especializado y multidisciplinario, comprometido con una atención integral y una toma de decisiones compartida."
       />
 
       <section className="pb-16 md:pb-24">
@@ -48,22 +48,20 @@ function FeaturedMember({ member }: { member: Member }) {
       ref={ref}
       className={`reveal ${visible ? 'is-visible' : ''} grid overflow-hidden rounded-4xl bg-white shadow-card ring-1 ring-sand-200 md:grid-cols-[0.85fr_1fr]`}
     >
-      <div className="relative aspect-[4/5] overflow-hidden md:aspect-auto">
+      <div className="relative flex items-center justify-center overflow-hidden p-6 md:p-8">
         <img
           src={member.image}
           alt={member.imageAlt}
-          className="h-full w-full object-cover"
+          className="h-auto max-h-[360px] w-auto max-w-full object-contain md:max-h-[440px]"
           loading="lazy"
         />
-        <span className="absolute left-5 top-5 inline-flex items-center gap-1.5 rounded-full bg-sage-600 px-3 py-1.5 text-xs font-semibold text-white shadow-soft">
-          <Star className="h-3.5 w-3.5" />
-          Director/a clínico/a
-        </span>
       </div>
       <div className="flex flex-col justify-center p-8 md:p-12">
         <h2 className="text-3xl font-semibold leading-tight text-ink-900 md:text-4xl">{member.name}</h2>
         <p className="mt-2 font-display text-lg text-sage-700">{member.role}</p>
-        <p className="mt-5 max-w-md leading-relaxed text-ink-600">{member.bio}</p>
+        <div className="mt-5 max-w-md leading-relaxed text-ink-600 [&_a]:font-medium [&_a]:text-sage-700 [&_a]:underline [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-ink-800 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+          {member.bio}
+        </div>
         <div className="mt-6">
           <a
             href="#"
@@ -96,7 +94,9 @@ function MemberCard({ member }: { member: Member }) {
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-display text-base font-semibold leading-tight text-ink-900">{member.name}</h3>
         <p className="mt-1 text-sm font-medium text-sage-700">{member.role}</p>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-600">{member.bio}</p>
+        <div className="mt-3 flex-1 text-sm leading-relaxed text-ink-600 [&_a]:font-medium [&_a]:text-sage-700 [&_a]:underline [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-ink-800 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
+          {member.bio}
+        </div>
         <div className="mt-4">
           <a
             href="#"

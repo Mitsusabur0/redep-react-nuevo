@@ -9,7 +9,7 @@ export default function ApoyoAlPaciente() {
       <PageHero
         title="Biblioteca de recursos para diagnóstico, cirugía y rehabilitación"
         titleSize="small"
-        subtitle="[Texto de relleno introductorio. Descripción de la biblioteca de recursos educativos y materiales de apoyo dirigidos a pacientes en distintas etapas de su proceso clínico: diagnóstico, cirugía y rehabilitación.]"
+        subtitle="Material educativo de referencia para preparar consultas, comprender procedimientos y acompañar el manejo del dolor."
       />
 
       <section className="pb-16 md:pb-24">

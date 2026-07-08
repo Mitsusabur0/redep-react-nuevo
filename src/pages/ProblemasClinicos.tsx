@@ -33,7 +33,7 @@ export default function ProblemasClinicos() {
       <PageHero
         title="Problemas clínicos"
         titleSize="small"
-        subtitle="Evaluación especializada para tu condición"
+        subtitle="Evaluación especializada para tu condición."
       />
 
       <section className="pb-16 md:pb-24">

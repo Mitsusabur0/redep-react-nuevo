@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react';
 import { Mail, Phone, MapPin, MessageCircle, Instagram, Youtube, Send, CheckCircle2 } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
-import contactHeroImage from '../assets/images/contacto/contacto-hero.jpg';
 import contactImage from '../assets/images/contacto/contacto.jpg';
 
 const SUBJECTS = [
@@ -20,9 +19,9 @@ export default function Contacto() {
     <>
       <PageHero
         title="Contacto"
-        image={contactHeroImage}
-        imageAlt="Imagen de apoyo para contacto de REDEP Chile"
         subtitle="[Texto de relleno introductorio. Invita a la paciente a contactar al equipo REDEP para una evaluación expedita, resolver dudas o solicitar información sobre los servicios clínicos.]"
+        image={contactImage}
+        imageAlt="Imagen de apoyo para contacto de REDEP Chile"
       />
 
       <section className="py-16 md:py-24">
@@ -51,16 +50,10 @@ function ContactInfo() {
   ];
 
   return (
-    <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} flex flex-col overflow-hidden rounded-4xl bg-ink-900 text-sand-100 shadow-card`}>
-      <img
-        src={contactImage}
-        alt="Imagen de contacto de REDEP Chile"
-        className="aspect-[16/9] w-full object-cover"
-        loading="lazy"
-      />
+    <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} flex flex-col overflow-hidden rounded-4xl`}>
       <div className="flex flex-1 flex-col p-8 md:p-10">
-      <h2 className="font-display text-2xl font-semibold text-white">Información de contacto</h2>
-      <p className="mt-3 text-sm leading-relaxed text-sand-200/70">
+      <h2 className="font-display text-2xl font-semibold text-ink-900">Información de contacto</h2>
+      <p className="mt-3 text-sm leading-relaxed text-ink-600">
         [Texto de relleno. Indica los canales disponibles para contactar al equipo REDEP Chile.]
       </p>
 
@@ -68,27 +61,27 @@ function ContactInfo() {
         {items.map(({ icon: Icon, label, value, href }) => (
           <li key={label}>
             <a href={href} className="group flex items-start gap-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-ink-700 text-sage-300 transition-colors group-hover:bg-sage-600 group-hover:text-white">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sand-100 text-sage-600 transition-colors group-hover:bg-sage-600 group-hover:text-white">
                 <Icon className="h-5 w-5" />
               </span>
               <span className="flex flex-col">
-                <span className="text-xs font-medium uppercase tracking-wider text-sand-200/50">{label}</span>
-                <span className="text-base font-medium text-sand-50">{value}</span>
+                <span className="text-xs font-medium uppercase tracking-wider text-ink-500">{label}</span>
+                <span className="text-base font-medium text-ink-900">{value}</span>
               </span>
             </a>
           </li>
         ))}
       </ul>
 
-      <div className="mt-10 border-t border-ink-700 pt-6">
-        <p className="text-xs font-medium uppercase tracking-wider text-sand-200/50">Síguenos</p>
+      <div className="mt-10 border-t border-sand-200 pt-6">
+        <p className="text-xs font-medium uppercase tracking-wider text-ink-500">Síguenos</p>
         <div className="mt-3 flex items-center gap-3">
           {socials.map(({ icon: Icon, label, href }) => (
             <a
               key={label}
               href={href}
               aria-label={label}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-ink-700 text-sand-100 transition-colors hover:bg-sage-600 hover:text-white"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-sand-100 text-sage-600 transition-colors hover:bg-sage-600 hover:text-white"
             >
               <Icon className="h-4.5 w-4.5" />
             </a>

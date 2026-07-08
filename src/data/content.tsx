@@ -28,6 +28,15 @@ type ClinicalProblem = {
   sections: ClinicalProblemSection[];
 };
 
+type TeamMember = {
+  name: string;
+  role: string;
+  bio: ReactNode;
+  image: string;
+  imageAlt: string;
+  featured?: boolean;
+};
+
 export const NAV_LINKS = [
   { label: 'Inicio', path: '/' },
   { label: 'Cirugías', path: '/cirugias' },
@@ -246,30 +255,41 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
   },
 ];
 
-export const TEAM = [
+export const TEAM: TeamMember[] = [
   {
     name: 'Dr. Mauricio Correa',
     role: 'Director Clínico REDEP',
-    bio: '[Biografía breve de relleno sobre la trayectoria y enfoque clínico del director.]',
+    bio: (
+      <>
+        Cirugía mínimamente invasiva y endometriosis.
+        <br />
+        <ul>
+          <li>Director Unidad Endometriosis Clínica Alemana Valdivia.</li>
+          <li>Doctor en Ciencias Médicas.</li>
+          <li>Director Instituto Ginecología y Obstetricia Universidad Austral de Chile.</li>
+          <li>Miembro Directorio Cirugía Mínimamente Invasiva SOCHOG.</li>
+        </ul>
+      </>
+    ),
     image: mauricioImage,
     imageAlt: 'Foto del Dr. Mauricio Correa',
     featured: true,
   },
-  { name: 'M.Sc. Denisse Araya', role: 'Sicóloga clínica', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Denisse Araya' },
-  { name: 'Macarena Ferrari', role: 'Nutricionista', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Macarena Ferrari' },
-  { name: 'Stephanie Quijada', role: 'Kinesioterapia piso pélvico', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Stephanie Quijada' },
-  { name: 'Andrea Gutierrez', role: 'Kinesioterapia piso pélvico', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Andrea Gutierrez' },
-  { name: 'Camila Alvallay', role: 'Kinesioterapia piso pélvico', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Camila Alvallay' },
-  { name: 'Karin Berkhoff', role: 'Médico general', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Karin Berkhoff' },
-  { name: 'Marcia Avendaño', role: 'Kinesioterapia piso pélvico', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Marcia Avendaño' },
-  { name: 'Octavia Ihnen', role: 'Matrona integral', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Octavia Ihnen' },
-  { name: 'Francibel Figueroa', role: 'Coordinación infertilidad', bio: '[Biografía breve de relleno.]', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Francibel Figueroa' },
+  { name: 'M.Sc. Denisse Araya', role: 'Sicóloga clínica', bio: 'Formación en endometriosis y terapia de reprocesamiento de dolor.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Denisse Araya' },
+  { name: 'Macarena Ferrari', role: 'Nutricionista', bio: 'Apoyo nutricional en pacientes con endometriosis y dolor pélvico.', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Macarena Ferrari' },
+  { name: 'Stephanie Quijada', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación de piso pélvico y acompañamiento terapéutico.', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Stephanie Quijada' },
+  { name: 'Andrea Gutierrez', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación funcional y abordaje kinésico del dolor pélvico.', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Andrea Gutierrez' },
+  { name: 'Camila Alvallay', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación pélvica en dolor persistente y disfunción del piso pélvico.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Camila Alvallay' },
+  { name: 'Karin Berkhoff', role: 'Médico general', bio: 'Coordinadora de equipo.', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Karin Berkhoff' },
+  { name: 'Marcia Avendaño', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación kinésica especializada en piso pélvico.', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Marcia Avendaño' },
+  { name: 'Octavia Ihnen', role: 'Matrona integral', bio: 'Acompañamiento integral y educación clínica para pacientes.', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Octavia Ihnen' },
+  { name: 'Francibel Figueroa', role: 'Coordinación infertilidad', bio: 'Coordinación de procesos asociados a infertilidad.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Francibel Figueroa' },
 ];
 
 export const RESOURCES = [
   {
     title: 'Modelo de reconstrucción 3D basado en clasificación #Enzian',
-    description: '[Descripción del recurso. Texto de relleno sobre el modelo de reconstrucción 3D.]',
+    description: 'Modelo educativo interactivo para visualizar una reconstrucción 3D.',
     cta: 'Ver modelo',
     href: '#',
   },
