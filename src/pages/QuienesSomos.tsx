@@ -103,7 +103,7 @@ function HeroSection() {
 
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {principles.map((item) => (
-            <div key={item} className="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-sand-200">
+            <div key={item} className="rounded-2xl bg-inherit p-5 shadow-soft ring-1 ring-sand-200">
               <CheckCircle2 className="mb-3 h-5 w-5 text-sage-600" />
               <p className="text-sm leading-relaxed text-ink-700">{item}</p>
             </div>
@@ -184,15 +184,13 @@ function PillarCard({ pillar }: { pillar: (typeof pillars)[number] }) {
           <h3 className="font-display text-xl font-semibold leading-tight text-ink-900">{pillar.title}</h3>
         </div>
         <p className="text-sm leading-relaxed text-ink-600">{pillar.text}</p>
-        <div className="mt-5 rounded-2xl bg-sand-50 p-4 ring-1 ring-sand-200">
-          <div className="flex items-start gap-2.5">
-            <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage-600" />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-sage-700">Dónde</p>
-              <p className="mt-1 text-sm font-medium text-ink-800">{pillar.locations}</p>
-              <p className="mt-2 text-xs leading-relaxed text-ink-500">{pillar.note}</p>
-            </div>
-          </div>
+        <div className="mt-6 border-t border-sand-200 pt-5 space-y-2">
+          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-sage-700">
+            <MapPin className="h-4 w-4 shrink-0 text-sage-600" />
+            Dónde
+          </p>
+          <p className="text-sm font-medium text-ink-800">{pillar.locations}</p>
+          <p className="text-xs leading-relaxed text-ink-500">{pillar.note}</p>
         </div>
       </div>
     </article>

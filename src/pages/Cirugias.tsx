@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArrowRight, Layers } from 'lucide-react';
+import { CTAButton } from '../components/CTAButton';
 import { PageHero } from '../components/PageHero';
 import { Callout } from '../components/Callout';
 import { SURGERIES } from '../data/content';
+import { useReveal } from '../hooks/useReveal';
 
 export default function Cirugias() {
+  const location = useLocation();
+
   const [active, setActive] = useState(() => {
-    const hash = window.location.hash.replace('#', '');
-    return SURGERIES.find((s) => s.id === hash)?.id ?? SURGERIES[0].id;
+    return getSelectedSurgeryId() ?? SURGERIES[0].id;
   });
 
-  // Sync active topic when the hash changes (e.g. deep link from Home)
   useEffect(() => {
-    const onHash = () => {
-      const id = window.location.hash.replace('#', '');
-      if (id && SURGERIES.some((s) => s.id === id)) setActive(id);
-    };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+    const selected = getSelectedSurgeryId();
+    if (selected) setActive(selected);
+  }, [location.search, location.hash]);
 
   const current = SURGERIES.find((s) => s.id === active) ?? SURGERIES[0];
   const hasDetailContent = Boolean(
@@ -78,7 +77,9 @@ export default function Cirugias() {
                     />
                   </div>
                   <div className="p-7 md:p-10">
-                    <h2 className="text-2xl font-semibold leading-tight text-ink-900 md:text-3xl">{current.title}</h2>
+                    <h2 className="text-2xl font-semibold leading-tight text-ink-900 md:text-3xl">
+                      {current.detailTitle ?? current.title}
+                    </h2>
                     <p className="mt-4 leading-relaxed text-ink-600">{current.intro}</p>
                   </div>
                 </div>
@@ -92,7 +93,7 @@ export default function Cirugias() {
                   {current.subParts && (
                     <div className="grid gap-5 md:grid-cols-3">
                       {current.subParts.map((part) => (
-                        <div key={part.title} className="rounded-2xl bg-sand-50 p-5 ring-1 ring-sand-200">
+                        <div key={part.title} className="rounded-2xl p-5 ring-1 ring-sand-200">
                           <h3 className="font-display text-lg font-semibold text-sage-800">{part.title}</h3>
                           <p className="mt-2 text-sm leading-relaxed text-ink-600">{part.text}</p>
                         </div>
@@ -104,7 +105,7 @@ export default function Cirugias() {
                   {current.options && (
                     <div className="grid gap-5 md:grid-cols-2">
                       {current.options.map((opt) => (
-                        <div key={opt.title} className="rounded-2xl bg-sand-50 p-6 ring-1 ring-sand-200">
+                        <div key={opt.title} className="rounded-2xl p-6 ring-1 ring-sand-200">
                           <div className="mb-3 flex items-center gap-2">
                             <Layers className="h-5 w-5 text-sage-600" />
                             <h3 className="font-display text-lg font-semibold text-sage-800">{opt.title}</h3>
@@ -167,9 +168,40 @@ export default function Cirugias() {
         </div>
       </section>
 
-      {/* Anchored sections for deep links from Home (also rendered as a fallback list) */}
+      <SurgeryContactCTA />
+
+      {/* Hidden anchors preserve compatibility with direct hash links. */}
       <AnchorSections />
     </>
+  );
+}
+
+function getSelectedSurgeryId() {
+  const params = new URLSearchParams(window.location.search);
+  const selected = params.get('seleccion') ?? window.location.hash.replace('#', '');
+  return SURGERIES.find((s) => s.id === selected)?.id;
+}
+
+function SurgeryContactCTA() {
+  const { ref, visible } = useReveal();
+
+  return (
+    <section className="bg-sand-100 py-16 md:py-24">
+      <div
+        ref={ref}
+        className={`reveal ${visible ? 'is-visible' : ''} container-page flex flex-col items-center text-center`}
+      >
+        <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-[#103F3F] sm:text-4xl">
+          ¿Necesitas más información sobre una cirugía?
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">
+          Escríbenos para revisar tu caso, resolver dudas y orientarte sobre los próximos pasos con nuestro equipo.
+        </p>
+        <div className="mt-8">
+          <CTAButton to="/contacto">Contáctanos</CTAButton>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -204,7 +236,7 @@ function StepJourney({ steps }: { steps: { title: string; text: string }[] }) {
 }
 
 /**
- * Hidden anchor targets so deep links from the Home page (#id) land somewhere valid.
+ * Hidden anchor targets so direct hash links (#id) land somewhere valid.
  * The interactive selector above is the primary UI; these ensure hash navigation works.
  */
 function AnchorSections() {

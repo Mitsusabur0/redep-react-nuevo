@@ -50,7 +50,8 @@ export const NAV_LINKS = [
 export const SURGERIES = [
   {
     id: 'endometriosis-multidisciplinaria',
-    title: 'Cirugía de endometriosis multidisciplinaria',
+    title: 'Cirugía de endometriosis',
+    detailTitle: 'Cirugía de endometriosis multidisciplinaria',
     intro:
       'Del síntoma a la recuperación. Cada etapa define la siguiente. Operamos solo cuando hay una indicación clara.',
     image: endometriosisSurgeryImage,

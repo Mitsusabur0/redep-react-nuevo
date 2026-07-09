@@ -117,10 +117,10 @@ function SurgeryTeaser() {
             {SURGERIES.map((s) => (
               <Link
                 key={s.id}
-                to={`/cirugias#${s.id}`}
+                to={`/cirugias?seleccion=${s.id}`}
                 className="group flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sage-200"
               >
-                <span className="text-sm font-medium leading-snug text-ink-800 group-hover:text-sage-800 sm:whitespace-nowrap">
+                <span className="text-base font-medium leading-snug text-ink-800 group-hover:text-sage-800 sm:whitespace-nowrap">
                   {s.title}
                 </span>
                 <ArrowRight className="h-4 w-4 shrink-0 text-ink-300 transition-colors group-hover:text-sage-600" />
@@ -162,7 +162,7 @@ function ProblemsTeaser() {
           {CLINICAL_PROBLEMS.map((p) => (
             <Link
               key={p.id}
-              to={`/problemas-clinicos#${p.id}`}
+              to={`/problemas-clinicos?seleccion=${p.id}`}
               className="group inline-flex min-h-10 items-center rounded-full bg-white px-4 py-2 shadow-soft ring-1 ring-sand-200 transition-all hover:-translate-y-0.5 hover:shadow-card hover:ring-sage-200"
             >
               <span className="text-base font-medium leading-none text-ink-800 transition-colors group-hover:text-sage-800">

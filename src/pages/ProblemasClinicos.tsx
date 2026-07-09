@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Eye, Microscope, SearchCheck, Stethoscope } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { CTAButton } from '../components/CTAButton';
 import { CLINICAL_PROBLEMS } from '../data/content';
+import { useReveal } from '../hooks/useReveal';
 
 const SECTION_ICONS: Record<string, typeof Eye> = {
   Señales: Eye,
@@ -12,19 +14,16 @@ const SECTION_ICONS: Record<string, typeof Eye> = {
 };
 
 export default function ProblemasClinicos() {
+  const location = useLocation();
+
   const [active, setActive] = useState(() => {
-    const hash = window.location.hash.replace('#', '');
-    return CLINICAL_PROBLEMS.find((p) => p.id === hash)?.id ?? CLINICAL_PROBLEMS[0].id;
+    return getSelectedClinicalProblemId() ?? CLINICAL_PROBLEMS[0].id;
   });
 
   useEffect(() => {
-    const onHash = () => {
-      const id = window.location.hash.replace('#', '');
-      if (id && CLINICAL_PROBLEMS.some((p) => p.id === id)) setActive(id);
-    };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
-  }, []);
+    const selected = getSelectedClinicalProblemId();
+    if (selected) setActive(selected);
+  }, [location.search, location.hash]);
 
   const current = CLINICAL_PROBLEMS.find((p) => p.id === active) ?? CLINICAL_PROBLEMS[0];
 
@@ -102,7 +101,7 @@ export default function ProblemasClinicos() {
                     {current.sections.map((sec) => {
                       const Icon = SECTION_ICONS[sec.title] ?? Eye;
                       return (
-                        <div key={sec.title} className="rounded-2xl bg-sand-50 p-6 ring-1 ring-sand-200">
+                        <div key={sec.title} className="rounded-2xl p-6 ring-1 ring-sand-200">
                           <div className="mb-3 flex items-center gap-2.5">
                             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sage-100 text-sage-700">
                               <Icon className="h-4.5 w-4.5" />
@@ -117,20 +116,14 @@ export default function ProblemasClinicos() {
                     })}
                   </div>
 
-                  <div className="mt-8">
-                    <p className="max-w-3xl text-sm leading-relaxed text-ink-600">
-                      Si crees tener esta, o cualquier otra condición, te invitamos a solicitar una evaluación especializada con nuestro equipo de profesionales.
-                    </p>
-                    <CTAButton to="/contacto" className="mt-4">
-                      Solicitar evaluación
-                    </CTAButton>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <ClinicalProblemsContactCTA />
 
       {/* Hidden anchors for deep links */}
       <div className="sr-only" aria-hidden>
@@ -141,5 +134,34 @@ export default function ProblemasClinicos() {
         ))}
       </div>
     </>
+  );
+}
+
+function getSelectedClinicalProblemId() {
+  const params = new URLSearchParams(window.location.search);
+  const selected = params.get('seleccion') ?? window.location.hash.replace('#', '');
+  return CLINICAL_PROBLEMS.find((p) => p.id === selected)?.id;
+}
+
+function ClinicalProblemsContactCTA() {
+  const { ref, visible } = useReveal();
+
+  return (
+    <section className="bg-sand-100 py-16 md:py-24">
+      <div
+        ref={ref}
+        className={`reveal ${visible ? 'is-visible' : ''} container-page flex flex-col items-center text-center`}
+      >
+        <h2 className="max-w-2xl text-3xl font-semibold leading-tight text-[#103F3F] sm:text-4xl">
+          ¿Quieres orientación sobre tus síntomas?
+        </h2>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-600">
+          Escríbenos para contarnos tu caso y recibir guía sobre la evaluación especializada más adecuada para ti.
+        </p>
+        <div className="mt-8">
+          <CTAButton to="/contacto">Solicitar evaluación</CTAButton>
+        </div>
+      </div>
+    </section>
   );
 }

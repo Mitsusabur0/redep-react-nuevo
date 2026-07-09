@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Mail, Phone, MapPin, MessageCircle, Instagram, Youtube, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MessageCircle, Instagram, Youtube, Send, CheckCircle2 } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
 import contactImage from '../assets/images/contacto/contacto.jpg';
@@ -26,7 +26,7 @@ export default function Contacto() {
 
       <section className="pb-16 md:pb-24">
         <div className="container-page">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+          <div className="grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:gap-12">
             <ContactInfo />
             <ContactForm />
           </div>
@@ -41,10 +41,9 @@ function ContactInfo() {
   const items = [
     { icon: Mail, label: 'Correo', value: '[correo@redepchile.cl]', href: 'mailto:[correo@redepchile.cl]' },
     { icon: Phone, label: 'Teléfono', value: '[+56 9 0000 0000]', href: 'tel:+56900000000' },
-    { icon: MapPin, label: 'Dirección', value: 'Valdivia, Chile', href: '#' },
+    { icon: MessageCircle, label: 'Whatsapp', value: 'Háblanos directamente ->', href: '#' },
   ];
   const socials = [
-    { icon: MessageCircle, label: 'Whatsapp', href: '#' },
     { icon: Instagram, label: 'Instagram', href: '#' },
     { icon: Youtube, label: 'Youtube', href: '#' },
   ];
@@ -57,7 +56,7 @@ function ContactInfo() {
       <ul className="mt-8 space-y-5">
         {items.map(({ icon: Icon, label, value, href }) => (
           <li key={label}>
-            <a href={href} className="group flex items-start gap-4">
+            <a href={href} className="group inline-flex items-start gap-4">
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sand-100 text-sage-600 transition-colors group-hover:bg-sage-600 group-hover:text-white">
                 <Icon className="h-5 w-5" />
               </span>
