@@ -1,11 +1,67 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const PAL = {
-  uterus: '#dfa1b1', ovary: '#dca7ad', bladder: '#eecb8c', ureter: '#edbe34',
-  ligament: '#bb7682', rectum: '#d27c58', sigma: '#d6835f', vagina: '#d79cab',
-  bone: '#e9dfc8', lesion: '#8e2c3b', endo: '#5b3026', adh: '#daccb6', nerve: '#dcc24e', levator: '#a86058', hydro: '#e9c5cb',
+const SITE = {
+  sand50: '#fbf8f4',
+  sand100: '#f5efe6',
+  sand200: '#ebe0cf',
+  sand300: '#dcc9ad',
+  sand500: '#b8966c',
+  sand700: '#8a6748',
+  sage50: '#fbf4f6',
+  sage100: '#f7e7ec',
+  sage200: '#efcfda',
+  sage300: '#e2a8ba',
+  sage400: '#cd7893',
+  sage500: '#a94463',
+  sage600: '#7F2D45',
+  sage700: '#6d253b',
+  sage900: '#4c1f2d',
+  clay100: '#f5e6df',
+  clay300: '#d9a48d',
+  clay400: '#c87d5f',
+  clay500: '#b8623f',
+  clay600: '#9d4e30',
+  ink50: '#f7f6f4',
+  ink100: '#eeece8',
+  ink200: '#dad7d0',
+  ink300: '#bbb6ab',
+  ink500: '#736d60',
+  ink600: '#5b564c',
+  ink700: '#46423a',
+  ink800: '#2f2c26',
+  ink900: '#1c1a16',
 };
-const TEAL = '#1a7f7f', TEAL_D = '#136363';
+
+const UI = {
+  bg: SITE.sand50,
+  bgPanel: '#fffdfb',
+  bgMuted: SITE.sand100,
+  bgSubtle: SITE.ink50,
+  border: 'rgba(235, 224, 207, 0.86)',
+  borderStrong: SITE.sand200,
+  text: SITE.ink800,
+  textStrong: SITE.ink900,
+  textMuted: SITE.ink600,
+  textSubtle: SITE.ink500,
+  accent: SITE.sage600,
+  accentDark: SITE.sage700,
+  accentSoft: SITE.sage100,
+  accentSurface: 'rgba(127, 45, 69, 0.08)',
+  accentBorder: 'rgba(127, 45, 69, 0.28)',
+  neutralActive: SITE.ink300,
+  shadowSoft: '0 2px 20px -8px rgba(47, 44, 38, 0.14)',
+  shadowCard: '0 8px 30px -12px rgba(47, 44, 38, 0.2)',
+  shadowLift: '0 20px 50px -20px rgba(47, 44, 38, 0.26)',
+  fontSans: '"Inter", system-ui, sans-serif',
+  fontDisplay: '"Fraunces", Georgia, serif',
+};
+
+const PAL = {
+  uterus: SITE.sage300, ovary: SITE.clay300, bladder: SITE.sand300, ureter: SITE.clay400,
+  ligament: SITE.sage400, rectum: SITE.clay400, sigma: SITE.clay500, vagina: SITE.sage300,
+  bone: SITE.sand200, lesion: SITE.sage600, endo: SITE.sage900, adh: SITE.sand300, nerve: SITE.sand500, levator: SITE.clay600, hydro: SITE.sage200,
+};
+const ACCENT = UI.accent, ACCENT_D = UI.accentDark;
 
 const PANEL = [
   { key: 'P', label: 'Peritoneo', type: 'grade' },
@@ -51,7 +107,22 @@ const toRGB = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), 
 const mixTo = (rgb, t, tg) => rgb.map((v, i) => Math.round(v + (tg[i] - v) * t));
 const dshade = (rgb, df) => rgb.map((v) => Math.min(255, Math.round(v * df)));
 const css = (rgb, a) => (a == null || a >= 1 ? `rgb(${rgb[0]},${rgb[1]},${rgb[2]})` : `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`);
-const WARM = [255, 249, 240], COOL = [44, 30, 38], DARK = [30, 20, 28];
+const WARM = [251, 248, 244], COOL = [47, 44, 38], DARK = [28, 26, 22];
+
+const choiceButtonStyle = (on, positive = true) => ({
+  flex: 1,
+  minWidth: 0,
+  minHeight: 28,
+  padding: '6px 8px',
+  fontSize: 11,
+  border: `1px solid ${on ? (positive ? UI.accent : UI.neutralActive) : UI.border}`,
+  borderRadius: 8,
+  cursor: 'pointer',
+  background: on ? (positive ? ACCENT : UI.neutralActive) : UI.bgPanel,
+  color: on ? 'white' : UI.textMuted,
+  fontWeight: on ? 700 : 600,
+  boxShadow: on && positive ? '0 8px 18px -14px rgba(127, 45, 69, 0.62)' : 'none',
+});
 
 function ellSamples(c, a) {
   const pts = [[c[0], c[1] + a[1], c[2]], [c[0], c[1] - a[1], c[2]]];
@@ -228,7 +299,7 @@ function GradeBtns({ k, gv, setV }) {
         const on = gv(k) === n;
         return (
           <button key={n} onClick={() => setV(k, n)} aria-label={`${k} grado ${n}`} aria-pressed={on}
-            style={{ flex: 1, padding: 6, fontSize: 11, border: 'none', borderRadius: 5, cursor: 'pointer', background: on ? (n === 0 ? '#9aa3a3' : TEAL) : '#eceeee', color: on ? 'white' : '#556', fontWeight: on ? 700 : 500 }}>{n}</button>
+            style={choiceButtonStyle(on, n !== 0)}>{n}</button>
         );
       })}
     </div>
@@ -241,7 +312,7 @@ function ToggleBtns({ k, gv, setV }) {
         const on = gv(k) === n;
         return (
           <button key={n} onClick={() => setV(k, n)} aria-label={`${k} ${lab}`} aria-pressed={on}
-            style={{ flex: 1, padding: 6, fontSize: 11, border: 'none', borderRadius: 5, cursor: 'pointer', background: on ? (n === 0 ? '#9aa3a3' : TEAL) : '#eceeee', color: on ? 'white' : '#556', fontWeight: on ? 700 : 500 }}>{lab}</button>
+            style={choiceButtonStyle(on, n !== 0)}>{lab}</button>
         );
       })}
     </div>
@@ -250,7 +321,7 @@ function ToggleBtns({ k, gv, setV }) {
 function Side({ label, k, gv, setV, setHover }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 5 }}>
-      <span onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} style={{ fontSize: 10, color: '#889', width: 26 }}>{label}</span>
+      <span onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} style={{ fontSize: 10, color: UI.textSubtle, width: 26 }}>{label}</span>
       <div style={{ flex: 1 }}><GradeBtns k={k} gv={gv} setV={setV} /></div>
     </div>
   );
@@ -258,7 +329,7 @@ function Side({ label, k, gv, setV, setHover }) {
 function SideT({ label, k, gv, setV, setHover }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 5 }}>
-      <span onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} style={{ fontSize: 10, color: '#889', width: 26 }}>{label}</span>
+      <span onMouseEnter={() => setHover(k)} onMouseLeave={() => setHover(null)} style={{ fontSize: 10, color: UI.textSubtle, width: 26 }}>{label}</span>
       <div style={{ flex: 1 }}><ToggleBtns k={k} gv={gv} setV={setV} /></div>
     </div>
   );
@@ -423,7 +494,7 @@ export default function EnzianApp() {
         ctx.fillStyle = sg; ctx.fillRect(cx - rad, cy - rad, rad * 2, rad * 2);
         ctx.restore();
       }
-      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; ctx.strokeStyle = TEAL; ctx.lineWidth = 2.5; smoothClosed(ctx, hp); ctx.stroke(); }
+      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; ctx.strokeStyle = ACCENT; ctx.lineWidth = 2.5; smoothClosed(ctx, hp); ctx.stroke(); }
       ctx.globalAlpha = 1;
       if (part.code) hit.push({ code: part.code, depth: dz, kind: 'poly', poly: hp });
     };
@@ -444,7 +515,7 @@ export default function EnzianApp() {
         ctx.save(); ctx.translate(1.2, 1.6); pathOpen(ctx, p2); ctx.lineWidth = Math.max(1, w * 0.5); ctx.strokeStyle = css(mixTo(rgb, 0.26, COOL), 0.5); ctx.stroke(); ctx.restore();
         ctx.save(); ctx.translate(-1.3, -1.8); pathOpen(ctx, p2); ctx.lineWidth = Math.max(1, w * 0.34); ctx.strokeStyle = css(mixTo(rgb, 0.55, WARM), 0.62); ctx.stroke(); ctx.restore();
       }
-      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; pathOpen(ctx, p2); ctx.lineWidth = w + 3; ctx.strokeStyle = TEAL; ctx.stroke(); }
+      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; pathOpen(ctx, p2); ctx.lineWidth = w + 3; ctx.strokeStyle = ACCENT; ctx.stroke(); }
       ctx.globalAlpha = 1;
       if (part.code) hit.push({ code: part.code, depth: dz, kind: 'tube', pts: p2, w });
     };
@@ -485,7 +556,7 @@ export default function EnzianApp() {
       ctx.closePath(); ctx.fill();
       ctx.restore();
       if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) {
-        ctx.globalAlpha = 1; ctx.strokeStyle = TEAL; ctx.lineWidth = 2.5;
+        ctx.globalAlpha = 1; ctx.strokeStyle = ACCENT; ctx.lineWidth = 2.5;
         ctx.beginPath(); ctx.ellipse(cx, cy, r * ox * 1.12, r * oy * 1.12, rot, 0, Math.PI * 2); ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -509,7 +580,7 @@ export default function EnzianApp() {
       ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(p[0], p[1], r, 0, Math.PI * 2); ctx.fill();
       ctx.restore();
       if (part.endo) { ctx.globalAlpha = 0.85; ctx.strokeStyle = css(mixTo(part.rgb, 0.4, WARM)); ctx.lineWidth = Math.max(1, r * 0.06); ctx.beginPath(); ctx.arc(p[0], p[1], r * 0.94, 0, Math.PI * 2); ctx.stroke(); }
-      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; ctx.strokeStyle = TEAL; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(p[0], p[1], r + 2, 0, Math.PI * 2); ctx.stroke(); }
+      if (part.code && (part.code === hoverRef.current || part.code === flashRef.current)) { ctx.globalAlpha = 1; ctx.strokeStyle = ACCENT; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(p[0], p[1], r + 2, 0, Math.PI * 2); ctx.stroke(); }
       ctx.globalAlpha = 1;
       if (part.code) hit.push({ code: part.code, depth: p[2], kind: 'disc', c: [p[0], p[1]], r });
     };
@@ -518,7 +589,7 @@ export default function EnzianApp() {
       cyw = Math.cos(rot.yaw); syw = Math.sin(rot.yaw); cp = Math.cos(rot.pitch); sp = Math.sin(rot.pitch); S = Math.min(W, H) * 0.03 * rot.zoom;
 
       const bg = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.5, Math.max(W, H) * 0.72);
-      bg.addColorStop(0, '#fdfdfd'); bg.addColorStop(1, '#ebedef');
+      bg.addColorStop(0, UI.bgPanel); bg.addColorStop(1, UI.bgMuted);
       ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
 
       const parts = allRef.current;
@@ -532,7 +603,7 @@ export default function EnzianApp() {
       hitRef.current = hit;
 
       if (labelsRef.current) {
-        ctx.font = '600 11px Segoe UI, sans-serif'; ctx.textAlign = 'center';
+        ctx.font = `600 11px ${UI.fontSans}`; ctx.textAlign = 'center';
         let labs = LABELS;
         if (showBone) labs = labs.concat(BONE_LABELS);
         labs.forEach((Lb) => {
@@ -540,8 +611,8 @@ export default function EnzianApp() {
           if (pr[2] < -1.5) return;
           const bone = BONE_LABELS.indexOf(Lb) >= 0;
           ctx.lineJoin = 'round'; ctx.lineWidth = 3;
-          ctx.strokeStyle = 'rgba(255,255,255,0.9)'; ctx.strokeText(Lb.t, pr[0], pr[1] + 3);
-          ctx.fillStyle = bone ? '#5a4e30' : '#2a3838'; ctx.fillText(Lb.t, pr[0], pr[1] + 3);
+          ctx.strokeStyle = 'rgba(255,253,251,0.92)'; ctx.strokeText(Lb.t, pr[0], pr[1] + 3);
+          ctx.fillStyle = bone ? SITE.sand700 : UI.text; ctx.fillText(Lb.t, pr[0], pr[1] + 3);
         });
       }
     };
@@ -662,13 +733,13 @@ export default function EnzianApp() {
       style={{
         padding: compact ? '6px 8px' : '6px 10px',
         fontSize: compact ? 10.5 : 11,
-        border: 'none',
-        borderRadius: 7,
+        border: `1px solid ${active ? UI.accent : UI.border}`,
+        borderRadius: 999,
         cursor: 'pointer',
-        background: active ? TEAL : '#eef2f2',
-        color: active ? 'white' : '#556',
+        background: active ? ACCENT : 'rgba(255, 253, 251, 0.88)',
+        color: active ? 'white' : UI.textMuted,
         fontWeight: 600,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+        boxShadow: active ? '0 8px 18px -14px rgba(127, 45, 69, 0.62)' : UI.shadowSoft,
         maxWidth: compact ? 104 : undefined,
         whiteSpace: 'normal',
         lineHeight: 1.15,
@@ -686,20 +757,22 @@ export default function EnzianApp() {
   ];
 
   const titleBlock = (compact = false) => (
-    <div style={{ padding: compact ? '10px 68px 10px 14px' : '16px 20px', background: TEAL, color: 'white', textAlign: 'center', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <h1 style={{ margin: '0 0 3px', fontSize: compact ? 14 : 20, lineHeight: 1.25 }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
-      <p style={{ margin: 0, fontSize: compact ? 10.5 : 12.5, opacity: 0.9 }}>Modelo educativo · clasificación #Enzian</p>
+    <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: compact ? '11px 58px 11px 12px' : '18px 24px', background: ACCENT, color: 'white', textAlign: 'center', boxShadow: UI.shadowCard }}>
+      <h1 style={{ margin: '0 auto 3px', maxWidth: compact ? 'calc(100vw - 82px)' : undefined, fontFamily: UI.fontDisplay, fontSize: compact ? 12.5 : 22, fontWeight: 600, lineHeight: 1.16, letterSpacing: 0, color: 'white', overflowWrap: 'break-word' }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
+      <p style={{ margin: 0, fontSize: compact ? 10.5 : 12.5, color: 'rgba(255, 255, 255, 0.9)' }}>Modelo educativo · clasificación #Enzian</p>
     </div>
   );
 
   const viewControls = (compact = false) => (
-    <div style={{ position: 'absolute', top: 10, left: compact ? 10 : '50%', transform: compact ? 'none' : 'translateX(-50%)', display: 'flex', gap: 2, background: '#eef2f2', borderRadius: 8, padding: 3, zIndex: 4, flexWrap: 'wrap', justifyContent: 'center', maxWidth: compact ? 'calc(100% - 138px)' : '56%' }}>
-      {presets.map((b) => (<button key={b.v} aria-label={`Vista ${b.l}`} onClick={() => setViewRef.current && setViewRef.current(b.v)} style={{ padding: compact ? '5px 6px' : '5px 9px', fontSize: compact ? 10.5 : 11.5, border: 'none', borderRadius: 6, cursor: 'pointer', background: 'transparent', color: '#445', fontWeight: 600 }}>{b.l}</button>))}
+    <div style={{ position: 'absolute', top: 10, left: compact ? 10 : '50%', transform: compact ? 'none' : 'translateX(-50%)', display: 'flex', gap: 2, background: 'rgba(255, 253, 251, 0.9)', border: `1px solid ${UI.border}`, borderRadius: 999, padding: 3, zIndex: 4, flexWrap: 'wrap', justifyContent: 'center', maxWidth: compact ? 'calc(100% - 138px)' : '56%', boxShadow: UI.shadowSoft, backdropFilter: 'blur(10px)' }}>
+      {presets.map((b) => (<button key={b.v} aria-label={`Vista ${b.l}`} onClick={() => setViewRef.current && setViewRef.current(b.v)} style={{ padding: compact ? '5px 7px' : '5px 10px', fontSize: compact ? 10.5 : 11.5, border: 'none', borderRadius: 999, cursor: 'pointer', background: 'transparent', color: UI.text, fontWeight: 600 }}>{b.l}</button>))}
     </div>
   );
 
   const modelToggles = (compact = false) => (
-    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 4, display: 'flex', flexDirection: 'column', gap: compact ? 5 : 6, alignItems: 'flex-end' }}>
+    <div style={compact
+      ? { position: 'absolute', top: 48, left: 10, right: 10, zIndex: 4, display: 'flex', gap: 5, alignItems: 'flex-start', flexWrap: 'wrap' }
+      : { position: 'absolute', top: 10, right: 10, zIndex: 4, display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
       {topBtn(labelsOn, () => setLabelsOn((o) => !o), 'Etiquetas', compact)}
       {topBtn(boneOn, () => setBoneOn((o) => !o), 'Pelvis', compact)}
       {topBtn(nervesOn, () => setNervesOn((o) => !o), 'Nervios', compact)}
@@ -708,7 +781,9 @@ export default function EnzianApp() {
   );
 
   const legend = (compact = false) => (
-    <div style={{ display: 'flex', gap: compact ? 9 : 16, marginBottom: compact ? 0 : 8, flexWrap: 'wrap', alignItems: 'center' }}>
+    <div style={compact
+      ? { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', columnGap: 9, rowGap: 6, maxWidth: 330, marginBottom: 0, color: UI.textMuted }
+      : { display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap', alignItems: 'center', color: UI.textMuted }}>
       {legendItems.map((it) => (
         <div key={it.l} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{ width: compact ? 11 : 14, height: compact ? 11 : 14, background: it.c, borderRadius: 3, display: 'inline-block', flex: '0 0 auto' }} />
@@ -719,27 +794,27 @@ export default function EnzianApp() {
   );
 
   const modelStage = (compact = false) => (
-    <div style={{ ...(compact ? { height: 'min(56dvh, 430px)', minHeight: 330 } : { flex: 1 }), background: 'white', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', minWidth: 0 }}>
+    <div style={{ ...(compact ? { height: 'min(56dvh, 430px)', minHeight: 330, width: '100%', maxWidth: '100%', boxSizing: 'border-box' } : { flex: 1 }), background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 22, boxShadow: UI.shadowCard, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', minWidth: 0 }}>
       {viewControls(compact)}
       {modelToggles(compact)}
       <div ref={mountRef} role="img" aria-label="Modelo 3D interactivo de anatomía pélvica con lesiones de endometriosis" style={{ flex: 1, position: 'relative', minHeight: 0 }} />
-      <div style={{ padding: compact ? '5px 10px' : '6px 12px', fontSize: compact ? 9.5 : 10.5, color: '#99a', textAlign: 'center', borderTop: '1px solid #f0f0f0' }}>Arrastra para rotar · pellizca para zoom · toca un órgano</div>
-      {compact && <div style={{ padding: '7px 10px 9px', borderTop: '1px solid #f2f2f2', fontSize: 10.5, color: '#667' }}>{legend(true)}</div>}
+      <div style={{ padding: compact ? '6px 10px' : '7px 12px', fontSize: compact ? 9.5 : 10.5, color: UI.textSubtle, textAlign: 'center', borderTop: `1px solid ${UI.border}` }}>Arrastra para rotar · pellizca para zoom · toca un órgano</div>
+      {compact && <div style={{ padding: '7px 10px 9px', borderTop: `1px solid ${UI.border}`, fontSize: 10.5, color: UI.textMuted, background: UI.bgPanel }}>{legend(true)}</div>}
     </div>
   );
 
   const compartmentPanel = (scrollable = true) => (
-    <div style={{ ...(scrollable ? { flex: 1, overflowY: 'auto' } : {}), padding: 12, borderBottom: scrollable ? '1px solid #eee' : 'none', minHeight: scrollable ? 80 : undefined }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#667', marginBottom: 4 }}>COMPARTIMENTOS #ENZIAN</div>
-      <div style={{ fontSize: 10, color: '#9aa', marginBottom: 10 }}>P/O: &lt;3 / 3–7 / &gt;7 cm · A/B/C: &lt;1 / 1–3 / &gt;3 cm · T: adherencias (1–3) · F: presencia</div>
+    <div style={{ ...(scrollable ? { flex: 1, overflowY: 'auto' } : {}), padding: 12, borderBottom: scrollable ? `1px solid ${UI.border}` : 'none', minHeight: scrollable ? 80 : undefined }}>
+      <div style={{ fontSize: 11, fontWeight: 700, color: UI.accent, marginBottom: 4, letterSpacing: '0.08em' }}>COMPARTIMENTOS #ENZIAN</div>
+      <div style={{ fontSize: 10, color: UI.textSubtle, marginBottom: 10 }}>P/O: &lt;3 / 3–7 / &gt;7 cm · A/B/C: &lt;1 / 1–3 / &gt;3 cm · T: adherencias (1–3) · F: presencia</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
         {PANEL.map((it) => {
           const active = isActive(it);
           return (
-            <div key={it.key} style={{ padding: 8, borderRadius: 7, background: active ? 'rgba(26,127,127,0.07)' : '#fafafa', border: active ? '1px solid rgba(26,127,127,0.35)' : '1px solid #f0f0f0' }}>
+            <div key={it.key} style={{ boxSizing: 'border-box', maxWidth: '100%', minWidth: 0, padding: 8, borderRadius: 10, background: active ? UI.accentSurface : UI.bgSubtle, border: active ? `1px solid ${UI.accentBorder}` : `1px solid ${UI.border}` }}>
               <div onMouseEnter={() => setHover(it.type.includes('LR') ? null : it.key)} onMouseLeave={() => setHover(null)} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: it.type === 'grade' || it.type === 'toggle' ? 5 : 2 }}>
-                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'white', background: active ? TEAL : '#b9c2c2', borderRadius: 4, padding: '1px 5px', minWidth: 22, textAlign: 'center' }}>{it.key}</span>
-                <span style={{ fontSize: 11.5, color: '#334', fontWeight: 500, flex: 1 }}>{it.label}</span>
+                <span style={{ fontSize: 9.5, fontWeight: 700, color: 'white', background: active ? ACCENT : UI.neutralActive, borderRadius: 6, padding: '1px 5px', minWidth: 22, textAlign: 'center' }}>{it.key}</span>
+                <span style={{ fontSize: 11.5, color: UI.text, fontWeight: 600, flex: 1 }}>{it.label}</span>
               </div>
               {it.type === 'grade' && <GradeBtns k={it.key} gv={gv} setV={setV} />}
               {it.type === 'toggle' && <ToggleBtns k={it.key} gv={gv} setV={setV} />}
@@ -747,7 +822,7 @@ export default function EnzianApp() {
               {it.type === 'toggleLR' && (<><SideT label="Izq" k={it.key + '_l'} gv={gv} setV={setV} setHover={setHover} /><SideT label="Der" k={it.key + '_r'} gv={gv} setV={setV} setHover={setHover} /></>)}
               {it.type === 'toggleText' && (<>
                 <ToggleBtns k="FO" gv={gv} setV={setV} />
-                {gv('FO') > 0 && <input aria-label="Especificar otra localización" value={vals.FO_text || ''} onChange={(e) => setVals((p) => ({ ...p, FO_text: e.target.value }))} placeholder="especificar (diafragma, ombligo…)" style={{ marginTop: 6, width: '100%', boxSizing: 'border-box', padding: 6, fontSize: 11, border: '1px solid #ddd', borderRadius: 5 }} />}
+                {gv('FO') > 0 && <input aria-label="Especificar otra localización" value={vals.FO_text || ''} onChange={(e) => setVals((p) => ({ ...p, FO_text: e.target.value }))} placeholder="especificar (diafragma, ombligo…)" style={{ marginTop: 6, width: '100%', boxSizing: 'border-box', padding: 7, fontSize: 11, border: `1px solid ${UI.borderStrong}`, borderRadius: 8, color: UI.text, background: UI.bgPanel }} />}
               </>)}
             </div>
           );
@@ -757,25 +832,25 @@ export default function EnzianApp() {
   );
 
   const codePanel = () => (
-    <div style={{ padding: 12, borderBottom: '1px solid #eee' }}>
-      <div style={{ fontSize: 11, fontWeight: 700, color: '#667', marginBottom: 8 }}>CÓDIGO #ENZIAN</div>
-      <div style={{ padding: 10, background: '#f5f5f5', borderRadius: 6, fontSize: 12, fontFamily: 'monospace', color: '#223', wordBreak: 'break-word', lineHeight: 1.45, minHeight: 20 }}>{code}</div>
-      <button onClick={copy} aria-label={copied ? 'Código copiado' : 'Copiar código #Enzian'} style={{ marginTop: 8, width: '100%', padding: 8, fontSize: 11.5, border: 'none', borderRadius: 6, cursor: 'pointer', background: copied ? TEAL_D : TEAL, color: 'white', fontWeight: 600 }}>{copied ? '✓ Copiado' : 'Copiar código'}</button>
+    <div style={{ padding: 12, borderBottom: `1px solid ${UI.border}` }}>
+      <div style={{ fontSize: 11, fontWeight: 700, color: UI.accent, marginBottom: 8, letterSpacing: '0.08em' }}>CÓDIGO #ENZIAN</div>
+      <div style={{ padding: 10, background: UI.bgMuted, border: `1px solid ${UI.border}`, borderRadius: 10, fontSize: 12, fontFamily: '"SFMono-Regular", Consolas, monospace', color: UI.textStrong, wordBreak: 'break-word', lineHeight: 1.45, minHeight: 20 }}>{code}</div>
+      <button onClick={copy} aria-label={copied ? 'Código copiado' : 'Copiar código #Enzian'} style={{ marginTop: 8, width: '100%', padding: 9, fontSize: 11.5, border: `1px solid ${copied ? UI.accentDark : UI.accent}`, borderRadius: 999, cursor: 'pointer', background: copied ? ACCENT_D : ACCENT, color: 'white', fontWeight: 700, boxShadow: '0 8px 18px -14px rgba(127, 45, 69, 0.62)' }}>{copied ? '✓ Copiado' : 'Copiar código'}</button>
     </div>
   );
 
   const resetPanel = () => (
     <div style={{ padding: 12 }}>
-      <button onClick={reset} aria-label="Limpiar todos los compartimentos" style={{ width: '100%', padding: 9, fontSize: 11.5, background: '#f0f0f0', border: '1px solid #ddd', borderRadius: 6, cursor: 'pointer', fontWeight: 600, color: '#556' }}>Limpiar todo</button>
+      <button onClick={reset} aria-label="Limpiar todos los compartimentos" style={{ width: '100%', padding: 9, fontSize: 11.5, background: UI.bgPanel, border: `1px solid ${UI.borderStrong}`, borderRadius: 999, cursor: 'pointer', fontWeight: 700, color: UI.textMuted }}>Limpiar todo</button>
     </div>
   );
 
   const authorsBlock = (compact = false) => (
-    <div style={{ padding: compact ? 12 : 0, background: compact ? 'white' : undefined, borderRadius: compact ? 10 : undefined, boxShadow: compact ? '0 2px 8px rgba(0,0,0,0.08)' : undefined, fontSize: 11, color: '#667' }}>
-      <div style={{ fontSize: compact ? 10 : 11, color: '#778', marginBottom: 6 }}>
+    <div style={{ padding: compact ? 12 : 0, background: compact ? UI.bgPanel : undefined, border: compact ? `1px solid ${UI.border}` : undefined, borderRadius: compact ? 18 : undefined, boxShadow: compact ? UI.shadowSoft : undefined, fontSize: 11, color: UI.textMuted }}>
+      <div style={{ fontSize: compact ? 10 : 11, color: UI.textMuted, marginBottom: 6 }}>
         <strong>Autores:</strong> Dr. Mauricio Correa D., Ph.D. · REDEP (Red de Endometriosis y Dolor Pélvico) · Universidad Austral de Chile
       </div>
-      <p style={{ margin: 0, lineHeight: 1.45, color: '#9aa', fontSize: compact ? 10 : 11 }}>
+      <p style={{ margin: 0, lineHeight: 1.45, color: UI.textSubtle, fontSize: compact ? 10 : 11 }}>
         <strong>Disclaimer:</strong> Modelo educativo con proporciones promedio y tamaños según umbrales #Enzian. No reemplaza evaluación clínica, ecográfica, quirúrgica o por resonancia.
       </p>
     </div>
@@ -783,20 +858,20 @@ export default function EnzianApp() {
 
   if (narrow) {
     return (
-      <div style={{ minHeight: '100dvh', width: '100%', maxWidth: '100%', fontFamily: 'Segoe UI, sans-serif', background: '#fbfafa' }}>
-        <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fbfafa', boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
+      <div style={{ minHeight: '100dvh', width: '100vw', maxWidth: '100vw', overflowX: 'hidden', fontFamily: UI.fontSans, background: UI.bg, color: UI.text }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, width: '100vw', maxWidth: '100vw', overflow: 'hidden', background: UI.bg, boxShadow: UI.shadowCard }}>
           {titleBlock(true)}
-          <div style={{ padding: '8px 8px 10px' }}>
+          <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: '8px 8px 10px' }}>
             {modelStage(true)}
           </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '10px 8px 16px' }}>
-          <section style={{ background: 'white', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+          <section style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100%', background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 18, boxShadow: UI.shadowSoft, overflow: 'hidden' }}>
             {compartmentPanel(false)}
           </section>
 
-          <section style={{ background: 'white', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+          <section style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100%', background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 18, boxShadow: UI.shadowSoft, overflow: 'hidden' }}>
             {codePanel()}
             {resetPanel()}
           </section>
@@ -808,20 +883,20 @@ export default function EnzianApp() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', width: '100%', overflow: 'hidden', fontFamily: 'Segoe UI, sans-serif', background: '#fbfafa' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', width: '100%', overflow: 'hidden', fontFamily: UI.fontSans, background: UI.bg, color: UI.text }}>
       {titleBlock(false)}
 
       <div style={{ display: 'flex', flexDirection: 'row', flex: 1, overflow: 'hidden', gap: 14, padding: 14, minHeight: 0 }}>
         {modelStage(false)}
 
-        <div style={{ width: 308, flex: '0 0 308px', minHeight: 0, background: 'white', borderRadius: 10, boxShadow: '0 2px 8px rgba(0,0,0,0.1)', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ width: 308, flex: '0 0 308px', minHeight: 0, background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 22, boxShadow: UI.shadowCard, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           {compartmentPanel(true)}
           {codePanel()}
           {resetPanel()}
         </div>
       </div>
 
-      <div style={{ padding: '12px 20px', background: 'white', borderTop: '1px solid #eee', fontSize: 11, color: '#667' }}>
+      <div style={{ padding: '12px 20px', background: UI.bgPanel, borderTop: `1px solid ${UI.border}`, fontSize: 11, color: UI.textMuted }}>
         {legend(false)}
         {authorsBlock(false)}
       </div>
