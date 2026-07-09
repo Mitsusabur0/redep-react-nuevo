@@ -10,7 +10,7 @@ import {
 import { SectionHeader } from '../components/SectionHeader';
 import { useReveal } from '../hooks/useReveal';
 import surgeryImage from '../assets/images/cirugias/c-endometriosis-2.jpg';
-import therapyImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
+import therapyImage from '../assets/images/problemas/p-dolor-sexual.png';
 
 const medicalCenterExteriorImage =
   'https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&fm=jpg&q=80&w=1600';
