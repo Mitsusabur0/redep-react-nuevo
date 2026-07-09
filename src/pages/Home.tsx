@@ -156,6 +156,9 @@ function ProblemsTeaser() {
           <p className="mt-5 text-lg leading-relaxed text-ink-600">
             Una red interdisciplinaria permite integrar diagnóstico, dolor, fertilidad, rehabilitación y cirugía en un plan coherente.
           </p>
+          <p className="mt-3 text-lg leading-relaxed text-ink-600">
+            Te entregamos información clara sobre cada problema clínico y cómo podemos orientarte en la evaluación y tratamiento.
+          </p>
         </div>
 
         <div className="mt-10 flex flex-wrap gap-x-5 gap-y-5 md:mt-12">
