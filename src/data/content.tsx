@@ -293,6 +293,6 @@ export const RESOURCES = [
     title: 'Modelo de reconstrucción 3D basado en clasificación #Enzian',
     description: 'Modelo educativo interactivo para visualizar una reconstrucción 3D.',
     cta: 'Ver modelo',
-    href: '#',
+    href: '/apoyo-al-paciente/modelo-enzian',
   },
 ];

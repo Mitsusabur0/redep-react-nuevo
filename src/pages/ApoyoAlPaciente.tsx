@@ -1,4 +1,5 @@
 import { Box, ArrowUpRight, BookOpen } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
 import { RESOURCES } from '../data/content';
@@ -42,6 +43,11 @@ export default function ApoyoAlPaciente() {
 
 function ResourceCard({ resource }: { resource: (typeof RESOURCES)[number] }) {
   const { ref, visible } = useReveal();
+  const location = useLocation();
+  const isInternalLink = resource.href.startsWith('/');
+  const linkClassName =
+    'mt-5 inline-flex items-center gap-2 self-start rounded-full bg-sage-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sage-700';
+
   return (
     <article
       ref={ref}
@@ -62,15 +68,22 @@ function ResourceCard({ resource }: { resource: (typeof RESOURCES)[number] }) {
       <div className="flex flex-1 flex-col p-6">
         <h3 className="font-display text-lg font-semibold leading-snug text-ink-900">{resource.title}</h3>
         <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-600">{resource.description}</p>
-        <a
-          href={resource.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-sage-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sage-700"
-        >
-          {resource.cta}
-          <ArrowUpRight className="h-4 w-4" />
-        </a>
+        {isInternalLink ? (
+          <Link to={resource.href} state={{ from: location.pathname }} className={linkClassName}>
+            {resource.cta}
+            <ArrowUpRight className="h-4 w-4" />
+          </Link>
+        ) : (
+          <a
+            href={resource.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={linkClassName}
+          >
+            {resource.cta}
+            <ArrowUpRight className="h-4 w-4" />
+          </a>
+        )}
       </div>
     </article>
   );
