@@ -57,9 +57,9 @@ const UI = {
 };
 
 const PAL = {
-  uterus: SITE.sage300, ovary: SITE.clay300, bladder: SITE.sand300, ureter: SITE.clay400,
-  ligament: SITE.sage400, rectum: SITE.clay400, sigma: SITE.clay500, vagina: SITE.sage300,
-  bone: SITE.sand200, lesion: SITE.sage600, endo: SITE.sage900, adh: SITE.sand300, nerve: SITE.sand500, levator: SITE.clay600, hydro: SITE.sage200,
+  uterus: '#dfa1b1', ovary: '#dca7ad', bladder: '#eecb8c', ureter: '#edbe34',
+  ligament: '#bb7682', rectum: '#d27c58', sigma: '#d6835f', vagina: '#d79cab',
+  bone: '#e9dfc8', lesion: '#8e2c3b', endo: '#5b3026', adh: '#daccb6', nerve: '#dcc24e', levator: '#a86058', hydro: '#e9c5cb',
 };
 const ACCENT = UI.accent, ACCENT_D = UI.accentDark;
 
@@ -107,7 +107,7 @@ const toRGB = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), 
 const mixTo = (rgb, t, tg) => rgb.map((v, i) => Math.round(v + (tg[i] - v) * t));
 const dshade = (rgb, df) => rgb.map((v) => Math.min(255, Math.round(v * df)));
 const css = (rgb, a) => (a == null || a >= 1 ? `rgb(${rgb[0]},${rgb[1]},${rgb[2]})` : `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`);
-const WARM = [251, 248, 244], COOL = [47, 44, 38], DARK = [28, 26, 22];
+const WARM = [255, 249, 240], COOL = [44, 30, 38], DARK = [30, 20, 28];
 
 const choiceButtonStyle = (on, positive = true) => ({
   flex: 1,
@@ -757,8 +757,8 @@ export default function EnzianApp() {
   ];
 
   const titleBlock = (compact = false) => (
-    <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: compact ? '11px 58px 11px 12px' : '18px 24px', background: ACCENT, color: 'white', textAlign: 'center', boxShadow: UI.shadowCard }}>
-      <h1 style={{ margin: '0 auto 3px', maxWidth: compact ? 'calc(100vw - 82px)' : undefined, fontFamily: UI.fontDisplay, fontSize: compact ? 12.5 : 22, fontWeight: 600, lineHeight: 1.16, letterSpacing: 0, color: 'white', overflowWrap: 'break-word' }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
+    <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: compact ? '10px 68px 10px 14px' : '18px 24px', background: ACCENT, color: 'white', textAlign: 'center', boxShadow: UI.shadowCard }}>
+      <h1 style={{ margin: '0 auto 3px', maxWidth: compact ? 'calc(100vw - 82px)' : undefined, fontFamily: UI.fontDisplay, fontSize: compact ? 14 : 22, fontWeight: 600, lineHeight: 1.16, letterSpacing: 0, color: 'white', overflowWrap: 'break-word' }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
       <p style={{ margin: 0, fontSize: compact ? 10.5 : 12.5, color: 'rgba(255, 255, 255, 0.9)' }}>Modelo educativo · clasificación #Enzian</p>
     </div>
   );
@@ -770,9 +770,7 @@ export default function EnzianApp() {
   );
 
   const modelToggles = (compact = false) => (
-    <div style={compact
-      ? { position: 'absolute', top: 48, left: 10, right: 10, zIndex: 4, display: 'flex', gap: 5, alignItems: 'flex-start', flexWrap: 'wrap' }
-      : { position: 'absolute', top: 10, right: 10, zIndex: 4, display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-end' }}>
+    <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 4, display: 'flex', flexDirection: 'column', gap: compact ? 5 : 6, alignItems: 'flex-end' }}>
       {topBtn(labelsOn, () => setLabelsOn((o) => !o), 'Etiquetas', compact)}
       {topBtn(boneOn, () => setBoneOn((o) => !o), 'Pelvis', compact)}
       {topBtn(nervesOn, () => setNervesOn((o) => !o), 'Nervios', compact)}
@@ -781,9 +779,7 @@ export default function EnzianApp() {
   );
 
   const legend = (compact = false) => (
-    <div style={compact
-      ? { display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', columnGap: 9, rowGap: 6, maxWidth: 330, marginBottom: 0, color: UI.textMuted }
-      : { display: 'flex', gap: 16, marginBottom: 8, flexWrap: 'wrap', alignItems: 'center', color: UI.textMuted }}>
+    <div style={{ display: 'flex', gap: compact ? 9 : 16, marginBottom: compact ? 0 : 8, flexWrap: 'wrap', alignItems: 'center', color: UI.textMuted }}>
       {legendItems.map((it) => (
         <div key={it.l} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{ width: compact ? 11 : 14, height: compact ? 11 : 14, background: it.c, borderRadius: 3, display: 'inline-block', flex: '0 0 auto' }} />
@@ -794,7 +790,7 @@ export default function EnzianApp() {
   );
 
   const modelStage = (compact = false) => (
-    <div style={{ ...(compact ? { height: 'min(56dvh, 430px)', minHeight: 330, width: '100%', maxWidth: '100%', boxSizing: 'border-box' } : { flex: 1 }), background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 22, boxShadow: UI.shadowCard, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', minWidth: 0 }}>
+    <div style={{ ...(compact ? { height: 'min(56dvh, 430px)', minHeight: 330 } : { flex: 1 }), background: UI.bgPanel, border: `1px solid ${UI.border}`, borderRadius: 22, boxShadow: UI.shadowCard, display: 'flex', flexDirection: 'column', overflow: 'hidden', position: 'relative', minWidth: 0 }}>
       {viewControls(compact)}
       {modelToggles(compact)}
       <div ref={mountRef} role="img" aria-label="Modelo 3D interactivo de anatomía pélvica con lesiones de endometriosis" style={{ flex: 1, position: 'relative', minHeight: 0 }} />
@@ -858,10 +854,10 @@ export default function EnzianApp() {
 
   if (narrow) {
     return (
-      <div style={{ minHeight: '100dvh', width: '100vw', maxWidth: '100vw', overflowX: 'hidden', fontFamily: UI.fontSans, background: UI.bg, color: UI.text }}>
-        <div style={{ position: 'sticky', top: 0, zIndex: 20, width: '100vw', maxWidth: '100vw', overflow: 'hidden', background: UI.bg, boxShadow: UI.shadowCard }}>
+      <div style={{ minHeight: '100dvh', width: '100%', maxWidth: '100%', fontFamily: UI.fontSans, background: UI.bg, color: UI.text }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 20, background: UI.bg, boxShadow: UI.shadowCard }}>
           {titleBlock(true)}
-          <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: '8px 8px 10px' }}>
+          <div style={{ padding: '8px 8px 10px' }}>
             {modelStage(true)}
           </div>
         </div>

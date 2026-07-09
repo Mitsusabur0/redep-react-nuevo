@@ -13,6 +13,8 @@ import heavyBleedingImage from '../assets/images/problemas/p-sangrado.png';
 import pelvicPainImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
 import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
 import mauricioImage from '../assets/images/equipo/mauricio.webp';
+import enzianThumbnailImage from '../assets/images/apoyo/enzian_thumbnail.png';
+import manualThumbnailImage from '../assets/images/apoyo/manual_thumbnail.png';
 
 type ClinicalProblemSection = {
   title: string;
@@ -115,7 +117,7 @@ export const SURGERIES = [
       'La histerectomía resuelve lo que nace del útero, pero no cura la endometriosis — sus lesiones están fuera del útero y requieren resección específica.',
     reference: {
       label: 'Guía informativa para la realización de una histerectomía (SOCHOG)',
-      href: 'https://sochog.cl/wp-content/uploads/2025/02/GUIA-INFORMATIVA-PARA-EL-ACOMPANAMIENTO-EN-EL-MANEJO-QUIRURGICO-DE-LA-ENDOMETRIOSIS-1.pdf',
+      href: 'https://sochog.cl/wp-content/uploads/2023/10/GUIA-INFORMATIVA-PARA-LA-REALIZACION-DE-UNA-HISTERECTOMIA.pdf',
       text: 'Ver archivo PDF',
     },
   },
@@ -292,7 +294,25 @@ export const RESOURCES = [
   {
     title: 'Modelo de reconstrucción 3D basado en clasificación #Enzian',
     description: 'Modelo educativo interactivo para visualizar una reconstrucción 3D.',
+    image: enzianThumbnailImage,
+    imageAlt: 'Vista previa del modelo de reconstrucción 3D basado en clasificación #Enzian',
     cta: 'Ver modelo',
     href: '/apoyo-al-paciente/modelo-enzian',
+  },
+  {
+    title: 'Guía informativa endometriosis (SOCHOG)',
+    description: 'Guía informativa para el acompañamiento en el manejo quirúrgico de la endometriosis.',
+    image: manualThumbnailImage,
+    imageAlt: 'Vista previa del manual para cirugía de endometriosis',
+    cta: 'Ver manual',
+    href: 'https://sochog.cl/wp-content/uploads/2025/02/GUIA-INFORMATIVA-PARA-EL-ACOMPANAMIENTO-EN-EL-MANEJO-QUIRURGICO-DE-LA-ENDOMETRIOSIS-1.pdf',
+  },
+  {
+    title: 'Guía informativa histerectomía (SOCHOG)',
+    description: 'Guía informativa para la realización de una histerectomía.',
+    image: manualThumbnailImage,
+    imageAlt: 'Vista previa del manual para histerectomía',
+    cta: 'Ver manual',
+    href: 'https://sochog.cl/wp-content/uploads/2023/10/GUIA-INFORMATIVA-PARA-LA-REALIZACION-DE-UNA-HISTERECTOMIA.pdf',
   },
 ];
