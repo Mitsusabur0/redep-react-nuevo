@@ -588,9 +588,7 @@ export default function EnzianApp() {
     const renderFrame = () => {
       cyw = Math.cos(rot.yaw); syw = Math.sin(rot.yaw); cp = Math.cos(rot.pitch); sp = Math.sin(rot.pitch); S = Math.min(W, H) * 0.03 * rot.zoom;
 
-      const bg = ctx.createRadialGradient(W / 2, H * 0.42, 0, W / 2, H * 0.5, Math.max(W, H) * 0.72);
-      bg.addColorStop(0, UI.bgPanel); bg.addColorStop(1, UI.bgMuted);
-      ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = UI.bgMuted; ctx.fillRect(0, 0, W, H);
 
       const parts = allRef.current;
       const showBone = boneRef.current;
@@ -757,9 +755,9 @@ export default function EnzianApp() {
   ];
 
   const titleBlock = (compact = false) => (
-    <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: compact ? '10px 68px 10px 14px' : '18px 24px', background: ACCENT, color: 'white', textAlign: 'center', boxShadow: UI.shadowCard }}>
-      <h1 style={{ margin: '0 auto 3px', maxWidth: compact ? 'calc(100vw - 82px)' : undefined, fontFamily: UI.fontDisplay, fontSize: compact ? 14 : 22, fontWeight: 600, lineHeight: 1.16, letterSpacing: 0, color: 'white', overflowWrap: 'break-word' }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
-      <p style={{ margin: 0, fontSize: compact ? 10.5 : 12.5, color: 'rgba(255, 255, 255, 0.9)' }}>Modelo educativo · clasificación #Enzian</p>
+    <div style={{ boxSizing: 'border-box', width: '100%', maxWidth: '100vw', padding: compact ? '10px 68px 10px 14px' : '18px 24px', background: UI.bgMuted, color: UI.textStrong, textAlign: 'center', borderBottom: `1px solid ${UI.border}`, boxShadow: UI.shadowSoft }}>
+      <h1 style={{ margin: '0 auto 3px', maxWidth: compact ? 'calc(100vw - 82px)' : undefined, fontFamily: UI.fontDisplay, fontSize: compact ? 14 : 22, fontWeight: 600, lineHeight: 1.16, letterSpacing: 0, color: SITE.sage900, overflowWrap: 'break-word' }}>Modelo de reconstrucción 3D basado en clasificación #Enzian para orientación del paciente</h1>
+      <p style={{ margin: 0, fontSize: compact ? 10.5 : 12.5, color: UI.textMuted }}>Modelo educativo · clasificación #Enzian</p>
     </div>
   );
 

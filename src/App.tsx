@@ -10,9 +10,11 @@ import ApoyoAlPaciente from './pages/ApoyoAlPaciente';
 import Equipo from './pages/Equipo';
 import Contacto from './pages/Contacto';
 import EnzianModel from './pages/EnzianModel';
+import PempAssessment from './pages/PempAssessment';
 
 const routerBasename = import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL.replace(/\/$/, '');
 const modelPath = '/apoyo-al-paciente/modelo-enzian';
+const pempPath = '/apoyo-al-paciente/pemp';
 
 function App() {
   return (
@@ -24,14 +26,15 @@ function App() {
 
 function AppShell() {
   const location = useLocation();
-  const isModelRoute = location.pathname.replace(/\/$/, '') === modelPath;
+  const currentPath = location.pathname.replace(/\/$/, '');
+  const isStandaloneAppRoute = currentPath === modelPath || currentPath === pempPath;
 
   return (
     <>
       <ScrollToTop />
-      <div className={isModelRoute ? '' : 'flex min-h-screen flex-col'}>
-        {!isModelRoute && <Header />}
-        <main className={isModelRoute ? '' : 'flex-1'}>
+      <div className={isStandaloneAppRoute ? '' : 'flex min-h-screen flex-col'}>
+        {!isStandaloneAppRoute && <Header />}
+        <main className={isStandaloneAppRoute ? '' : 'flex-1'}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/quienes-somos" element={<QuienesSomos />} />
@@ -39,12 +42,13 @@ function AppShell() {
             <Route path="/problemas-clinicos" element={<ProblemasClinicos />} />
             <Route path="/apoyo-al-paciente" element={<ApoyoAlPaciente />} />
             <Route path="/apoyo-al-paciente/modelo-enzian" element={<EnzianModel />} />
+            <Route path="/apoyo-al-paciente/pemp" element={<PempAssessment />} />
             <Route path="/equipo" element={<Equipo />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>
-        {!isModelRoute && <Footer />}
+        {!isStandaloneAppRoute && <Footer />}
       </div>
     </>
   );

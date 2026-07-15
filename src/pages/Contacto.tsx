@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Mail, Phone, MessageCircle, Instagram, Youtube, Send, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MessageCircle, Instagram, Youtube, Send, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
 import contactImage from '../assets/images/contacto/contacto.jpg';
@@ -207,6 +207,13 @@ function ContactForm() {
             <Send className="h-4 w-4" />
             Enviar mensaje
           </button>
+
+          <div className="flex gap-3 rounded-2xl bg-sand-50 p-4 text-sm leading-relaxed text-ink-600 ring-1 ring-inset ring-sand-200">
+            <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-sage-600" aria-hidden="true" />
+            <p>
+              <span className="font-medium text-ink-800">Privacidad:</span> usaremos los datos que ingreses únicamente para responder tu consulta por correo electrónico. No los incorporaremos a bases de datos, listas de difusión ni los compartiremos con terceros. Por favor, evita incluir información clínica sensible en este formulario.
+            </p>
+          </div>
         </form>
       )}
     </div>

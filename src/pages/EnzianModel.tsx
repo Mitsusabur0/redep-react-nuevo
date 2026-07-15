@@ -1,5 +1,5 @@
-import { X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { StandaloneAppCloseButton } from '../components/StandaloneAppCloseButton';
 import EnzianApp from '../features/enzian/EnzianApp.jsx';
 
 type ModelLocationState = {
@@ -17,15 +17,10 @@ export default function EnzianModel() {
 
   return (
     <div className="relative bg-white" style={{ minHeight: '100dvh', width: '100%' }}>
-      <button
-        type="button"
+      <StandaloneAppCloseButton
         onClick={closeModel}
-        className="fixed right-3 top-3 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-card ring-1 ring-sand-200 backdrop-blur transition-colors hover:bg-sand-50"
-        aria-label="Cerrar modelo"
-        title="Cerrar modelo"
-      >
-        <X className="h-5 w-5" />
-      </button>
+        ariaLabel="Cerrar modelo y volver a Apoyo al Paciente"
+      />
       <EnzianApp />
     </div>
   );

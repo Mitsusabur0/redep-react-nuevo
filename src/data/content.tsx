@@ -14,6 +14,7 @@ import pelvicPainImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
 import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
 import mauricioImage from '../assets/images/equipo/mauricio.webp';
 import enzianThumbnailImage from '../assets/images/apoyo/enzian_thumbnail.png';
+import pempThumbnailImage from '../assets/images/apoyo/pemp_thumbnail.png';
 import manualThumbnailImage from '../assets/images/apoyo/manual_thumbnail.png';
 
 type ClinicalProblemSection = {
@@ -298,6 +299,14 @@ export const RESOURCES = [
     imageAlt: 'Vista previa del modelo de reconstrucción 3D basado en clasificación #Enzian',
     cta: 'Ver modelo',
     href: '/apoyo-al-paciente/modelo-enzian',
+  },
+  {
+    title: 'PEMP — Perfil Evaluativo de Mecanismos del Dolor Pélvico',
+    description: 'Cuestionario educativo de auto-reporte para orientar la comprensión de los mecanismos del dolor pélvico persistente.',
+    image: pempThumbnailImage,
+    imageAlt: 'Vista previa del cuestionario PEMP sobre mecanismos del dolor pélvico',
+    cta: 'Iniciar cuestionario',
+    href: '/apoyo-al-paciente/pemp',
   },
   {
     title: 'Guía informativa endometriosis (SOCHOG)',
