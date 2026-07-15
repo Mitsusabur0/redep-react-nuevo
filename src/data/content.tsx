@@ -12,7 +12,16 @@ import menstrualPainImage from '../assets/images/problemas/p-dolor-menstrual.png
 import heavyBleedingImage from '../assets/images/problemas/p-sangrado.png';
 import pelvicPainImage from '../assets/images/problemas/p-dolor-pelvico.jpg';
 import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
-import mauricioImage from '../assets/images/equipo/mauricio.webp';
+import andreaGutierrezImage from '../assets/images/equipo/Andrea Gutierrez.jpg';
+import camilaAlvallayImage from '../assets/images/equipo/Camila Alvallay.jpg';
+import denisseArayaImage from '../assets/images/equipo/Denisse Araya.jpg';
+import francibelFigueroaImage from '../assets/images/equipo/Francibel Figueroa.jpg';
+import karinBerkhoffImage from '../assets/images/equipo/karin.jpg';
+import macarenaFerrariImage from '../assets/images/equipo/Macarena Ferrari.jpg';
+import mauricioImage from '../assets/images/equipo/Mauricio Correa D..jpg';
+import mauricioMobileImage from '../assets/images/equipo/Mauricio Correa D.-mobile.jpg';
+import octaviaIhnenImage from '../assets/images/equipo/Octavia Ihnen.jpg';
+import stephanieQuijadaImage from '../assets/images/equipo/Stephanie Quijada.jpg';
 import enzianThumbnailImage from '../assets/images/apoyo/enzian_thumbnail.png';
 import pempThumbnailImage from '../assets/images/apoyo/pemp_thumbnail.png';
 import manualThumbnailImage from '../assets/images/apoyo/manual_thumbnail.png';
@@ -36,6 +45,7 @@ type TeamMember = {
   role: string;
   bio: ReactNode;
   image: string;
+  mobileImage?: string;
   imageAlt: string;
   featured?: boolean;
 };
@@ -277,18 +287,19 @@ export const TEAM: TeamMember[] = [
       </>
     ),
     image: mauricioImage,
+    mobileImage: mauricioMobileImage,
     imageAlt: 'Foto del Dr. Mauricio Correa',
     featured: true,
   },
-  { name: 'M.Sc. Denisse Araya', role: 'Sicóloga clínica', bio: 'Formación en endometriosis y terapia de reprocesamiento de dolor.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Denisse Araya' },
-  { name: 'Macarena Ferrari', role: 'Nutricionista', bio: 'Apoyo nutricional en pacientes con endometriosis y dolor pélvico.', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Macarena Ferrari' },
-  { name: 'Stephanie Quijada', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación de piso pélvico y acompañamiento terapéutico.', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Stephanie Quijada' },
-  { name: 'Andrea Gutierrez', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación funcional y abordaje kinésico del dolor pélvico.', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Andrea Gutierrez' },
-  { name: 'Camila Alvallay', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación pélvica en dolor persistente y disfunción del piso pélvico.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Camila Alvallay' },
-  { name: 'Karin Berkhoff', role: 'Médico general', bio: 'Coordinadora de equipo.', image: 'https://placehold.co/400x400/e3ede5/345840?text=Foto', imageAlt: 'Foto de Karin Berkhoff' },
+  { name: 'M.Sc. Denisse Araya', role: 'Sicóloga clínica', bio: 'Formación en endometriosis y terapia de reprocesamiento de dolor.', image: denisseArayaImage, imageAlt: 'Foto de Denisse Araya' },
+  { name: 'Macarena Ferrari', role: 'Nutricionista', bio: 'Apoyo nutricional en pacientes con endometriosis y dolor pélvico.', image: macarenaFerrariImage, imageAlt: 'Foto de Macarena Ferrari' },
+  { name: 'Stephanie Quijada', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación de piso pélvico y acompañamiento terapéutico.', image: stephanieQuijadaImage, imageAlt: 'Foto de Stephanie Quijada' },
+  { name: 'Andrea Gutierrez', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación funcional y abordaje kinésico del dolor pélvico.', image: andreaGutierrezImage, imageAlt: 'Foto de Andrea Gutierrez' },
+  { name: 'Camila Alvallay', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación pélvica en dolor persistente y disfunción del piso pélvico.', image: camilaAlvallayImage, imageAlt: 'Foto de Camila Alvallay' },
+  { name: 'Karin Berkhoff', role: 'Médico general', bio: 'Coordinadora de equipo.', image: karinBerkhoffImage, imageAlt: 'Foto de Karin Berkhoff' },
   { name: 'Marcia Avendaño', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación kinésica especializada en piso pélvico.', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Marcia Avendaño' },
-  { name: 'Octavia Ihnen', role: 'Matrona integral', bio: 'Acompañamiento integral y educación clínica para pacientes.', image: 'https://placehold.co/400x400/dcc9ad/5a4431?text=Foto', imageAlt: 'Foto de Octavia Ihnen' },
-  { name: 'Francibel Figueroa', role: 'Coordinación infertilidad', bio: 'Coordinación de procesos asociados a infertilidad.', image: 'https://placehold.co/400x400/c7dccc/243a2c?text=Foto', imageAlt: 'Foto de Francibel Figueroa' },
+  { name: 'Octavia Ihnen', role: 'Matrona integral', bio: 'Acompañamiento integral y educación clínica para pacientes.', image: octaviaIhnenImage, imageAlt: 'Foto de Octavia Ihnen' },
+  { name: 'Francibel Figueroa', role: 'Coordinación infertilidad', bio: 'Coordinación de procesos asociados a infertilidad.', image: francibelFigueroaImage, imageAlt: 'Foto de Francibel Figueroa' },
 ];
 
 export const RESOURCES = [
