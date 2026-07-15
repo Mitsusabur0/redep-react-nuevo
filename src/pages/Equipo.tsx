@@ -1,4 +1,5 @@
-import { Linkedin } from 'lucide-react';
+// Uncomment when the team members' LinkedIn profile URLs are available.
+// import { Linkedin } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { useReveal } from '../hooks/useReveal';
 import { TEAM } from '../data/content';
@@ -15,11 +16,6 @@ export default function Equipo() {
       <section className="pb-16 md:pb-24">
         <div className="container-page">
           <div>
-            <div className="mb-8 flex items-center gap-3">
-              <span className="eyebrow">
-                Equipo multidisciplinario
-              </span>
-            </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {TEAM.map((m) => (
                 <MemberCard key={m.name} member={m} />
@@ -39,18 +35,18 @@ function MemberCard({ member }: { member: Member }) {
   return (
     <article
       ref={ref}
-      className={`reveal ${visible ? 'is-visible' : ''} group flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-sand-200 ${member.featured ? 'sm:col-span-2 sm:grid sm:grid-cols-2' : ''}`}
+      className={`reveal ${visible ? 'is-visible' : ''} group flex flex-col overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-sand-200 transition-transform duration-300 lg:hover:-translate-y-1 ${member.featured ? 'sm:col-span-2 sm:grid sm:grid-cols-2' : ''}`}
     >
-      <div className={`bg-black/20 p-4 pb-0 transition-colors duration-300 group-hover:bg-transparent ${member.featured ? 'sm:flex sm:items-center sm:p-6' : ''}`}>
-        <div className={`relative w-full overflow-hidden rounded-2xl ${member.featured ? 'aspect-square sm:aspect-auto' : 'aspect-square'}`}>
+      <div className={member.featured ? 'sm:flex sm:items-center' : ''}>
+        <div className={`relative w-full overflow-hidden ${member.featured ? 'aspect-square sm:aspect-auto' : 'aspect-square'}`}>
           <picture className={member.featured ? 'block h-full w-full sm:h-auto' : 'block h-full w-full'}>
             {member.mobileImage && <source media="(min-width: 640px)" srcSet={member.image} />}
             <img
               src={member.mobileImage ?? member.image}
               alt={member.imageAlt}
-              className={member.featured
-                ? 'h-full w-full object-cover sm:block sm:h-auto'
-                : 'h-full w-full object-cover'}
+            className={member.featured
+              ? 'h-full w-full object-cover sm:block sm:h-auto'
+              : 'h-full w-full object-cover transition-transform duration-500 lg:group-hover:scale-105'}
               loading="lazy"
             />
           </picture>
@@ -68,6 +64,7 @@ function MemberCard({ member }: { member: Member }) {
         <div className="mt-3 flex-1 text-sm leading-relaxed text-ink-600 [&_a]:font-medium [&_a]:text-sage-700 [&_a]:underline [&_li]:pl-1 [&_strong]:font-semibold [&_strong]:text-ink-800 [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:space-y-1 [&_ul]:pl-5">
           {member.bio}
         </div>
+        {/* Uncomment this section when the team members' LinkedIn profile URLs are available.
         <div className="mt-4">
           <a
             href="#"
@@ -77,6 +74,7 @@ function MemberCard({ member }: { member: Member }) {
             <Linkedin className="h-4 w-4" />
           </a>
         </div>
+        */}
       </div>
     </article>
   );
