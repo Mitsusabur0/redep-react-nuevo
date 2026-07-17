@@ -39,7 +39,7 @@ export default function Contacto() {
 function ContactInfo() {
   const { ref, visible } = useReveal();
   const items = [
-    { icon: Mail, label: 'Correo', value: '[correo@redepchile.cl]', href: 'mailto:[correo@redepchile.cl]' },
+    { icon: Mail, label: 'Correo', value: 'redepchile@gmail.com', href: 'mailto:redepchile@gmail.com' },
     { icon: Phone, label: 'Teléfono', value: '[+56 9 0000 0000]', href: 'tel:+56900000000' },
     { icon: MessageCircle, label: 'Whatsapp', value: 'Háblanos directamente ->', href: '#' },
   ];
