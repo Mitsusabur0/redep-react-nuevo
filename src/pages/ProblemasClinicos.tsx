@@ -159,7 +159,7 @@ function EndometriosisAdenomyosisDiagram({ initialCondition }: EndometriosisAden
         key={initialCondition}
         src={diagramUrl}
         title="Diagrama interactivo de endometriosis y adenomiosis"
-        className="aspect-[9/16] max-h-[782px] w-full border-0"
+        className="aspect-[9/16] max-h-[889px] w-full border-0"
         loading="lazy"
       />
     </div>

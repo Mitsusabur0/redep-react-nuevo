@@ -30,7 +30,7 @@
   html.integrated .endo-widget{border-radius:0;}
   .endo-stage{position:absolute;top:0;width:1080px;height:1920px;transform-origin:top left;background:var(--bg);
     font-family:var(--body);display:flex;flex-direction:column;padding:86px 70px 70px;}
-  .title{text-align:center;margin:0;font-family:var(--display);font-weight:600;font-size:76px;
+  .title{text-align:center;margin:0;font-family:var(--display);font-weight:600;font-size:60px;
     line-height:1.04;color:var(--ink);}
   .lede{text-align:center;margin:22px auto 0;max-width:780px;font-size:34px;line-height:1.45;color:var(--sub);text-wrap:pretty;}
   .toggle{display:flex;gap:22px;margin:54px 0 8px;position:relative;z-index:5;}
@@ -231,7 +231,7 @@
   // Escala el lienzo 1080×1920 al ancho real del contenedor
   var widget=document.querySelector('.endo-widget');
   function fit(){
-    var contentWidth=Math.min(widget.clientWidth,440);
+    var contentWidth=Math.min(widget.clientWidth,500);
     var scale=contentWidth/1080;
     stage.style.left=((widget.clientWidth-contentWidth)/2)+'px';
     stage.style.transform='scale('+scale+')';
