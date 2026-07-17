@@ -8,9 +8,6 @@ import heroImage from '../assets/images/home/h-hero.png';
 import patientSupportImage from '../assets/images/home/h-pasos_cirugia_palette_highres-scaled.png';
 import teamImage from '../assets/images/home/h-team.jpg';
 
-const medicalCenterExteriorImage =
-  'https://images.unsplash.com/photo-1769698678497-c41f0ab47c3e?auto=format&fit=crop&fm=jpg&q=80&w=1600';
-
 export default function Home() {
   return (
     <>
@@ -69,31 +66,18 @@ function QuienesSomosTeaser() {
   return (
     <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
-          <div>
-            <SectionHeader
-              eyebrow="Quiénes Somos"
-              title="Una red clínica construida para mirar el dolor pélvico de forma integral"
-              intro="REDEP integra cirugía, terapias de apoyo e investigación para abordar la endometriosis, adenomiosis y dolor pélvico persistente con una mirada multidisciplinaria."
-              className="[&_h2]:text-[#103F3F]"
-            />
-            <div className="mt-8">
-              <CTAButton to="/quienes-somos">
-                <Users className="h-4 w-4" />
-                Conocer REDEP
-              </CTAButton>
-            </div>
-          </div>
-
-          <div className="grid gap-4">
-            <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
-              <img
-                src={medicalCenterExteriorImage}
-                alt="Exterior de un centro médico moderno"
-                className="aspect-[16/10] h-full w-full object-cover"
-                loading="lazy"
-              />
-            </div>
+        <div className="max-w-4xl">
+          <SectionHeader
+            eyebrow="Quiénes Somos"
+            title="Una red clínica construida para mirar el dolor pélvico de forma integral"
+            intro="REDEP integra cirugía, terapias de apoyo e investigación para abordar la endometriosis, adenomiosis y dolor pélvico persistente con una mirada multidisciplinaria."
+            className="max-w-4xl [&_h2]:text-[#103F3F]"
+          />
+          <div className="mt-8">
+            <CTAButton to="/quienes-somos">
+              <Users className="h-4 w-4" />
+              Conocer REDEP
+            </CTAButton>
           </div>
         </div>
       </div>
