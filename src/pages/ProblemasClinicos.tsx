@@ -117,6 +117,12 @@ export default function ProblemasClinicos() {
                   </div>
 
                 </div>
+
+                {(current.id === 'endometriosis' || current.id === 'adenomiosis') && (
+                  <div className="border-t border-sand-200">
+                    <EndometriosisAdenomyosisDiagram initialCondition={current.id} />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -134,6 +140,29 @@ export default function ProblemasClinicos() {
         ))}
       </div>
     </>
+  );
+}
+
+type EndometriosisAdenomyosisDiagramProps = {
+  initialCondition: 'endometriosis' | 'adenomiosis';
+};
+
+function EndometriosisAdenomyosisDiagram({ initialCondition }: EndometriosisAdenomyosisDiagramProps) {
+  const params = new URLSearchParams({ condicion: initialCondition });
+  params.set('integrado', 'true');
+
+  const diagramUrl = `${import.meta.env.BASE_URL}endometriosis-adenomiosis/index.html?${params.toString()}`;
+
+  return (
+    <div className="w-full" aria-label="Comparación interactiva de endometriosis y adenomiosis">
+      <iframe
+        key={initialCondition}
+        src={diagramUrl}
+        title="Diagrama interactivo de endometriosis y adenomiosis"
+        className="aspect-[9/16] max-h-[782px] w-full border-0"
+        loading="lazy"
+      />
+    </div>
   );
 }
 
