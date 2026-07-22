@@ -21,3 +21,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+contact-form-private/
+server/config.php
+**/rate-limits.json
