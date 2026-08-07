@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Eye, Microscope, SearchCheck, Stethoscope } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { CTAButton } from '../components/CTAButton';
+import { EndometriosisAdenomyosisDiagram } from '../components/EndometriosisAdenomyosisDiagram';
 import { CLINICAL_PROBLEMS } from '../data/content';
 import { useReveal } from '../hooks/useReveal';
 
@@ -140,29 +141,6 @@ export default function ProblemasClinicos() {
         ))}
       </div>
     </>
-  );
-}
-
-type EndometriosisAdenomyosisDiagramProps = {
-  initialCondition: 'endometriosis' | 'adenomiosis';
-};
-
-function EndometriosisAdenomyosisDiagram({ initialCondition }: EndometriosisAdenomyosisDiagramProps) {
-  const params = new URLSearchParams({ condicion: initialCondition });
-  params.set('integrado', 'true');
-
-  const diagramUrl = `${import.meta.env.BASE_URL}endometriosis-adenomiosis/index.html?${params.toString()}`;
-
-  return (
-    <div className="w-full" aria-label="Comparación interactiva de endometriosis y adenomiosis">
-      <iframe
-        key={initialCondition}
-        src={diagramUrl}
-        title="Diagrama interactivo de endometriosis y adenomiosis"
-        className="aspect-[9/16] max-h-[889px] w-full border-0"
-        loading="lazy"
-      />
-    </div>
   );
 }
 

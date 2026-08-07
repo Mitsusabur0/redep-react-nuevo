@@ -1,12 +1,13 @@
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, MessageSquare, Users } from 'lucide-react';
+import { ArrowRight, BookOpen, ChevronLeft, ChevronRight, MessageSquare, Pause, Play, Users } from 'lucide-react';
 import { CTAButton } from '../components/CTAButton';
+import { EndometriosisAdenomyosisDiagram } from '../components/EndometriosisAdenomyosisDiagram';
 import { SectionHeader } from '../components/SectionHeader';
 import { useReveal } from '../hooks/useReveal';
-import { SURGERIES, CLINICAL_PROBLEMS } from '../data/content';
+import { SURGERIES, CLINICAL_PROBLEMS, TEAM } from '../data/content';
 import heroImage from '../assets/images/home/h-hero.png';
 import patientSupportImage from '../assets/images/home/h-pasos_cirugia_palette_highres-scaled.png';
-import teamImage from '../assets/images/home/h-team.jpg';
 
 export default function Home() {
   return (
@@ -14,11 +15,41 @@ export default function Home() {
       <Hero />
       <QuienesSomosTeaser />
       <SurgeryTeaser />
+      <ConditionsComparison />
       <ProblemsTeaser />
       <ApoyoTeaser />
       <EquipoTeaser />
       <ClosingCTA />
     </>
+  );
+}
+
+function ConditionsComparison() {
+  const { ref, visible } = useReveal();
+
+  return (
+    <section className="bg-sand-100 py-20 md:py-28">
+      <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <SectionHeader
+            eyebrow="Endometriosis vs Adenomiosis"
+            title="Conoce la diferencia"
+            intro={(
+              <>
+                La endometriosis ocurre cuando tejido similar al endometrio crece fuera del útero, mientras que la
+                adenomiosis se desarrolla dentro de la pared muscular del útero. Ambas pueden causar dolor menstrual
+                y dolor pélvico; la endometriosis puede afectar otros órganos y la adenomiosis suele relacionarse con
+                sangrado menstrual abundante.
+              </>
+            )}
+            className="[&_h2]:text-[#103F3F]"
+          />
+          <div className="mx-auto w-full max-w-lg overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200 lg:justify-self-center">
+            <EndometriosisAdenomyosisDiagram compact />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -128,7 +159,7 @@ function SurgeryTeaser() {
 function ProblemsTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-100 py-20 md:py-28">
+    <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="max-w-3xl">
           <span className="eyebrow mb-4">
@@ -167,7 +198,7 @@ function ProblemsTeaser() {
 function ApoyoTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-50 py-20 md:py-28">
+    <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="max-w-3xl">
           <SectionHeader
@@ -191,7 +222,7 @@ function ApoyoTeaser() {
 function EquipoTeaser() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-100 py-20 md:py-28">
+    <section className="bg-sand-50 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -208,24 +239,162 @@ function EquipoTeaser() {
               </CTAButton>
             </div>
           </div>
-          <div className="relative overflow-hidden rounded-4xl shadow-card ring-1 ring-sand-200">
-            <img
-              src={teamImage}
-              alt="Foto del equipo clínico de REDEP Chile"
-              className="h-full w-full object-cover"
-              loading="lazy"
-            />
-          </div>
+          <TeamCarousel />
         </div>
       </div>
     </section>
   );
 }
 
+function TeamCarousel() {
+  const [trackIndex, setTrackIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [transitionEnabled, setTransitionEnabled] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const isAnimating = useRef(false);
+  const slides = [TEAM[TEAM.length - 1], ...TEAM, TEAM[0]];
+
+  const moveCarousel = (nextTrackIndex: number) => {
+    if (isAnimating.current || nextTrackIndex === trackIndex) return;
+    isAnimating.current = true;
+    setTrackIndex(nextTrackIndex);
+  };
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    const intervalId = window.setInterval(() => {
+      if (isAnimating.current) return;
+      isAnimating.current = true;
+      setTrackIndex((currentIndex) => currentIndex + 1);
+    }, 4000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (transitionEnabled) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setTransitionEnabled(true);
+      isAnimating.current = false;
+    }, 20);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [transitionEnabled]);
+
+  const finishTransition = () => {
+    if (trackIndex === 0) {
+      setTransitionEnabled(false);
+      setTrackIndex(TEAM.length);
+      setActiveIndex(TEAM.length - 1);
+      return;
+    }
+
+    if (trackIndex === TEAM.length + 1) {
+      setTransitionEnabled(false);
+      setTrackIndex(1);
+      setActiveIndex(0);
+      return;
+    }
+
+    setActiveIndex(trackIndex - 1);
+    isAnimating.current = false;
+  };
+
+  return (
+    <div
+      className="mx-auto w-[92%] max-w-md min-w-0 lg:justify-self-center"
+      role="region"
+      aria-roledescription="carrusel"
+      aria-label="Profesionales de REDEP Chile"
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowLeft') moveCarousel(trackIndex - 1);
+        if (event.key === 'ArrowRight') moveCarousel(trackIndex + 1);
+      }}
+    >
+      <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-white shadow-card ring-1 ring-sand-200 sm:aspect-square lg:aspect-[4/3]">
+        <div
+          className={`flex h-full ${transitionEnabled ? 'transition-transform duration-700 ease-in-out' : ''}`}
+          style={{ transform: `translateX(-${trackIndex * 100}%)` }}
+          onTransitionEnd={finishTransition}
+        >
+          {slides.map((teamMember, index) => (
+            <article
+              key={`${teamMember.name}-${index}`}
+              className="relative flex h-full min-w-full flex-col bg-white"
+              aria-hidden={index !== trackIndex}
+            >
+              <div className="min-h-0 flex-1 bg-white">
+                <img
+                  src={teamMember.mobileImage ?? teamMember.image}
+                  alt={teamMember.imageAlt}
+                  className="h-full w-full object-contain"
+                  loading={index <= 2 ? 'eager' : 'lazy'}
+                />
+              </div>
+              <div className="shrink-0 bg-white p-5 pr-24 sm:px-6 sm:py-5 sm:pr-28">
+                <h3 className="text-2xl font-semibold leading-tight text-ink-900 sm:text-3xl">{teamMember.name}</h3>
+                <p className="mt-1.5 text-sm font-medium text-sage-700 sm:text-base">{teamMember.role}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="absolute right-5 top-5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-ink-700 shadow-soft backdrop-blur-sm">
+          {activeIndex + 1} / {TEAM.length}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setIsPlaying((playing) => !playing)}
+          className="absolute left-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800"
+          aria-label={isPlaying ? 'Pausar carrusel' : 'Reanudar carrusel'}
+          aria-pressed={!isPlaying}
+        >
+          {isPlaying ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => moveCarousel(trackIndex - 1)}
+          className="absolute bottom-6 right-[4.5rem] inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-20"
+          aria-label="Ver profesional anterior"
+        >
+          <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          onClick={() => moveCarousel(trackIndex + 1)}
+          className="absolute bottom-6 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-6"
+          aria-label="Ver siguiente profesional"
+        >
+          <ChevronRight className="h-5 w-5" aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Seleccionar profesional">
+        {TEAM.map((teamMember, index) => (
+          <button
+            key={teamMember.name}
+            type="button"
+            onClick={() => moveCarousel(index + 1)}
+            className={`h-2.5 rounded-full transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-sage-500 focus-visible:ring-offset-2 ${
+              index === activeIndex ? 'w-8 bg-sage-600' : 'w-2.5 bg-sand-300 hover:bg-sand-400'
+            }`}
+            aria-label={`Ver a ${teamMember.name}`}
+            aria-current={index === activeIndex ? 'true' : undefined}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ClosingCTA() {
   const { ref, visible } = useReveal();
   return (
-    <section className="bg-sand-50 py-20 md:py-28">
+    <section className="bg-sand-100 py-20 md:py-28">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page text-center`}>
         <span className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-sage-100 text-sage-700 ring-1 ring-sage-200">
           <MessageSquare className="h-6 w-6" />
