@@ -124,7 +124,7 @@ export default function Cirugias() {
                       </p>
                       <p className="leading-relaxed text-ink-600">
                         Cirugías realizadas por el Dr. Mauricio Correa junto a un equipo de referencia: ginecología,
-                        urología, coloproctología y cirugía de pared.
+                        urología, coloproctología, cirugía de pared, entre otros.
                       </p>
                     </div>
                   )}

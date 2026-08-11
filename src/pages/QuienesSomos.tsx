@@ -18,7 +18,7 @@ const pillars = [
     title: 'Cirugía especializada',
     text: 'Evaluación quirúrgica, planificación y cirugía mínimamente invasiva para casos con indicación clara.',
     locations: 'Valdivia',
-    note: 'Las cirugías se realizan solo en Valdivia.',
+    note: 'Las cirugías se realizan en Valdivia con un equipo entrenado coordinado por el Doctor Mauricio Correa.',
     image: surgeryImage,
     imageAlt: 'Equipo quirúrgico realizando una cirugía laparoscópica',
     icon: Stethoscope,
@@ -71,15 +71,15 @@ function HeroSection() {
           </h1>
           <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-600">
             <p>
-              REDEP (Red de Endometriosis y Dolor Pélvico) es una red clínica dedicada al diagnóstico, tratamiento, cirugía, terapias de apoyo e
-              investigación en endometriosis y dolor pélvico.
+              REDEP (Red de Endometriosis y Dolor Pélvico) es una red especializada de profesionales dedicados al
+              diagnóstico, tratamiento, cirugía, terapias de apoyo e investigación en endometriosis y dolor pélvico.
             </p>
             <p>
               REDEP reúne profesionales de Santiago, Valdivia, Osorno y Puerto Montt para abordar enfermedades
               ginecológicas complejas con una mirada multidisciplinaria.
             </p>
             <p>
-              Generamos planes pensados para cada paciente y para el momento clínico en que se encuentra.
+              Creamos un plan pensado para cada paciente y para el momento clínico en que se encuentra.
             </p>
           </div>
         </div>

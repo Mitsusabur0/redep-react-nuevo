@@ -43,7 +43,14 @@ export default function Contacto() {
     <>
       <PageHero
         title="Contacto"
-        subtitle="Estamos disponibles para orientar tus consultas, coordinar una evaluación y entregar información clara sobre las alternativas de atención del equipo REDEP."
+        subtitle={(
+          <>
+            Estamos disponibles para orientar tus consultas, coordinar una evaluación y entregar información clara
+            sobre las alternativas de atención del equipo REDEP.
+            <br /><br />
+            Te atenderá una profesional que te orientará con el diagnóstico y las terapias que necesitas.
+          </>
+        )}
         image={contactImage}
         imageAlt="Imagen de apoyo para contacto de REDEP Chile"
       />

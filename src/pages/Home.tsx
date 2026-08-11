@@ -100,7 +100,7 @@ function QuienesSomosTeaser() {
         <div className="max-w-4xl">
           <SectionHeader
             eyebrow="Quiénes Somos"
-            title="Una red clínica construida para mirar el dolor pélvico de forma integral"
+            title="Un equipo de trabajo especializado construido para mirar el dolor pélvico de forma integral"
             intro="REDEP integra cirugía, terapias de apoyo e investigación para abordar la endometriosis, adenomiosis y dolor pélvico persistente con una mirada multidisciplinaria."
             className="max-w-4xl [&_h2]:text-[#103F3F]"
           />
@@ -251,6 +251,8 @@ function TeamCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [transitionEnabled, setTransitionEnabled] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const carouselRef = useRef<HTMLDivElement>(null);
   const isAnimating = useRef(false);
   const slides = [TEAM[TEAM.length - 1], ...TEAM, TEAM[0]];
 
@@ -261,7 +263,20 @@ function TeamCarousel() {
   };
 
   useEffect(() => {
-    if (!isPlaying) return;
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.2 }
+    );
+
+    observer.observe(carousel);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying || !isVisible) return;
 
     const intervalId = window.setInterval(() => {
       if (isAnimating.current) return;
@@ -270,7 +285,7 @@ function TeamCarousel() {
     }, 4000);
 
     return () => window.clearInterval(intervalId);
-  }, [isPlaying]);
+  }, [isPlaying, isVisible]);
 
   useEffect(() => {
     if (transitionEnabled) return;
@@ -304,6 +319,7 @@ function TeamCarousel() {
 
   return (
     <div
+      ref={carouselRef}
       className="mx-auto w-[92%] max-w-md min-w-0 lg:justify-self-center"
       role="region"
       aria-roledescription="carrusel"
@@ -314,6 +330,12 @@ function TeamCarousel() {
       }}
     >
       <div className="relative aspect-[4/5] overflow-hidden rounded-4xl bg-white shadow-card ring-1 ring-sand-200 sm:aspect-square lg:aspect-[4/3]">
+        <Link
+          to="/equipo"
+          className="absolute inset-0 z-10 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sage-600"
+          aria-label="Conocer al equipo de REDEP Chile"
+        />
+
         <div
           className={`flex h-full ${transitionEnabled ? 'transition-transform duration-700 ease-in-out' : ''}`}
           style={{ transform: `translateX(-${trackIndex * 100}%)` }}
@@ -348,7 +370,7 @@ function TeamCarousel() {
         <button
           type="button"
           onClick={() => setIsPlaying((playing) => !playing)}
-          className="absolute left-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800"
+          className="absolute left-5 top-5 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800"
           aria-label={isPlaying ? 'Pausar carrusel' : 'Reanudar carrusel'}
           aria-pressed={!isPlaying}
         >
@@ -358,7 +380,7 @@ function TeamCarousel() {
         <button
           type="button"
           onClick={() => moveCarousel(trackIndex - 1)}
-          className="absolute bottom-6 right-[4.5rem] inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-20"
+          className="absolute bottom-6 right-[4.5rem] z-20 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-20"
           aria-label="Ver profesional anterior"
         >
           <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -366,7 +388,7 @@ function TeamCarousel() {
         <button
           type="button"
           onClick={() => moveCarousel(trackIndex + 1)}
-          className="absolute bottom-6 right-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-6"
+          className="absolute bottom-6 right-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 text-ink-800 shadow-soft transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink-800 sm:bottom-8 sm:right-6"
           aria-label="Ver siguiente profesional"
         >
           <ChevronRight className="h-5 w-5" aria-hidden="true" />

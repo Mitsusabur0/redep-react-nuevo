@@ -19,11 +19,11 @@ export default function PempAssessment() {
     <div className="relative h-[100dvh] w-full overflow-hidden bg-white">
       <StandaloneAppCloseButton
         onClick={closeAssessment}
-        ariaLabel="Cerrar cuestionario y volver a Apoyo al Paciente"
+        ariaLabel="Cerrar Brújula y volver a Apoyo al Paciente"
       />
       <iframe
         src={pempUrl}
-        title="PEMP — Perfil Evaluativo de Mecanismos del Dolor Pélvico"
+        title="Brújula del Dolor Pélvico"
         className="h-full w-full border-0"
       />
     </div>

@@ -1,5 +1,4 @@
-// Central content for REDEP Chile. All body text is placeholder.
-// Titles, labels, and navigation are final content as specified.
+// Central content for REDEP Chile.
 import type { ReactNode } from 'react';
 import endometriosisSurgeryImage from '../assets/images/cirugias/c-endometriosis.png';
 import hysterectomyImage from '../assets/images/cirugias/c-histerectomia.png';
@@ -18,9 +17,11 @@ import denisseArayaImage from '../assets/images/equipo/Denisse Araya.jpg';
 import francibelFigueroaImage from '../assets/images/equipo/Francibel Figueroa.jpg';
 import karinBerkhoffImage from '../assets/images/equipo/karin.jpg';
 import macarenaFerrariImage from '../assets/images/equipo/Macarena Ferrari.jpg';
+import marciaAvendanoImage from '../assets/images/equipo/Marcia Avendaño.jpg';
 import mauricioImage from '../assets/images/equipo/Mauricio Correa D..jpg';
 import mauricioMobileImage from '../assets/images/equipo/Mauricio Correa D.-mobile.jpg';
 import octaviaIhnenImage from '../assets/images/equipo/Octavia Ihnen.jpg';
+import pedroFerrandImage from '../assets/images/equipo/Pedro Ferrand.jpg';
 import stephanieQuijadaImage from '../assets/images/equipo/Stephanie Quijada.jpg';
 import enzianThumbnailImage from '../assets/images/apoyo/enzian_thumbnail.png';
 import pempThumbnailImage from '../assets/images/apoyo/pemp_thumbnail.png';
@@ -226,8 +227,8 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
     image: heavyBleedingImage,
     imageAlt: 'Imagen ilustrativa de sangrado menstrual abundante',
     sections: [
-      { title: 'Señales', content: 'Reglas muy largas, cambios de protección muy frecuentes, coágulos, anemia o fatiga.' },
-      { title: 'Causas', content: 'Adenomiosis, miomas, pólipos, alteraciones hormonales o de coagulación.' },
+      { title: 'Señales', content: 'Menstruaciones muy largas, cambios de protección frecuentes, coágulos, anemia o fatiga.' },
+      { title: 'Causas', content: 'Adenomiosis, miomas, pólipos, cambios hormonales entre otros.' },
       { title: 'Qué hacemos', content: 'Identificamos si el origen es estructural, hormonal o mixto, y tratamos según la causa.' },
     ],
   },
@@ -236,11 +237,14 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
     title: 'Dolor pélvico persistente',
     description: (
       <>
-        Dolor que se mantiene o reaparece por meses. Casi nunca tiene una sola causa. Pueden convivir inflamación,
-        tensión del piso pélvico, sensibilización del sistema nervioso, cicatrices, endometriosis o causas vesicales e
-        intestinales.
+        Dolor que se mantiene o reaparece por meses.
         <br /><br />
-        <strong>El objetivo no es solo encontrar una lesión, sino entender el mecanismo del dolor.</strong>
+        Casi nunca tiene una sola causa.
+        <br /><br />
+        Pueden convivir endometriosis, inflamación, tensión del piso pélvico, sensibilización del sistema nervioso,
+        cicatrices, o causas vesicales e intestinales.
+        <br /><br />
+        <strong>El objetivo no es solo encontrar una lesión, sino entender los mecanismos del dolor.</strong>
       </>
     ),
     image: pelvicPainImage,
@@ -248,7 +252,7 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
     sections: [
       { title: 'Señales', content: 'Dolor que se mantiene o reaparece por meses.' },
       // { title: 'Diagnóstico', content: '[Texto de relleno sobre el abordaje diagnóstico del dolor pélvico persistente.]' },
-      { title: 'Qué hacemos', content: 'Evaluación integral y un plan que combina tratamiento médico, kinesiología, manejo del dolor y apoyo psicológico.' },
+      { title: 'Qué hacemos', content: 'Evaluación integral y un plan que combina un diagnóstico preciso y tratamiento médico, kinesiología, manejo del dolor y apoyo psicológico.' },
     ],
   },
   {
@@ -258,7 +262,7 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
       <>
         No debe vivirse con culpa ni resignación. Puede originarse en el fondo vaginal, útero, endometriosis profunda, piso pélvico o sensibilización del dolor.
         <br /><br />
-        <strong>La kinesiología de piso pélvico es clave en el tratamiento.</strong>
+        <strong>Un diagnóstico preciso y la kinesiología de piso pélvico son clave en el tratamiento.</strong>
       </>
     ),
     image: sexualPainImage,
@@ -272,18 +276,20 @@ export const CLINICAL_PROBLEMS: ClinicalProblem[] = [
 
 export const TEAM: TeamMember[] = [
   {
-    name: 'Dr. Mauricio Correa',
+    name: 'Dr. Mauricio Correa Ph.D.',
     role: 'Director Clínico REDEP',
     bio: (
       <>
         Cirugía mínimamente invasiva y endometriosis.
-        <br />
         <ul>
           <li>Director Unidad Endometriosis Clínica Alemana Valdivia.</li>
-          <li>Doctor en Ciencias Médicas.</li>
+          <li>Ph.D. en Ciencias Médicas.</li>
           <li>Director Instituto Ginecología y Obstetricia Universidad Austral de Chile.</li>
           <li>Miembro Directorio Cirugía Mínimamente Invasiva SOCHOG.</li>
         </ul>
+        <p className="mt-3">
+          Solicita tu hora: Clínica Alemana Valdivia o a través de una evaluación previa con equipo REDEP.
+        </p>
       </>
     ),
     image: mauricioImage,
@@ -291,15 +297,239 @@ export const TEAM: TeamMember[] = [
     imageAlt: 'Foto del Dr. Mauricio Correa',
     featured: true,
   },
-  { name: 'M.Sc. Denisse Araya', role: 'Sicóloga clínica', bio: 'Formación en endometriosis y terapia de reprocesamiento de dolor.', image: denisseArayaImage, imageAlt: 'Foto de Denisse Araya' },
-  { name: 'Macarena Ferrari', role: 'Nutricionista', bio: 'Apoyo nutricional en pacientes con endometriosis y dolor pélvico.', image: macarenaFerrariImage, imageAlt: 'Foto de Macarena Ferrari' },
-  { name: 'Stephanie Quijada', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación de piso pélvico y acompañamiento terapéutico.', image: stephanieQuijadaImage, imageAlt: 'Foto de Stephanie Quijada' },
-  { name: 'Andrea Gutierrez', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación funcional y abordaje kinésico del dolor pélvico.', image: andreaGutierrezImage, imageAlt: 'Foto de Andrea Gutierrez' },
-  { name: 'Camila Alvallay', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación pélvica en dolor persistente y disfunción del piso pélvico.', image: camilaAlvallayImage, imageAlt: 'Foto de Camila Alvallay' },
-  { name: 'Karin Berkhoff', role: 'Médico general', bio: 'Coordinadora de equipo.', image: karinBerkhoffImage, imageAlt: 'Foto de Karin Berkhoff' },
-  { name: 'Marcia Avendaño', role: 'Kinesioterapia piso pélvico', bio: 'Rehabilitación kinésica especializada en piso pélvico.', image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto', imageAlt: 'Foto de Marcia Avendaño' },
-  { name: 'Octavia Ihnen', role: 'Matrona integral', bio: 'Acompañamiento integral y educación clínica para pacientes.', image: octaviaIhnenImage, imageAlt: 'Foto de Octavia Ihnen' },
-  { name: 'Francibel Figueroa', role: 'Coordinación infertilidad', bio: 'Coordinación de procesos asociados a infertilidad.', image: francibelFigueroaImage, imageAlt: 'Foto de Francibel Figueroa' },
+  {
+    name: 'Denisse Araya',
+    role: 'Sicóloga clínica',
+    bio: (
+      <>
+        Formación en endometriosis y terapia de reprocesamiento de dolor.
+        <ul>
+          <li>Certificada en Pain Reprocessing Therapy (PRT).</li>
+          <li>Magíster © terapias psicológicas de tercera generación.</li>
+          <li>Presidenta y fundadora de agrupación de mujeres con endometriosis y dolor pélvico crónico.</li>
+          <li>Colaboración con fundaciones y grupos de apoyo de mujeres con dolor pélvico crónico y endometriosis.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora:{' '}
+          <a href="https://encuadrado.com/p/denisse-araya-vega" target="_blank" rel="noopener noreferrer">
+            encuadrado.com/p/denisse-araya-vega
+          </a>
+        </p>
+      </>
+    ),
+    image: denisseArayaImage,
+    imageAlt: 'Foto de Denisse Araya',
+  },
+  {
+    name: 'Macarena Ferrari',
+    role: 'Nutricionista',
+    bio: (
+      <>
+        Apoyo nutricional en pacientes con endometriosis y dolor pélvico.
+        <ul>
+          <li>Certificada en Nutrición, medicina y salud hormonal de la mujer.</li>
+          <li>Experiencia clínica en nutrición pre y post operatoria en atención terciaria.</li>
+          <li>Enfoque respetuoso no enfocado en peso.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora: Clínica Alemana Valdivia (presencial) o{' '}
+          <a href="https://www.macaferrari.cl" target="_blank" rel="noopener noreferrer">www.macaferrari.cl</a>{' '}
+          (telemedicina).
+        </p>
+      </>
+    ),
+    image: macarenaFerrariImage,
+    imageAlt: 'Foto de Macarena Ferrari',
+  },
+  {
+    name: 'Stephanie Quijada',
+    role: 'Kinesioterapia piso pélvico',
+    bio: (
+      <>
+        Rehabilitación de piso pélvico y acompañamiento terapéutico.
+        <ul>
+          <li>Kinesiología Universidad Austral de Chile.</li>
+          <li>Mg. Educación y Ciencias de la Salud.</li>
+          <li>Diplomada en disfunciones pelviperineales de la mujer, Universidad del Desarrollo.</li>
+          <li>Fundadora CERKIP (centro de rehabilitación kinésica de piso pélvico).</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora directamente en{' '}
+          <a href="https://www.cerkip.cl" target="_blank" rel="noopener noreferrer">www.cerkip.cl</a>.
+        </p>
+      </>
+    ),
+    image: stephanieQuijadaImage,
+    imageAlt: 'Foto de Stephanie Quijada',
+  },
+  {
+    name: 'Andrea Gutierrez',
+    role: 'Kinesioterapia piso pélvico',
+    bio: (
+      <>
+        Rehabilitación funcional y abordaje kinésico del dolor pélvico.
+        <ul>
+          <li>Magíster en Ciencias de la actividad física.</li>
+          <li>Diplomado en reeducación pelviperineal.</li>
+          <li>Directorio Sociedad Chilena de Kinesiología y piso pélvico (SOKIP).</li>
+          <li>Docente Universidad Austral de Chile.</li>
+        </ul>
+      </>
+    ),
+    image: andreaGutierrezImage,
+    imageAlt: 'Foto de Andrea Gutierrez',
+  },
+  {
+    name: 'Camila Alvallay',
+    role: 'Kinesioterapia piso pélvico',
+    bio: (
+      <>
+        Rehabilitación pélvica en dolor persistente y disfunción del piso pélvico.
+        <ul>
+          <li>Miembro Sociedad Chilena Uroginecología y Piso Pélvico (SODUP).</li>
+          <li>Miembro Sociedad Chilena de Kinesiología y Piso Pelviano.</li>
+          <li>Unidad de endometriosis y dolor pélvico Clínica Alemana Valdivia.</li>
+        </ul>
+        <p className="mt-3">Solicita tu hora directamente en Clínica Alemana Valdivia (presencial).</p>
+      </>
+    ),
+    image: camilaAlvallayImage,
+    imageAlt: 'Foto de Camila Alvallay',
+  },
+  {
+    name: 'Karin Berkhoff',
+    role: 'Médico cirujano',
+    bio: (
+      <>
+        Dolor crónico. Coordinadora de equipo.
+        <ul>
+          <li>Atención inicial de pacientes y coordinación con equipo.</li>
+          <li>Formación en dolor pélvico crónico.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora en:{' '}
+          <a href="https://www.doctoralia.cl/perfil/karin-berkhoff-krahmer" target="_blank" rel="noopener noreferrer">
+            Doctoralia
+          </a>.
+        </p>
+      </>
+    ),
+    image: karinBerkhoffImage,
+    imageAlt: 'Foto de Karin Berkhoff',
+  },
+  {
+    name: 'Marcia Avendaño',
+    role: 'Kinesioterapia piso pélvico',
+    bio: (
+      <>
+        Rehabilitación kinésica especializada en piso pélvico.
+        <ul>
+          <li>Kinesióloga Universidad San Sebastián.</li>
+          <li>Rehabilitación Uroginecología y Coloproctología.</li>
+          <li>Diplomada en salud Pélvica y Rehabilitación Pelviperineal, Universidad de Concepción.</li>
+          <li>Miembro de la Sociedad Latinoamericana de Piso Pélvico (Alapp).</li>
+        </ul>
+        <p className="mt-3">Solicita tu hora presencial en Clínica Andes Salud Puerto Montt.</p>
+      </>
+    ),
+    image: marciaAvendanoImage,
+    imageAlt: 'Foto de Marcia Avendaño',
+  },
+  {
+    name: 'Octavia Ihnen',
+    role: 'Matrona integral',
+    bio: (
+      <>
+        Acompañamiento integrativo en la salud de la mujer.
+        <ul>
+          <li>Magister © Psiconeuroinmunología.</li>
+          <li>Especialización en piso pélvico y uroginecología University of British Columbia.</li>
+          <li>Diplomada medicina integrativa Instituto Chileno de Fenomenología Médica.</li>
+          <li>Diplomada en medicina basada en la evidencia Universidad Católica.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora presencial: Clínica Alemana Valdivia (632-246100) o Centro Médico Los Torreones
+          (632-239258).
+        </p>
+      </>
+    ),
+    image: octaviaIhnenImage,
+    imageAlt: 'Foto de Octavia Ihnen',
+  },
+  {
+    name: 'Francibel Figueroa',
+    role: 'Ginecóloga',
+    bio: (
+      <>
+        Climaterio y endometriosis y coordinación de infertilidad con centros alta complejidad.
+        <ul>
+          <li>Formación en climaterio y endocrinología ginecológica.</li>
+          <li>Acompañamiento integral en procesos relacionados al climaterio y menopausia.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora: evaluación presencial en Clínica Alemana Valdivia o evaluación telemedicina en{' '}
+          <a href="https://www.neopausia.com" target="_blank" rel="noopener noreferrer">www.neopausia.com</a>.
+        </p>
+      </>
+    ),
+    image: francibelFigueroaImage,
+    imageAlt: 'Foto de Francibel Figueroa',
+  },
+  {
+    name: 'Dr. Pedro Ferrand Miranda',
+    role: 'Ginecólogo',
+    bio: (
+      <>
+        Infertilidad.
+        <ul>
+          <li>Post doctoral research fellowship University of Pennsylvania.</li>
+          <li>Director Instituto Ciencias Clínica Osorno Universidad Austral de Chile.</li>
+          <li>Acompañamiento integral en procesos relacionados al climaterio y menopausia.</li>
+        </ul>
+        <p className="mt-3">Solicita tu hora: evaluación presencial en Clínica Alemana Osorno.</p>
+      </>
+    ),
+    image: pedroFerrandImage,
+    imageAlt: 'Foto del Dr. Pedro Ferrand Miranda',
+  },
+  {
+    name: 'Dr. Diego de la Barra',
+    role: 'Psiquiatría',
+    bio: (
+      <>
+        Dolor crónico y salud mental.
+        <ul>
+          <li>Diplomado en dolor crónico.</li>
+          <li>Master en Psicofarmacología Neuroscience Education Institute (NEI).</li>
+          <li>Terapia basada en la Compasión.</li>
+        </ul>
+        <p className="mt-3">
+          Solicita tu hora: evaluación presencial en Clínica Alemana Valdivia o evaluación telemedicina en{' '}
+          <a href="https://www.psiquiatrasonline.com" target="_blank" rel="noopener noreferrer">
+            www.psiquiatrasonline.com
+          </a>.
+        </p>
+      </>
+    ),
+    image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto',
+    imageAlt: 'Imagen provisoria del Dr. Diego de la Barra',
+  },
+  {
+    name: 'Renan Orellana Ph.D.',
+    role: 'Académico',
+    bio: (
+      <>
+        Investigación.
+        <ul>
+          <li>Director Magíster en Ciencias Químicas-Biológicas Universidad Bernardo O’Higgins.</li>
+          <li>Postdoctoral research Endometriosis Université Catholique de Louvain - Bélgica.</li>
+          <li>Investigación en ciencias biomédicas relacionada a endometriosis.</li>
+        </ul>
+      </>
+    ),
+    image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto',
+    imageAlt: 'Imagen provisoria de Renan Orellana',
+  },
 ];
 
 export const RESOURCES = [
