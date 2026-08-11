@@ -282,7 +282,7 @@ function TeamCarousel() {
       if (isAnimating.current) return;
       isAnimating.current = true;
       setTrackIndex((currentIndex) => currentIndex + 1);
-    }, 4000);
+    }, 3000);
 
     return () => window.clearInterval(intervalId);
   }, [isPlaying, isVisible]);

@@ -62,8 +62,16 @@ export function Footer() {
           <div>
             <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-sand-200">Contacto</h3>
             <ul className="mt-4 space-y-2 text-sm text-sand-200/70">
-              <li>[correo@redepchile.cl]</li>
-              <li>[+56 9 0000 0000]</li>
+              <li>
+                <a href="mailto:contacto@redepchile.com" className="transition-colors hover:text-white">
+                  contacto@redepchile.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:+56951798699" className="transition-colors hover:text-white">
+                  +56 9 5179 8699
+                </a>
+              </li>
               <li>Valdivia, Chile</li>
             </ul>
           </div>

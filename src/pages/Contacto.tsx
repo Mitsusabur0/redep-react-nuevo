@@ -70,9 +70,9 @@ export default function Contacto() {
 function ContactInfo() {
   const { ref, visible } = useReveal();
   const items = [
-    { icon: Mail, label: 'Correo', value: 'redepchile@gmail.com', href: 'mailto:redepchile@gmail.com' },
-    { icon: Phone, label: 'Teléfono', value: 'Disponible próximamente', href: '#' },
-    { icon: MessageCircle, label: 'Whatsapp', value: 'Disponible próximamente', href: '#' },
+    { icon: Mail, label: 'Correo', value: 'contacto@redepchile.com', href: 'mailto:contacto@redepchile.com' },
+    { icon: Phone, label: 'Teléfono', value: '+56 9 5179 8699', href: 'tel:+56951798699' },
+    { icon: MessageCircle, label: 'Whatsapp', value: '+56 9 5179 8699', href: 'https://wa.me/56951798699', newTab: true },
   ];
   const socials = [
     { icon: Instagram, label: 'Instagram', href: '#' },
@@ -85,9 +85,14 @@ function ContactInfo() {
       <h2 className="font-display text-2xl font-semibold text-ink-900">Información de contacto</h2>
 
       <ul className="mt-8 space-y-5">
-        {items.map(({ icon: Icon, label, value, href }) => (
+        {items.map(({ icon: Icon, label, value, href, newTab }) => (
           <li key={label}>
-            <a href={href} className="group inline-flex items-start gap-4">
+            <a
+              href={href}
+              target={newTab ? '_blank' : undefined}
+              rel={newTab ? 'noopener noreferrer' : undefined}
+              className="group inline-flex items-start gap-4"
+            >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-sand-100 text-sage-600 transition-colors group-hover:bg-sage-600 group-hover:text-white">
                 <Icon className="h-5 w-5" />
               </span>
