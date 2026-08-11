@@ -14,6 +14,7 @@ import sexualPainImage from '../assets/images/problemas/p-dolor-sexual.png';
 import andreaGutierrezImage from '../assets/images/equipo/Andrea Gutierrez.jpg';
 import camilaAlvallayImage from '../assets/images/equipo/Camila Alvallay.jpg';
 import denisseArayaImage from '../assets/images/equipo/Denisse Araya.jpg';
+import diegoDeLaBarraImage from '../assets/images/equipo/Diego de la Barra.png';
 import francibelFigueroaImage from '../assets/images/equipo/Francibel Figueroa.jpg';
 import karinBerkhoffImage from '../assets/images/equipo/karin.jpg';
 import macarenaFerrariImage from '../assets/images/equipo/Macarena Ferrari.jpg';
@@ -22,6 +23,7 @@ import mauricioImage from '../assets/images/equipo/Mauricio Correa D..jpg';
 import mauricioMobileImage from '../assets/images/equipo/Mauricio Correa D.-mobile.jpg';
 import octaviaIhnenImage from '../assets/images/equipo/Octavia Ihnen.jpg';
 import pedroFerrandImage from '../assets/images/equipo/Pedro Ferrand.jpg';
+import renanOrellanaImage from '../assets/images/equipo/Renan Orellana.png';
 import stephanieQuijadaImage from '../assets/images/equipo/Stephanie Quijada.jpg';
 import enzianThumbnailImage from '../assets/images/apoyo/enzian_thumbnail.png';
 import pempThumbnailImage from '../assets/images/apoyo/pemp_thumbnail.png';
@@ -511,8 +513,8 @@ export const TEAM: TeamMember[] = [
         </p>
       </>
     ),
-    image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto',
-    imageAlt: 'Imagen provisoria del Dr. Diego de la Barra',
+    image: diegoDeLaBarraImage,
+    imageAlt: 'Foto del Dr. Diego de la Barra',
   },
   {
     name: 'Renan Orellana Ph.D.',
@@ -527,8 +529,8 @@ export const TEAM: TeamMember[] = [
         </ul>
       </>
     ),
-    image: 'https://placehold.co/400x400/f5e6df/7f3e27?text=Foto',
-    imageAlt: 'Imagen provisoria de Renan Orellana',
+    image: renanOrellanaImage,
+    imageAlt: 'Foto de Renan Orellana',
   },
 ];
 
