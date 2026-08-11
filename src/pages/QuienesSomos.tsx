@@ -12,6 +12,7 @@ import { useReveal } from '../hooks/useReveal';
 import surgeryImage from '../assets/images/cirugias/c-endometriosis-2.jpg';
 import therapyImage from '../assets/images/problemas/p-dolor-sexual.png';
 import researchImage from '../assets/images/quienes_somos/investigacion.png';
+import quienesSomosImage from '../assets/images/quienes_somos/redep_quienes_somos.png';
 
 const pillars = [
   {
@@ -65,22 +66,33 @@ function HeroSection() {
   return (
     <section className="bg-sand-50 pt-28 pb-16 md:pt-36 md:pb-24">
       <div ref={ref} className={`reveal ${visible ? 'is-visible' : ''} container-page`}>
-        <div className="max-w-4xl">
-          <h1 className="text-3xl font-semibold leading-[1.1] text-[#103F3F] sm:text-4xl md:text-5xl">
-            Quiénes Somos
-          </h1>
-          <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-600">
-            <p>
-              REDEP (Red de Endometriosis y Dolor Pélvico) es una red especializada de profesionales dedicados al
-              diagnóstico, tratamiento, cirugía, terapias de apoyo e investigación en endometriosis y dolor pélvico.
-            </p>
-            <p>
-              REDEP reúne profesionales de Santiago, Valdivia, Osorno y Puerto Montt para abordar enfermedades
-              ginecológicas complejas con una mirada multidisciplinaria.
-            </p>
-            <p>
-              Creamos un plan pensado para cada paciente y para el momento clínico en que se encuentra.
-            </p>
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.72fr]">
+          <div>
+            <h1 className="text-3xl font-semibold leading-[1.1] text-[#103F3F] sm:text-4xl md:text-5xl">
+              Quiénes Somos
+            </h1>
+            <div className="mt-6 space-y-4 text-lg leading-relaxed text-ink-600">
+              <p>
+                REDEP es una red especializada de profesionales dedicados al
+                diagnóstico, tratamiento, cirugía, terapias de apoyo e investigación en endometriosis y dolor pélvico.
+              </p>
+              <p>
+                REDEP reúne profesionales de Santiago, Valdivia, Osorno y Puerto Montt para abordar enfermedades
+                ginecológicas complejas con una mirada multidisciplinaria.
+              </p>
+              <p>
+                Creamos un plan pensado para cada paciente y para el momento clínico en que se encuentra.
+              </p>
+            </div>
+          </div>
+
+          <div className="relative overflow-hidden rounded-4xl shadow-lift ring-1 ring-sand-200">
+            <img
+              src={quienesSomosImage}
+              alt="Equipo de profesionales de REDEP Chile"
+              className="aspect-square h-full w-full object-cover"
+              loading="eager"
+            />
           </div>
         </div>
 
