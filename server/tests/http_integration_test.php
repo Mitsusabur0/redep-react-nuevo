@@ -38,7 +38,18 @@ function request(string $url, string $method, ?string $origin = null, ?string $b
     return [
         'status' => isset($statusMatch[1]) ? (int) $statusMatch[1] : 0,
         'body' => is_string($responseBody) ? $responseBody : '',
+        'headers' => $responseHeaders,
     ];
+}
+
+function assertHeaderMissing(array $response, string $headerName, string $description): void
+{
+    $prefix = strtolower($headerName) . ':';
+    foreach ($response['headers'] as $header) {
+        if (str_starts_with(strtolower($header), $prefix)) {
+            throw new RuntimeException($description . ': unexpected header ' . $headerName);
+        }
+    }
 }
 
 function removeTestTree(string $path, string $expectedParent): void
@@ -83,25 +94,26 @@ foreach ($copyIterator as $item) {
     }
 }
 
-$origin = 'http://127.0.0.1';
+$origin = 'https://redep.test';
 $config = [
     'allowed_origins' => [$origin],
     'turnstile' => [
         'secret' => '1x00000000000000000000AA',
         'allow_test_keys' => true,
-        'expected_hostnames' => ['dummy-key-pass'],
+        'expected_hostnames' => ['redep.test'],
         'expected_action' => 'contact',
-        'timeout_seconds' => 3,
+        'timeout_seconds' => 5,
     ],
     'smtp' => [
-        'host' => 'smtp.gmail.com',
-        'port' => 587,
-        'username' => 'test.redep@gmail.com',
-        'app_password' => 'abcdefghijklmnop',
-        'from_email' => 'test.redep@gmail.com',
+        'host' => 'smtp.hostinger.com',
+        'port' => 465,
+        'encryption' => 'implicit_tls',
+        'username' => 'contacto@redepchile.com',
+        'password' => 'test mailbox password',
+        'from_email' => 'contacto@redepchile.com',
         'from_name' => 'REDEP test',
-        'to_email' => 'test.redep@gmail.com',
-        'timeout_seconds' => 3,
+        'to_email' => 'redepchile@gmail.com',
+        'timeout_seconds' => 5,
     ],
     'rate_limit' => [
         'state_file' => $privateDirectory . DIRECTORY_SEPARATOR . 'rate-limits.json',
@@ -155,9 +167,27 @@ try {
     }
 
     $endpoint = 'http://127.0.0.1:' . $port . '/api/contact.php';
-    assertHttpStatus(405, request($endpoint, 'GET'), 'Non-POST requests are rejected');
+    $getResponse = request($endpoint, 'GET');
+    assertHttpStatus(405, $getResponse, 'Non-POST requests are rejected');
+    assertHeaderMissing($getResponse, 'X-Powered-By', 'The endpoint suppresses PHP version disclosure');
     assertHttpStatus(403, request($endpoint, 'POST', 'https://attacker.example', '{}'), 'Cross-origin requests are rejected');
     assertHttpStatus(400, request($endpoint, 'POST', $origin, '{not-json'), 'Malformed JSON is rejected');
+
+    $missingTurnstilePayload = json_encode([
+        'nombre' => 'Persona de prueba',
+        'email' => 'person@example.com',
+        'tema' => 'Consulta general',
+        'mensaje' => 'Este mensaje comprueba que una solicitud normal necesita Turnstile.',
+        'website' => '',
+        'turnstile_token' => '',
+        'request_id' => 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',
+        'form_started_at' => (int) floor(microtime(true) * 1000) - 3000,
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+    assertHttpStatus(
+        422,
+        request($endpoint, 'POST', $origin, $missingTurnstilePayload),
+        'Normal submissions require a Turnstile token'
+    );
 
     $honeypotPayload = json_encode([
         'nombre' => 'Persona de prueba',
@@ -165,7 +195,7 @@ try {
         'tema' => 'Consulta general',
         'mensaje' => 'Este mensaje válido activa únicamente la prueba del honeypot.',
         'website' => 'https://spam.example',
-        'turnstile_token' => 'test-token',
+        'turnstile_token' => '',
         'request_id' => '88888888-8888-4888-8888-888888888888',
         'form_started_at' => (int) floor(microtime(true) * 1000) - 3000,
     ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
@@ -182,6 +212,12 @@ try {
     }
 
     echo "HTTP integration tests passed.\n";
+} catch (Throwable $exception) {
+    $serverErrorLog = @file_get_contents($temporaryRoot . DIRECTORY_SEPARATOR . 'server-error.log');
+    $diagnostic = is_string($serverErrorLog) && $serverErrorLog !== ''
+        ? "\nPHP test-server log:\n" . $serverErrorLog
+        : '';
+    throw new RuntimeException($exception->getMessage() . $diagnostic, 0, $exception);
 } finally {
     if (is_resource($server)) {
         proc_terminate($server);
@@ -189,4 +225,3 @@ try {
     }
     removeTestTree($temporaryRoot, $temporaryParent);
 }
-

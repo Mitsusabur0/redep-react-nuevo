@@ -1,93 +1,226 @@
-# Secure contact form deployment
+# Contact form deployment on Hostinger
 
-The React frontend remains static. The production build also contains a small PHP endpoint at `api/contact.php`. Gmail, Turnstile, and rate-limit secrets must stay outside `public_html`.
+The application code is prepared to send contact-form messages through the REDEP Chile mailbox:
+
+- SMTP server: `smtp.hostinger.com`
+- Primary connection: implicit TLS on port `465`
+- Authenticated mailbox and sender: `contacto@redepchile.com`
+- Recipient: `redepchile@gmail.com`
+- Reply-To: the validated email entered by the visitor
+
+The React site remains static. A small PHP endpoint is packaged at `public_html/api/contact.php`; it validates the request, verifies Cloudflare Turnstile, applies rate limits, and sends the message over authenticated SMTP. Secrets and writable rate-limit data must remain outside `public_html`.
+
+## What is already completed
+
+- The repository has been migrated from Gmail SMTP to Hostinger SMTP and pins the intended sender and recipient.
+- The public endpoint, private-configuration loader, server-side validation, Turnstile verification, rate limiting, duplicate protection, privacy-preserving logs, and build packaging are implemented.
+- The PHP source and offline tests pass on PHP 8.3. The frontend type-check, lint, enabled/disabled production builds, and dependency audit also pass.
+- A credential-free probe confirmed that `smtp.hostinger.com:465` currently supports certificate-verified implicit TLS and `AUTH LOGIN`.
+- Public DNS currently has the expected Hostinger MX, SPF, DKIM, and DMARC records for `redepchile.com`.
+
+These changes exist in this project workspace only. They have not configured the Hostinger account or changed the live files. The final local `dist` build remains deliberately disabled so a testing key or incomplete configuration cannot be deployed accidentally.
+
+## What you must provide
+
+These items are external to the repository and cannot be completed in code:
+
+- Access to Hostinger hPanel and its File Manager.
+- A working Hostinger Email mailbox for `contacto@redepchile.com` and its current mailbox password. Confirm that it is a real mailbox that can sign in to Hostinger Webmail, not only an alias or forwarder.
+- A Cloudflare Turnstile production site key and secret key.
+- The ability to build the site locally and upload the resulting `dist` contents, or another deployment process that performs those same steps.
+- Node.js `20.19.x`, or Node.js `22.12+`.
+
+Never commit, place in a `VITE_` variable, or send through the browser bundle the mailbox password, Turnstile secret, or rate-limit HMAC secret.
 
 ## 1. Create the Cloudflare Turnstile widget
 
 1. Sign in to Cloudflare and open **Turnstile**.
-2. Create a widget using **Managed** mode.
-3. Add every hostname that can display the production form, such as `example.cl` and `www.example.cl`.
+2. Create a widget in **Managed** mode.
+3. Add both production hostnames:
+   - `redepchile.com`
+   - `www.redepchile.com`
 4. Save the public **site key** and private **secret key** separately.
-5. Do not add the Turnstile secret to any `.env` file whose name begins with `VITE_`.
 
-## 2. Prepare Gmail
+The site does not need to use Cloudflare DNS or proxying for Turnstile to work. The site key is compiled into the frontend and is public. The secret key belongs only in the private PHP configuration described below.
 
-1. Enable 2-Step Verification on `redepchile@gmail.com`.
-2. Create a Google App Password specifically for the REDEP website.
-3. Save the generated 16-character App Password. Do not use the account's normal password.
-4. The implementation authenticates to `smtp.gmail.com` using STARTTLS on port 587. The Gmail account is both the fixed sender and recipient; the visitor's validated address is used only as `Reply-To`.
+## 2. Confirm the Hostinger mailbox
 
-## 3. Configure the public build
+1. In hPanel, open **Emails** and confirm that `contacto@redepchile.com` exists as a mailbox.
+2. Sign in to Hostinger Webmail using that full email address and its mailbox password.
+3. If sign-in fails, reset the mailbox password before continuing.
+4. Keep the exact working password available for the private configuration. This is the Hostinger mailbox password, not a Gmail password or Google App Password.
 
-1. Copy `.env.example` to `.env.production.local`.
-2. Keep `VITE_CONTACT_FORM_ENABLED=false` while Gmail, Turnstile, or the private Hostinger configuration is unavailable. The built site will show a temporary-unavailability notice and will not load Turnstile or attempt submissions.
-3. When every external service is ready, set `VITE_CONTACT_FORM_ENABLED=true`.
-4. Replace the testing value of `VITE_TURNSTILE_SITE_KEY` with the production Turnstile site key. The site key is public.
-5. Run `npm ci` if dependencies are not installed.
-6. Run `npm run build`.
-7. Confirm that `dist/api/contact.php` and `dist/.htaccess` exist.
+No change to `redepchile@gmail.com` is required. It is only the recipient inbox; the website does not authenticate to Gmail.
 
-When the form is enabled, the build stops if the site key is missing or is one of Cloudflare's public testing keys. The Turnstile secret and Gmail App Password are deliberately not part of this build.
+## 3. Create the private Hostinger configuration
 
-## 4. Create the private Hostinger configuration
-
-The expected Hostinger layout is:
+Use hPanel File Manager's option to access all files for the hosting account. Locate the directory that directly contains `public_html`, then create `contact-form-private` beside it:
 
 ```text
 domain-directory/
-├── contact-form-private/
-│   ├── config.php
-│   └── rate-limits.json       # created automatically on first request
-└── public_html/
-    ├── index.html
-    ├── assets/
-    └── api/contact.php
+|-- contact-form-private/
+|   |-- config.php
+|   `-- rate-limits.json     # created automatically after the first well-formed attempt
+`-- public_html/
+    |-- index.html
+    |-- assets/
+    |-- .htaccess
+    `-- api/
+        `-- contact.php
 ```
 
-1. In hPanel File Manager, choose **Access all files of your web hosting**.
-2. Find the directory containing `public_html`.
-3. Create `contact-form-private` beside `public_html`, not inside it.
-4. Upload `server/config.example.php` into that private directory and rename it to `config.php`.
-5. Replace both example origins and hostnames with the real production values. Origins include `https://`; hostnames do not.
-6. Insert the Turnstile secret.
-7. Insert the Gmail App Password. Spaces in Google's displayed App Password are accepted, although removing them is preferable.
-8. Generate at least 32 random characters for `hmac_secret`. For example, from this project on a machine with Node.js:
+Do not put `contact-form-private` or the completed `config.php` inside `public_html`.
 
-   `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+1. Upload [server/config.example.php](server/config.example.php) to `contact-form-private` and rename it to `config.php`.
+2. Confirm that `allowed_origins` contains:
+   - `https://redepchile.com`
+   - `https://www.redepchile.com`
+3. Confirm that `turnstile.expected_hostnames` contains the same hostnames without `https://`.
+4. Replace the placeholder `turnstile.secret` with the private Turnstile secret key.
+5. In the `smtp` section, confirm these non-secret settings:
 
-9. Keep `state_file` pointing to `__DIR__ . '/rate-limits.json'`.
-10. Give the private directory only the access needed by the hosting account and PHP. Start with directory permission `700` and configuration permission `600`; if Hostinger's PHP worker cannot read/write them, use `750` and `640` rather than making them public.
+   ```php
+   'host' => 'smtp.hostinger.com',
+   'port' => 465,
+   'encryption' => 'implicit_tls',
+   'username' => 'contacto@redepchile.com',
+   'from_email' => 'contacto@redepchile.com',
+   'to_email' => 'redepchile@gmail.com',
+   ```
 
-If Hostinger uses a document-root layout where the parent of `public_html` is not writable, set the `CONTACT_FORM_CONFIG` server environment variable to the absolute private `config.php` path. Never move the completed configuration into `public_html`.
+   Port `465` with `implicit_tls` is the primary production setting: the TLS handshake and certificate verification happen before the SMTP greeting or authentication. If Hostinger Support confirms that port `465` is unavailable for this hosting account, the client also supports this explicit manual fallback:
 
-## 5. Upload and configure Hostinger
+   ```php
+   'port' => 587,
+   'encryption' => 'starttls',
+   ```
 
-1. Back up the current website files.
-2. Upload the **contents** of `dist` to `public_html`; do not upload `dist` as a nested folder.
-3. Select a current supported PHP 8 version in hPanel.
-4. Confirm that the PHP cURL and OpenSSL extensions are enabled.
-5. Enable PHP error logging and keep `display_errors` disabled in production.
-6. Force HTTPS using Hostinger's SSL/HTTPS setting.
-7. Do not enable a cache rule for `/api/contact.php`.
+   Change the port and encryption value together. The application never automatically downgrades or retries delivery on port `587` after a port `465` failure; a transport change must be intentional in the private configuration.
 
-The packaged root `.htaccess` includes a Content Security Policy that allows the existing inline standalone applications, Google Fonts, and Cloudflare Turnstile while blocking plugins/objects and unapproved external script, frame, connection, and form targets. If Hostinger's Apache configuration rejects a directive, inspect the PHP/Apache error log before changing the policy.
+6. Replace the placeholder `smtp.password` with the exact mailbox password verified in the previous section.
+7. Generate a private HMAC secret of at least 32 random characters. With Node.js installed, run:
 
-## 6. Production verification
+   ```powershell
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+   ```
 
-1. Open the contact page over its final HTTPS hostname.
-2. Confirm that Turnstile completes and enables the submit button.
-3. Submit one real test message.
-4. Confirm that the page shows success only after the request returns successfully.
-5. Confirm that the message appears in `redepchile@gmail.com`, has `redepchile@gmail.com` as its sender, and uses the visitor's address for **Reply-To**.
-6. Confirm that `contact-form-private/rate-limits.json` was created and is not publicly reachable.
-7. Check Turnstile Analytics for a successful Siteverify validation.
-8. Check Hostinger's PHP error log if the endpoint returns an error. Logs intentionally omit names, email addresses, messages, IP addresses, tokens, and passwords.
+8. Replace the placeholder `rate_limit.hmac_secret` with that generated value.
+9. Keep `rate_limit.state_file` as `__DIR__ . '/rate-limits.json'`.
+10. Start with permissions `700` for `contact-form-private` and `600` for `config.php`. If Hostinger's PHP worker cannot read or write there, try `750` and `640`; never make the secret file publicly accessible.
+
+The endpoint normally finds the sibling directory from PHP's `DOCUMENT_ROOT`. If this hosting account uses a different layout, configure the server environment variable `CONTACT_FORM_CONFIG` with the absolute path to the private `config.php`. If hPanel does not expose environment-variable configuration, ask Hostinger Support to confirm the PHP `DOCUMENT_ROOT`, `open_basedir`, and a readable/writable private path. Do not solve this by moving secrets into `public_html`.
+
+## 4. Configure and build the frontend
+
+The production build must be created after obtaining the real Turnstile site key.
+
+1. Copy `.env.example` to `.env.production.local`.
+2. Set:
+
+   ```env
+   VITE_CONTACT_FORM_ENABLED=true
+   VITE_TURNSTILE_SITE_KEY=YOUR_REAL_TURNSTILE_SITE_KEY
+   ```
+
+3. Install the locked dependencies if necessary:
+
+   ```powershell
+   npm ci
+   ```
+
+4. Create the production package:
+
+   ```powershell
+   npm run build
+   ```
+
+5. Confirm that the following exist:
+   - `dist/index.html`
+   - `dist/.htaccess`
+   - `dist/api/contact.php`
+   - `dist/api/src/`
+
+The build intentionally fails when the form is enabled without a site key or with a Cloudflare testing key. `.env.production.local` is ignored by Git. It may contain the public site key, but it must never contain either private secret.
+
+If you need to deploy the rest of the site before the external setup is ready, leave `VITE_CONTACT_FORM_ENABLED=false`, rebuild, and deploy that package. Visitors will see the temporary-unavailability notice and the browser will not load Turnstile or submit the form.
+
+## 5. Upload the production package
+
+1. Back up the current files in `public_html` through hPanel.
+2. Upload the **contents** of `dist` into `public_html`. Do not upload `dist` as a nested directory.
+3. Include hidden files, especially `dist/.htaccess`.
+4. Ensure that the complete `dist/api` directory is uploaded, not only `contact.php`.
+5. If the previous deployment left `public_html/api/src/GmailSmtpClient.php`, remove that obsolete file after confirming the new `SmtpClient.php` is present. The new endpoint does not use the Gmail-specific client.
+6. Select a currently supported PHP 8 release in hPanel. PHP 8.3 is suitable.
+7. Confirm that PHP cURL and OpenSSL are enabled.
+8. Enable PHP error logging and keep `display_errors` disabled in production.
+9. Keep HTTPS forced for both domain variants.
+10. Exclude `/api/contact.php` from Hostinger, CDN, or plugin caching.
+
+The packaged `.htaccess` preserves the PHP API and real assets while routing other paths to the React application. It also permits the Cloudflare Turnstile resources in the site's Content Security Policy.
+
+## 6. Verify before announcing the form
+
+Perform these checks from the final HTTPS website:
+
+1. Open `https://redepchile.com/api/contact.php` directly. A JSON response with HTTP `405 Method Not Allowed` is expected for a browser GET. HTTP `500` means the private configuration could not be found, read, or validated; resolve that before testing the form.
+2. Open `https://redepchile.com/contacto` and confirm that the form, rather than the temporary-unavailability message, is visible.
+3. Confirm that Turnstile loads and completes.
+4. Submit one real message using an address you can inspect.
+5. Confirm that the page reports success only after delivery is accepted.
+6. In `redepchile@gmail.com`, confirm that the received message has:
+   - **From:** `contacto@redepchile.com`
+   - **To:** `redepchile@gmail.com`
+   - **Reply-To:** the visitor's submitted email
+7. Use Gmail's **Show original** view and confirm that SPF, DKIM, and DMARC pass.
+8. Confirm that `contact-form-private/rate-limits.json` was created and remains outside public access.
+9. Check Turnstile Analytics for a successful server-side validation.
+10. Repeat the basic test on `https://www.redepchile.com/contacto` if that hostname remains publicly available.
+
+## Troubleshooting
+
+### The endpoint returns HTTP 500
+
+- Confirm that the private directory is beside the actual `public_html` used by this domain.
+- Confirm that the uploaded file is named exactly `config.php`, not `config.php.txt`.
+- Compare every configuration key with the current [server/config.example.php](server/config.example.php).
+- Check private-directory read/write permissions and Hostinger's `open_basedir` restrictions.
+- Read the Hostinger PHP error log. Do not enable public error display. The endpoint now writes a safe reason code without logging credentials or form contents:
+  - `config_unavailable`: PHP cannot find or read the private `config.php`.
+  - `config_inside_public_root`: the configuration was placed inside `public_html`.
+  - `config_invalid_format`: the file did not return the expected PHP array.
+  - `origins_invalid`, `turnstile_config_invalid`, or `turnstile_test_key_rejected`: the corresponding security settings are invalid.
+  - `smtp_config_invalid`: a Hostinger SMTP setting, fixed address, timeout, or password placeholder is invalid.
+  - `rate_config_invalid` or `rate_state_path_invalid`: the rate-limit configuration or writable private directory is invalid.
+
+### SMTP authentication or delivery fails
+
+- Sign in to Hostinger Webmail again with `contacto@redepchile.com` and the same password stored in `smtp.password`.
+- Confirm the primary settings are `smtp.hostinger.com`, port `465`, and `encryption` set to `implicit_tls`.
+- Confirm that `username` and `from_email` are both exactly `contacto@redepchile.com`.
+- Update the private configuration whenever the mailbox password is changed.
+- Ask Hostinger Support whether outbound SMTP port `465` is available for the hosting account if connection attempts time out.
+- From a checkout that has PHP with OpenSSL available, `npm run test:smtp-connectivity` performs a credential-free implicit-TLS probe against port `465`. It verifies the server certificate and advertised `AUTH LOGIN` capability but sends neither a password nor an email.
+- Use port `587` with `encryption` set to `starttls` only as a deliberate fallback if port `465` is unavailable. Change both values together and retest; there is no automatic fallback or downgrade between the two modes.
+
+### Turnstile fails
+
+- Confirm that the frontend uses the widget's public site key and PHP uses its matching private secret.
+- Confirm both domain variants are allowed in the Turnstile widget.
+- Confirm the production build was made after `.env.production.local` was saved.
+- Check the browser console, Turnstile Analytics, and PHP error log.
+
+### The form still says it is unavailable
+
+The deployed frontend was built with `VITE_CONTACT_FORM_ENABLED=false`, or an older cached build is being served. Set it to `true`, rebuild, upload the new `dist` contents, and clear the relevant Hostinger/CDN cache.
 
 ## Operational notes
 
-- Changing the main Google Account password revokes existing App Passwords. Generate a replacement and update the private configuration afterward.
-- A malformed, oversized, or unwritable rate-limit state fails closed: the endpoint sends no email.
-- Delete `rate-limits.json` only when intentionally resetting every rate limit and idempotency record. PHP will recreate it on the next request.
-- Turnstile tokens are verified server-side and are never logged.
-- The server rejects Cloudflare testing secrets unless a deliberately test-only configuration opts into them.
-- The endpoint sends no automatic response to visitor-provided addresses, preventing mail-bomb abuse.
+- The endpoint never sends an automatic email to a visitor-supplied address, which prevents mail-bomb abuse.
+- Visitor input is never accepted as the SMTP sender; it is used only as the validated `Reply-To` value.
+- Turnstile tokens and form contents are not written to operational logs.
+- The rate-limit file contains keyed hashes and timestamps, not raw IP addresses, email addresses, names, or messages.
+- A malformed, oversized, or unwritable rate-limit state fails closed and sends no email.
+- Delete `rate-limits.json` only when intentionally resetting all rate limits and idempotency records; PHP recreates it on the next request.
+- After changing the mailbox password, immediately update `smtp.password` in the private configuration and retest.
+- The repository's offline PHP checks can be rerun with `npm run test:php` on a machine with PHP 8.3 available.

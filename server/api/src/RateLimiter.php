@@ -54,12 +54,6 @@ final class RateLimiter
 
             $state['global_attempts'][] = $now;
             $state['ip_attempts'][$ipKey][] = $now;
-            $state['requests'][$requestId] = [
-                'fingerprint' => $fingerprint,
-                'status' => 'initiated',
-                'updated_at' => $now,
-                'expires_at' => $now + 86400,
-            ];
 
             return 'new';
         });
@@ -123,6 +117,13 @@ final class RateLimiter
 
         $this->mutate(function (array &$state, int $now) use ($requestId, $fingerprint, $status): null {
             $this->prune($state, $now);
+
+            // Honeypot submissions are completed before Turnstile and never reserve a
+            // delivery. They have no side effect that needs an idempotency record.
+            if ($status === 'suppressed' && !isset($state['requests'][$requestId])) {
+                return null;
+            }
+
             $this->assertRequestFingerprint($state, $requestId, $fingerprint);
             $state['requests'][$requestId] = [
                 'fingerprint' => $fingerprint,
@@ -209,7 +210,11 @@ final class RateLimiter
         }
 
         foreach ($state['requests'] as $key => $request) {
-            if (!is_array($request) || (int) ($request['expires_at'] ?? 0) <= $now) {
+            if (
+                !is_array($request)
+                || ($request['status'] ?? null) === 'initiated'
+                || (int) ($request['expires_at'] ?? 0) <= $now
+            ) {
                 unset($state['requests'][$key]);
             }
         }
@@ -341,4 +346,3 @@ final class RateLimiter
         return function_exists('mb_strtolower') ? mb_strtolower($value, 'UTF-8') : strtolower($value);
     }
 }
-

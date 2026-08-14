@@ -405,7 +405,7 @@ function ContactForm() {
           <div className="flex gap-3 rounded-2xl bg-sand-50 p-4 text-sm leading-relaxed text-ink-600 ring-1 ring-inset ring-sand-200">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-sage-600" aria-hidden="true" />
             <p>
-              <span className="font-medium text-ink-800">Privacidad:</span> usaremos los datos que ingreses únicamente para gestionar y responder tu consulta. El envío y la protección antispam utilizan proveedores tecnológicos externos (Google y Cloudflare). No incorporaremos tus datos a listas de difusión ni los usaremos con fines publicitarios. Por favor, evita incluir información clínica sensible en este formulario.
+              <span className="font-medium text-ink-800">Privacidad:</span> usaremos los datos que ingreses únicamente para gestionar y responder tu consulta. El envío y la recepción del correo, y la protección antispam, utilizan proveedores tecnológicos externos (Hostinger, Google y Cloudflare). No incorporaremos tus datos a listas de difusión ni los usaremos con fines publicitarios. Por favor, evita incluir información clínica sensible en este formulario.
             </p>
           </div>
         </form>

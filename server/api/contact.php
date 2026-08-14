@@ -3,9 +3,10 @@
 declare(strict_types=1);
 
 use Redep\Contact\ClientRequestException;
-use Redep\Contact\GmailSmtpClient;
+use Redep\Contact\ConfigurationException;
 use Redep\Contact\RateLimiter;
 use Redep\Contact\RateLimitException;
+use Redep\Contact\SmtpClient;
 use Redep\Contact\TurnstileVerifier;
 
 use function Redep\Contact\clientIpAddress;
@@ -18,9 +19,10 @@ use function Redep\Contact\respondJson;
 require __DIR__ . '/src/Http.php';
 require __DIR__ . '/src/RateLimiter.php';
 require __DIR__ . '/src/TurnstileVerifier.php';
-require __DIR__ . '/src/GmailSmtpClient.php';
+require __DIR__ . '/src/SmtpClient.php';
 
 ini_set('display_errors', '0');
+header_remove('X-Powered-By');
 
 try {
     $config = loadPrivateConfig();
@@ -61,7 +63,7 @@ try {
         respondJson(409, 'REQUEST_IN_PROGRESS', 'Este mensaje ya está siendo procesado. Espera unos segundos antes de reintentar.');
     }
 
-    $mailer = new GmailSmtpClient($config['smtp']);
+    $mailer = new SmtpClient($config['smtp']);
     try {
         $mailer->send($payload);
     } catch (Throwable) {
@@ -77,7 +79,7 @@ try {
     try {
         $limiter->markCompleted($payload['request_id'], $fingerprint, 'sent');
     } catch (Throwable) {
-        // Gmail already accepted the message. Do not report a false failure that could cause a duplicate retry.
+        // The SMTP server already accepted the message. Do not report a false failure that could cause a duplicate retry.
         logContactEvent('rate_state_failure_after_smtp_success', $payload['request_id']);
     }
 
@@ -96,6 +98,9 @@ try {
 } catch (ClientRequestException $exception) {
     logContactEvent(strtolower($exception->publicCode));
     respondJson($exception->httpStatus, $exception->publicCode, $exception->publicMessage);
+} catch (ConfigurationException $exception) {
+    logContactEvent($exception->event);
+    respondJson(500, 'SERVER_ERROR', 'No pudimos procesar tu solicitud en este momento.');
 } catch (Throwable) {
     logContactEvent('unexpected_server_error');
     respondJson(500, 'SERVER_ERROR', 'No pudimos procesar tu solicitud en este momento.');

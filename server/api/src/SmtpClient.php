@@ -6,7 +6,7 @@ namespace Redep\Contact;
 
 use RuntimeException;
 
-final class GmailSmtpClient
+final class SmtpClient
 {
     /** @var resource|null */
     private $socket = null;
@@ -19,7 +19,12 @@ final class GmailSmtpClient
     {
         $host = $this->config['host'];
         $port = (int) $this->config['port'];
+        $encryption = (string) $this->config['encryption'];
         $timeout = (int) ($this->config['timeout_seconds'] ?? 15);
+        $tlsMethod = STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+            $tlsMethod |= constant('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT');
+        }
         $context = stream_context_create([
             'ssl' => [
                 'verify_peer' => true,
@@ -27,11 +32,18 @@ final class GmailSmtpClient
                 'allow_self_signed' => false,
                 'peer_name' => $host,
                 'SNI_enabled' => true,
+                'crypto_method' => $tlsMethod,
             ],
         ]);
 
+        $transport = match ($encryption) {
+            'implicit_tls' => 'tls://',
+            'starttls' => 'tcp://',
+            default => throw new RuntimeException('Unsupported SMTP encryption mode'),
+        };
+
         $socket = @stream_socket_client(
-            'tcp://' . $host . ':' . $port,
+            $transport . $host . ':' . $port,
             $errorNumber,
             $errorMessage,
             $timeout,
@@ -48,18 +60,21 @@ final class GmailSmtpClient
         try {
             $this->expect([220], 'connect');
             $this->command('EHLO ' . $this->clientHostname(), [250], 'ehlo');
-            $this->command('STARTTLS', [220], 'starttls');
 
-            $cryptoEnabled = @stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-            if ($cryptoEnabled !== true) {
-                throw new RuntimeException('SMTP TLS negotiation failed');
+            if ($encryption === 'starttls') {
+                $this->command('STARTTLS', [220], 'starttls');
+                $cryptoEnabled = @stream_socket_enable_crypto($this->socket, true, $tlsMethod);
+                if ($cryptoEnabled !== true) {
+                    throw new RuntimeException('SMTP TLS negotiation failed');
+                }
+
+                $this->command('EHLO ' . $this->clientHostname(), [250], 'secure_ehlo');
             }
 
-            $this->command('EHLO ' . $this->clientHostname(), [250], 'secure_ehlo');
+            $this->assertModernTls();
             $this->command('AUTH LOGIN', [334], 'auth');
             $this->command(base64_encode($this->config['username']), [334], 'username');
-            $appPassword = str_replace(' ', '', $this->config['app_password']);
-            $this->command(base64_encode($appPassword), [235], 'password');
+            $this->command(base64_encode($this->config['password']), [235], 'password');
             $this->command('MAIL FROM:<' . $this->config['from_email'] . '>', [250], 'mail_from');
             $this->command('RCPT TO:<' . $this->config['to_email'] . '>', [250, 251], 'recipient');
             $this->command('DATA', [354], 'data');
@@ -98,6 +113,7 @@ final class GmailSmtpClient
 
         $headers = [
             'Date: ' . $date,
+            'Message-ID: <contact-' . $payload['request_id'] . '@redepchile.com>',
             'From: ' . $fromName . ' <' . $this->config['from_email'] . '>',
             'To: <' . $this->config['to_email'] . '>',
             'Reply-To: <' . $payload['email'] . '>',
@@ -125,6 +141,19 @@ final class GmailSmtpClient
             return 'localhost';
         }
         return $hostname;
+    }
+
+    private function assertModernTls(): void
+    {
+        if (!is_resource($this->socket)) {
+            throw new RuntimeException('SMTP socket is unavailable');
+        }
+
+        $metadata = stream_get_meta_data($this->socket);
+        $protocol = (string) ($metadata['crypto']['protocol'] ?? '');
+        if (preg_match('/^TLSv1\.[23]$/', $protocol) !== 1) {
+            throw new RuntimeException('SMTP negotiated an unsupported TLS protocol');
+        }
     }
 
     private function command(string $command, array $expectedCodes, string $stage): void
@@ -180,4 +209,3 @@ final class GmailSmtpClient
         }
     }
 }
-

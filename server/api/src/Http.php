@@ -25,6 +25,14 @@ final class RateLimitException extends RuntimeException
     }
 }
 
+final class ConfigurationException extends RuntimeException
+{
+    public function __construct(public readonly string $event, string $message)
+    {
+        parent::__construct($message);
+    }
+}
+
 function respondJson(int $status, string $code, string $message, array $extra = []): void
 {
     http_response_code($status);
@@ -56,22 +64,51 @@ function loadPrivateConfig(): array
     $realDocumentRoot = $documentRoot !== '' ? realpath($documentRoot) : false;
 
     if ($realConfigPath === false || !is_file($realConfigPath) || !is_readable($realConfigPath)) {
-        throw new RuntimeException('Private contact-form configuration is unavailable');
+        throw new ConfigurationException('config_unavailable', 'Private contact-form configuration is unavailable');
     }
 
     if (
         $realDocumentRoot !== false
         && ($realConfigPath === $realDocumentRoot || str_starts_with($realConfigPath, $realDocumentRoot . DIRECTORY_SEPARATOR))
     ) {
-        throw new RuntimeException('Private contact-form configuration must be outside the document root');
+        throw new ConfigurationException('config_inside_public_root', 'Private contact-form configuration must be outside the document root');
     }
 
     $config = require $realConfigPath;
     if (!is_array($config)) {
-        throw new RuntimeException('Private contact-form configuration must return an array');
+        throw new ConfigurationException('config_invalid_format', 'Private contact-form configuration must return an array');
     }
 
     validateConfig($config);
+
+    $stateFile = (string) $config['rate_limit']['state_file'];
+    $stateDirectory = realpath(dirname($stateFile));
+    $configDirectory = dirname($realConfigPath);
+    $realStateFile = realpath($stateFile);
+    if (
+        $stateDirectory === false
+        || !is_dir($stateDirectory)
+        || !is_writable($stateDirectory)
+        || $stateDirectory !== $configDirectory
+        || (
+            $realStateFile !== false
+            && (!is_file($realStateFile) || !is_writable($realStateFile))
+        )
+        || (
+            $realDocumentRoot !== false
+            && (
+                $stateDirectory === $realDocumentRoot
+                || str_starts_with($stateDirectory, $realDocumentRoot . DIRECTORY_SEPARATOR)
+                || $realStateFile === $realDocumentRoot
+                || ($realStateFile !== false && str_starts_with($realStateFile, $realDocumentRoot . DIRECTORY_SEPARATOR))
+            )
+        )
+    ) {
+        throw new ConfigurationException(
+            'rate_state_path_invalid',
+            'Rate-limit state must be writable beside the private configuration and outside the document root'
+        );
+    }
 
     return $config;
 }
@@ -80,60 +117,86 @@ function validateConfig(array $config): void
 {
     $allowedOrigins = $config['allowed_origins'] ?? null;
     if (!is_array($allowedOrigins) || $allowedOrigins === []) {
-        throw new RuntimeException('At least one allowed origin is required');
+        throw new ConfigurationException('origins_invalid', 'At least one allowed origin is required');
     }
 
     foreach ($allowedOrigins as $origin) {
-        if (!is_string($origin) || filter_var($origin, FILTER_VALIDATE_URL) === false) {
-            throw new RuntimeException('Every allowed origin must be an absolute URL');
+        if (!isValidOrigin($origin)) {
+            throw new ConfigurationException('origins_invalid', 'Every allowed origin must be an HTTPS origin without a path');
         }
     }
 
     $turnstile = $config['turnstile'] ?? null;
     if (!is_array($turnstile) || !isNonPlaceholderSecret($turnstile['secret'] ?? null, 20)) {
-        throw new RuntimeException('A valid Turnstile secret is required');
+        throw new ConfigurationException('turnstile_config_invalid', 'A valid Turnstile secret is required');
     }
     if (isTurnstileTestKey($turnstile['secret']) && ($turnstile['allow_test_keys'] ?? false) !== true) {
-        throw new RuntimeException('Cloudflare testing secrets are disabled in production');
+        throw new ConfigurationException('turnstile_test_key_rejected', 'Cloudflare testing secrets are disabled in production');
     }
     if (!is_array($turnstile['expected_hostnames'] ?? null) || $turnstile['expected_hostnames'] === []) {
-        throw new RuntimeException('At least one Turnstile hostname is required');
+        throw new ConfigurationException('turnstile_config_invalid', 'At least one Turnstile hostname is required');
+    }
+    foreach ($turnstile['expected_hostnames'] as $hostname) {
+        if (!is_string($hostname) || preg_match('/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)(?:\.(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?))+$/i', $hostname) !== 1) {
+            throw new ConfigurationException('turnstile_config_invalid', 'Every Turnstile hostname must be a hostname without a scheme or path');
+        }
     }
     if (($turnstile['expected_action'] ?? null) !== 'contact') {
-        throw new RuntimeException('The Turnstile action must be contact');
+        throw new ConfigurationException('turnstile_config_invalid', 'The Turnstile action must be contact');
+    }
+    $turnstileTimeout = $turnstile['timeout_seconds'] ?? null;
+    if (!is_int($turnstileTimeout) || $turnstileTimeout < 3 || $turnstileTimeout > 30) {
+        throw new ConfigurationException('turnstile_config_invalid', 'Turnstile timeout must be between 3 and 30 seconds');
     }
 
     $smtp = $config['smtp'] ?? null;
     if (!is_array($smtp)) {
-        throw new RuntimeException('SMTP configuration is required');
+        throw new ConfigurationException('smtp_config_invalid', 'SMTP configuration is required');
     }
 
     $smtpUsername = $smtp['username'] ?? null;
     $fromEmail = $smtp['from_email'] ?? null;
     $toEmail = $smtp['to_email'] ?? null;
+    $smtpTimeout = $smtp['timeout_seconds'] ?? null;
+    $fromName = $smtp['from_name'] ?? null;
+    $smtpPort = (int) ($smtp['port'] ?? 0);
+    $smtpEncryption = $smtp['encryption'] ?? null;
+    $validTransport = ($smtpPort === 465 && $smtpEncryption === 'implicit_tls')
+        || ($smtpPort === 587 && $smtpEncryption === 'starttls');
     if (
-        ($smtp['host'] ?? null) !== 'smtp.gmail.com'
-        || (int) ($smtp['port'] ?? 0) !== 587
+        ($smtp['host'] ?? null) !== 'smtp.hostinger.com'
+        || !$validTransport
         || !is_string($smtpUsername)
         || filter_var($smtpUsername, FILTER_VALIDATE_EMAIL) === false
+        || strcasecmp($smtpUsername, 'contacto@redepchile.com') !== 0
         || !is_string($fromEmail)
         || filter_var($fromEmail, FILTER_VALIDATE_EMAIL) === false
         || strcasecmp($smtpUsername, $fromEmail) !== 0
         || !is_string($toEmail)
         || filter_var($toEmail, FILTER_VALIDATE_EMAIL) === false
-        || !isNonPlaceholderSecret($smtp['app_password'] ?? null, 16)
+        || strcasecmp($toEmail, 'redepchile@gmail.com') !== 0
+        || !is_string($fromName)
+        || !isValidText($fromName, 1, 100, false)
+        || !isNonPlaceholderSecret($smtp['password'] ?? null, 8)
+        || !is_int($smtpTimeout)
+        || $smtpTimeout < 5
+        || $smtpTimeout > 60
     ) {
-        throw new RuntimeException('Gmail SMTP configuration is invalid');
+        throw new ConfigurationException('smtp_config_invalid', 'Hostinger SMTP configuration is invalid');
     }
 
     $rateLimit = $config['rate_limit'] ?? null;
+    $maximumStateBytes = is_array($rateLimit) ? ($rateLimit['max_state_bytes'] ?? null) : null;
     if (
         !is_array($rateLimit)
         || !is_string($rateLimit['state_file'] ?? null)
         || ($rateLimit['state_file'] ?? '') === ''
         || !isNonPlaceholderSecret($rateLimit['hmac_secret'] ?? null, 32)
+        || !is_int($maximumStateBytes)
+        || $maximumStateBytes < 65536
+        || $maximumStateBytes > 5242880
     ) {
-        throw new RuntimeException('Rate-limit configuration is invalid');
+        throw new ConfigurationException('rate_config_invalid', 'Rate-limit configuration is invalid');
     }
 
     foreach (['global_attempts', 'ip_attempts', 'ip_deliveries', 'email_deliveries', 'global_deliveries', 'duplicate_messages'] as $rule) {
@@ -145,9 +208,28 @@ function validateConfig(array $config): void
             || !is_int($value['window_seconds'] ?? null)
             || $value['window_seconds'] < 1
         ) {
-            throw new RuntimeException('A rate-limit rule is invalid: ' . $rule);
+            throw new ConfigurationException('rate_config_invalid', 'A rate-limit rule is invalid: ' . $rule);
         }
     }
+}
+
+function isValidOrigin(mixed $value): bool
+{
+    if (!is_string($value) || filter_var($value, FILTER_VALIDATE_URL) === false) {
+        return false;
+    }
+
+    $parts = parse_url($value);
+    return is_array($parts)
+        && ($parts['scheme'] ?? null) === 'https'
+        && is_string($parts['host'] ?? null)
+        && ($parts['host'] ?? '') !== ''
+        && !isset($parts['user'])
+        && !isset($parts['pass'])
+        && !isset($parts['port'])
+        && !isset($parts['query'])
+        && !isset($parts['fragment'])
+        && (!isset($parts['path']) || $parts['path'] === '');
 }
 
 function isNonPlaceholderSecret(mixed $value, int $minimumLength): bool
@@ -269,7 +351,8 @@ function readAndValidatePayload(): array
         throw new ClientRequestException(422, 'TOO_MANY_LINKS', 'El mensaje contiene demasiados enlaces.');
     }
 
-    if (strlen($payload['turnstile_token']) < 1 || strlen($payload['turnstile_token']) > 2048) {
+    $turnstileTokenLength = strlen($payload['turnstile_token']);
+    if ($turnstileTokenLength > 2048 || ($payload['website'] === '' && $turnstileTokenLength < 1)) {
         throw new ClientRequestException(422, 'TURNSTILE_REQUIRED', 'Completa la verificación de seguridad.');
     }
 

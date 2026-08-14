@@ -11,26 +11,27 @@ declare(strict_types=1);
  */
 return [
     'allowed_origins' => [
-        'https://example.cl',
-        'https://www.example.cl',
+        'https://redepchile.com',
+        'https://www.redepchile.com',
     ],
 
     'turnstile' => [
         'secret' => 'replace-with-the-cloudflare-turnstile-secret',
         'expected_hostnames' => [
-            'example.cl',
-            'www.example.cl',
+            'redepchile.com',
+            'www.redepchile.com',
         ],
         'expected_action' => 'contact',
         'timeout_seconds' => 10,
     ],
 
     'smtp' => [
-        'host' => 'smtp.gmail.com',
-        'port' => 587,
-        'username' => 'redepchile@gmail.com',
-        'app_password' => 'replace-with-the-16-character-google-app-password',
-        'from_email' => 'redepchile@gmail.com',
+        'host' => 'smtp.hostinger.com',
+        'port' => 465,
+        'encryption' => 'implicit_tls',
+        'username' => 'contacto@redepchile.com',
+        'password' => 'replace-with-the-hostinger-mailbox-password',
+        'from_email' => 'contacto@redepchile.com',
         'from_name' => 'REDEP Chile - Formulario web',
         'to_email' => 'redepchile@gmail.com',
         'timeout_seconds' => 15,
@@ -41,7 +42,7 @@ return [
         'hmac_secret' => 'replace-with-at-least-32-random-characters',
         'max_state_bytes' => 1048576,
 
-        // Coarse protection before calling Cloudflare or Gmail.
+        // Coarse protection before calling Cloudflare or the SMTP server.
         'global_attempts' => ['limit' => 100, 'window_seconds' => 300],
         'ip_attempts' => ['limit' => 10, 'window_seconds' => 900],
 
@@ -52,4 +53,3 @@ return [
         'duplicate_messages' => ['limit' => 1, 'window_seconds' => 86400],
     ],
 ];
-

@@ -72,10 +72,17 @@ try {
     $firstRequest = '11111111-1111-4111-8111-111111111111';
 
     assertSameValue('new', $limiter->registerAttempt('192.0.2.10', $firstRequest, $fingerprint), 'First attempt is new');
+    $attemptOnlyState = json_decode((string) file_get_contents($idempotencyFile), true, 32, JSON_THROW_ON_ERROR);
+    assertSameValue([], $attemptOnlyState['requests'], 'A pre-Turnstile attempt does not persist a request record');
     assertSameValue(
         'reserved',
         $limiter->reserveDelivery('192.0.2.10', $firstPayload['email'], $firstRequest, $fingerprint),
         'First delivery is reserved'
+    );
+    assertSameValue(
+        'pending',
+        $limiter->registerAttempt('192.0.2.10', $firstRequest, $fingerprint),
+        'A retry remains idempotent while delivery is pending'
     );
     $limiter->markCompleted($firstRequest, $fingerprint, 'sent');
     assertSameValue('sent', $limiter->registerAttempt('192.0.2.10', $firstRequest, $fingerprint), 'A retry is idempotent');
@@ -92,6 +99,48 @@ try {
     assertTrueValue(!str_contains($storedState, '192.0.2.10'), 'Raw IP is not stored');
     assertTrueValue(!str_contains($storedState, 'person@example.com'), 'Raw email is not stored');
     assertTrueValue(!str_contains($storedState, $firstPayload['mensaje']), 'Raw message is not stored');
+
+    $suppressedFile = $temporaryDirectory . DIRECTORY_SEPARATOR . 'suppressed.json';
+    $suppressedLimiter = new RateLimiter(limiterConfig($suppressedFile));
+    $suppressedPayload = payload('Mensaje de bot que activa el honeypot.');
+    $suppressedFingerprint = $suppressedLimiter->fingerprint($suppressedPayload);
+    $suppressedRequest = '88888888-8888-4888-8888-888888888888';
+    assertSameValue(
+        'new',
+        $suppressedLimiter->registerAttempt('192.0.2.40', $suppressedRequest, $suppressedFingerprint),
+        'A honeypot attempt starts as new'
+    );
+    $suppressedLimiter->markCompleted($suppressedRequest, $suppressedFingerprint, 'suppressed');
+    $suppressedState = json_decode((string) file_get_contents($suppressedFile), true, 32, JSON_THROW_ON_ERROR);
+    assertSameValue([], $suppressedState['requests'], 'A pre-Turnstile honeypot submission does not grow request state');
+
+    $legacyFile = $temporaryDirectory . DIRECTORY_SEPARATOR . 'legacy-initiated.json';
+    $legacyRequest = '99999999-9999-4999-8999-999999999999';
+    file_put_contents($legacyFile, json_encode([
+        'version' => 1,
+        'global_attempts' => [],
+        'ip_attempts' => [],
+        'global_deliveries' => [],
+        'ip_deliveries' => [],
+        'email_deliveries' => [],
+        'duplicates' => [],
+        'requests' => [
+            $legacyRequest => [
+                'fingerprint' => $suppressedFingerprint,
+                'status' => 'initiated',
+                'updated_at' => time(),
+                'expires_at' => time() + 86400,
+            ],
+        ],
+    ], JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR));
+    $legacyLimiter = new RateLimiter(limiterConfig($legacyFile));
+    assertSameValue(
+        'new',
+        $legacyLimiter->registerAttempt('192.0.2.41', $legacyRequest, $suppressedFingerprint),
+        'A legacy initiated request no longer claims an idempotency slot'
+    );
+    $legacyState = json_decode((string) file_get_contents($legacyFile), true, 32, JSON_THROW_ON_ERROR);
+    assertSameValue([], $legacyState['requests'], 'Legacy initiated records are pruned immediately');
 
     $attemptFile = $temporaryDirectory . DIRECTORY_SEPARATOR . 'attempts.json';
     $attemptLimiter = new RateLimiter(limiterConfig($attemptFile, [
@@ -138,4 +187,3 @@ try {
     }
     rmdir($temporaryDirectory);
 }
-
