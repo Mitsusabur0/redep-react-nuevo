@@ -168,13 +168,13 @@ function validateConfig(array $config): void
         || !$validTransport
         || !is_string($smtpUsername)
         || filter_var($smtpUsername, FILTER_VALIDATE_EMAIL) === false
-        || strcasecmp($smtpUsername, 'contacto@redepchile.com') !== 0
+        || strcasecmp($smtpUsername, 'formularios@redepchile.com') !== 0
         || !is_string($fromEmail)
         || filter_var($fromEmail, FILTER_VALIDATE_EMAIL) === false
         || strcasecmp($smtpUsername, $fromEmail) !== 0
         || !is_string($toEmail)
         || filter_var($toEmail, FILTER_VALIDATE_EMAIL) === false
-        || strcasecmp($toEmail, 'redepchile@gmail.com') !== 0
+        || strcasecmp($toEmail, 'contacto@redepchile.com') !== 0
         || !is_string($fromName)
         || !isValidText($fromName, 1, 100, false)
         || !isNonPlaceholderSecret($smtp['password'] ?? null, 8)

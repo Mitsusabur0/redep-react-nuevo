@@ -4,8 +4,8 @@ The application code is prepared to send contact-form messages through the REDEP
 
 - SMTP server: `smtp.hostinger.com`
 - Primary connection: implicit TLS on port `465`
-- Authenticated mailbox and sender: `contacto@redepchile.com`
-- Recipient: `redepchile@gmail.com`
+- Authenticated mailbox and sender: `formularios@redepchile.com`
+- Recipient mailbox: `contacto@redepchile.com`
 - Reply-To: the validated email entered by the visitor
 
 The React site remains static. A small PHP endpoint is packaged at `public_html/api/contact.php`; it validates the request, verifies Cloudflare Turnstile, applies rate limits, and sends the message over authenticated SMTP. Secrets and writable rate-limit data must remain outside `public_html`.
@@ -14,18 +14,19 @@ The React site remains static. A small PHP endpoint is packaged at `public_html/
 
 - The repository has been migrated from Gmail SMTP to Hostinger SMTP and pins the intended sender and recipient.
 - The public endpoint, private-configuration loader, server-side validation, Turnstile verification, rate limiting, duplicate protection, privacy-preserving logs, and build packaging are implemented.
-- The PHP source and offline tests pass on PHP 8.3. The frontend type-check, lint, enabled/disabled production builds, and dependency audit also pass.
+- The repository includes PHP 8.3 configuration, rate-limit, and HTTP integration tests, plus frontend type-check, lint, and production-build checks.
 - A credential-free probe confirmed that `smtp.hostinger.com:465` currently supports certificate-verified implicit TLS and `AUTH LOGIN`.
 - Public DNS currently has the expected Hostinger MX, SPF, DKIM, and DMARC records for `redepchile.com`.
 
-These changes exist in this project workspace only. They have not configured the Hostinger account or changed the live files. The final local `dist` build remains deliberately disabled so a testing key or incomplete configuration cannot be deployed accidentally.
+These code changes exist in this project workspace only; they do not update the Hostinger account or live files. The local `dist` package must be uploaded together with the matching private configuration so the fixed sender and recipient settings remain synchronized.
 
 ## What you must provide
 
 These items are external to the repository and cannot be completed in code:
 
 - Access to Hostinger hPanel and its File Manager.
-- A working Hostinger Email mailbox for `contacto@redepchile.com` and its current mailbox password. Confirm that it is a real mailbox that can sign in to Hostinger Webmail, not only an alias or forwarder.
+- A working Hostinger Email mailbox for `formularios@redepchile.com` and its current mailbox password. Confirm that it is a real mailbox that can sign in to Hostinger Webmail, not only an alias or forwarder.
+- Access to the receiving mailbox `contacto@redepchile.com` so delivery and message headers can be verified.
 - A Cloudflare Turnstile production site key and secret key.
 - The ability to build the site locally and upload the resulting `dist` contents, or another deployment process that performs those same steps.
 - Node.js `20.19.x`, or Node.js `22.12+`.
@@ -45,12 +46,12 @@ The site does not need to use Cloudflare DNS or proxying for Turnstile to work. 
 
 ## 2. Confirm the Hostinger mailbox
 
-1. In hPanel, open **Emails** and confirm that `contacto@redepchile.com` exists as a mailbox.
+1. In hPanel, open **Emails** and confirm that `formularios@redepchile.com` exists as a mailbox.
 2. Sign in to Hostinger Webmail using that full email address and its mailbox password.
-3. If sign-in fails, reset the mailbox password before continuing.
-4. Keep the exact working password available for the private configuration. This is the Hostinger mailbox password, not a Gmail password or Google App Password.
-
-No change to `redepchile@gmail.com` is required. It is only the recipient inbox; the website does not authenticate to Gmail.
+3. Confirm that `contacto@redepchile.com` exists and can receive mail.
+4. Send a normal test message from `formularios@redepchile.com` to `contacto@redepchile.com` and confirm that it arrives.
+5. If sender sign-in fails, reset the `formularios@redepchile.com` mailbox password before continuing.
+6. Keep the exact working sender password available for the private configuration. This is the `formularios@redepchile.com` Hostinger mailbox password; the website does not need the password for `contacto@redepchile.com`.
 
 ## 3. Create the private Hostinger configuration
 
@@ -83,9 +84,9 @@ Do not put `contact-form-private` or the completed `config.php` inside `public_h
    'host' => 'smtp.hostinger.com',
    'port' => 465,
    'encryption' => 'implicit_tls',
-   'username' => 'contacto@redepchile.com',
-   'from_email' => 'contacto@redepchile.com',
-   'to_email' => 'redepchile@gmail.com',
+   'username' => 'formularios@redepchile.com',
+   'from_email' => 'formularios@redepchile.com',
+   'to_email' => 'contacto@redepchile.com',
    ```
 
    Port `465` with `implicit_tls` is the primary production setting: the TLS handshake and certificate verification happen before the SMTP greeting or authentication. If Hostinger Support confirms that port `465` is unavailable for this hosting account, the client also supports this explicit manual fallback:
@@ -168,11 +169,11 @@ Perform these checks from the final HTTPS website:
 3. Confirm that Turnstile loads and completes.
 4. Submit one real message using an address you can inspect.
 5. Confirm that the page reports success only after delivery is accepted.
-6. In `redepchile@gmail.com`, confirm that the received message has:
-   - **From:** `contacto@redepchile.com`
-   - **To:** `redepchile@gmail.com`
+6. In the `contacto@redepchile.com` inbox, confirm that the received message has:
+   - **From:** `formularios@redepchile.com`
+   - **To:** `contacto@redepchile.com`
    - **Reply-To:** the visitor's submitted email
-7. Use Gmail's **Show original** view and confirm that SPF, DKIM, and DMARC pass.
+7. View the message's original source or full headers in Webmail and confirm that there are no SPF, DKIM, or DMARC failures.
 8. Confirm that `contact-form-private/rate-limits.json` was created and remains outside public access.
 9. Check Turnstile Analytics for a successful server-side validation.
 10. Repeat the basic test on `https://www.redepchile.com/contacto` if that hostname remains publicly available.
@@ -195,9 +196,9 @@ Perform these checks from the final HTTPS website:
 
 ### SMTP authentication or delivery fails
 
-- Sign in to Hostinger Webmail again with `contacto@redepchile.com` and the same password stored in `smtp.password`.
+- Sign in to Hostinger Webmail again with `formularios@redepchile.com` and the same password stored in `smtp.password`.
 - Confirm the primary settings are `smtp.hostinger.com`, port `465`, and `encryption` set to `implicit_tls`.
-- Confirm that `username` and `from_email` are both exactly `contacto@redepchile.com`.
+- Confirm that `username` and `from_email` are both exactly `formularios@redepchile.com`, and that `to_email` is exactly `contacto@redepchile.com`.
 - Update the private configuration whenever the mailbox password is changed.
 - Ask Hostinger Support whether outbound SMTP port `465` is available for the hosting account if connection attempts time out.
 - From a checkout that has PHP with OpenSSL available, `npm run test:smtp-connectivity` performs a credential-free implicit-TLS probe against port `465`. It verifies the server certificate and advertised `AUTH LOGIN` capability but sends neither a password nor an email.

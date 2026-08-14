@@ -34,11 +34,11 @@ function validConfig(): array
             'host' => 'smtp.hostinger.com',
             'port' => 465,
             'encryption' => 'implicit_tls',
-            'username' => 'contacto@redepchile.com',
+            'username' => 'formularios@redepchile.com',
             'password' => ' valid mailbox password with spaces ',
-            'from_email' => 'contacto@redepchile.com',
+            'from_email' => 'formularios@redepchile.com',
             'from_name' => 'REDEP Chile - Formulario web',
-            'to_email' => 'redepchile@gmail.com',
+            'to_email' => 'contacto@redepchile.com',
             'timeout_seconds' => 15,
         ],
         'rate_limit' => [
@@ -118,13 +118,13 @@ expectConfigFailure(
 );
 
 $wrongSender = $config;
-$wrongSender['smtp']['username'] = 'other@redepchile.com';
-$wrongSender['smtp']['from_email'] = 'other@redepchile.com';
-expectConfigFailure($wrongSender, 'smtp_config_invalid', 'Unexpected authenticated senders are rejected');
+$wrongSender['smtp']['username'] = 'contacto@redepchile.com';
+$wrongSender['smtp']['from_email'] = 'contacto@redepchile.com';
+expectConfigFailure($wrongSender, 'smtp_config_invalid', 'The former authenticated sender is rejected');
 
 $wrongRecipient = $config;
-$wrongRecipient['smtp']['to_email'] = 'other@example.com';
-expectConfigFailure($wrongRecipient, 'smtp_config_invalid', 'Unexpected recipients are rejected');
+$wrongRecipient['smtp']['to_email'] = 'redepchile@gmail.com';
+expectConfigFailure($wrongRecipient, 'smtp_config_invalid', 'The former Gmail recipient is rejected');
 
 $unsafeFromName = $config;
 $unsafeFromName['smtp']['from_name'] = "REDEP\r\nBcc: attacker@example.com";
@@ -160,12 +160,12 @@ assertConfigTrue(
     'SMTP message has the configured encoded From name'
 );
 assertConfigTrue(
-    str_contains($message, " <contacto@redepchile.com>\r\n"),
+    str_contains($message, " <formularios@redepchile.com>\r\n"),
     'SMTP message uses the fixed Hostinger sender'
 );
 assertConfigTrue(
-    str_contains($message, "To: <redepchile@gmail.com>\r\n"),
-    'SMTP message uses the fixed Gmail recipient'
+    str_contains($message, "To: <contacto@redepchile.com>\r\n"),
+    'SMTP message uses the fixed Hostinger recipient'
 );
 assertConfigTrue(
     str_contains($message, "Reply-To: <visitor@example.com>\r\n"),
