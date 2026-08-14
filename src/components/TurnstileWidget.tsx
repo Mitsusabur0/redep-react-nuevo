@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 const TURNSTILE_SCRIPT_ID = 'cloudflare-turnstile-script';
 const TURNSTILE_SCRIPT_URL = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
@@ -26,6 +26,8 @@ interface TurnstileRenderOptions {
   'error-callback': () => void;
   'expired-callback': () => void;
   'timeout-callback': () => void;
+  'before-interactive-callback': () => void;
+  'after-interactive-callback': () => void;
 }
 
 interface TurnstileApi {
@@ -100,12 +102,14 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidget
   function TurnstileWidget({ siteKey, onTokenChange, onWidgetError }, ref) {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
+    const [isInteractive, setIsInteractive] = useState(false);
 
     useImperativeHandle(ref, () => ({
       reset: () => {
         if (window.turnstile && widgetIdRef.current) {
           window.turnstile.reset(widgetIdRef.current);
           onTokenChange(null);
+          setIsInteractive(false);
         }
       },
     }), [onTokenChange]);
@@ -131,10 +135,13 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidget
             callback: (token) => onTokenChange(token),
             'error-callback': () => {
               onTokenChange(null);
+              setIsInteractive(false);
               onWidgetError();
             },
             'expired-callback': () => onTokenChange(null),
             'timeout-callback': () => onTokenChange(null),
+            'before-interactive-callback': () => setIsInteractive(true),
+            'after-interactive-callback': () => setIsInteractive(false),
           });
         })
         .catch(() => {
@@ -153,6 +160,12 @@ export const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidget
       };
     }, [onTokenChange, onWidgetError, siteKey]);
 
-    return <div ref={containerRef} className="min-h-16 w-full" aria-label="Verificación de seguridad" />;
+    return (
+      <div
+        ref={containerRef}
+        className={`w-full ${isInteractive ? 'mt-5' : 'h-0 overflow-hidden'}`}
+        aria-label="Verificación de seguridad"
+      />
+    );
   },
 );

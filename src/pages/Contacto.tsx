@@ -366,14 +366,7 @@ function ContactForm() {
             />
           </div>
 
-          {TURNSTILE_SITE_KEY ? (
-            <TurnstileWidget
-              ref={turnstileRef}
-              siteKey={TURNSTILE_SITE_KEY}
-              onTokenChange={handleTurnstileToken}
-              onWidgetError={handleTurnstileError}
-            />
-          ) : (
+          {!TURNSTILE_SITE_KEY && (
             <div className="rounded-2xl bg-clay-50 p-4 text-sm text-clay-800 ring-1 ring-inset ring-clay-200">
               La verificación de seguridad no está configurada.
             </div>
@@ -393,19 +386,30 @@ function ContactForm() {
             </p>
           )}
 
-          <button
-            type="submit"
-            disabled={submitting || !TURNSTILE_SITE_KEY || !turnstileToken || turnstileError}
-            className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-          >
-            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-            {submitting ? 'Enviando…' : 'Enviar mensaje'}
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={submitting || !TURNSTILE_SITE_KEY || !turnstileToken || turnstileError}
+              className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+            >
+              {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+              {submitting ? 'Enviando…' : 'Enviar mensaje'}
+            </button>
+
+            {TURNSTILE_SITE_KEY && (
+              <TurnstileWidget
+                ref={turnstileRef}
+                siteKey={TURNSTILE_SITE_KEY}
+                onTokenChange={handleTurnstileToken}
+                onWidgetError={handleTurnstileError}
+              />
+            )}
+          </div>
 
           <div className="flex gap-3 rounded-2xl bg-sand-50 p-4 text-sm leading-relaxed text-ink-600 ring-1 ring-inset ring-sand-200">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-sage-600" aria-hidden="true" />
             <p>
-              <span className="font-medium text-ink-800">Privacidad:</span> usaremos los datos que ingreses únicamente para gestionar y responder tu consulta. El envío y la recepción del correo, y la protección antispam, utilizan proveedores tecnológicos externos (Hostinger, Google y Cloudflare). No incorporaremos tus datos a listas de difusión ni los usaremos con fines publicitarios. Por favor, evita incluir información clínica sensible en este formulario.
+              <span className="font-medium text-ink-800">Privacidad:</span> usaremos los datos que ingreses únicamente para gestionar y responder tu consulta. No incorporaremos tus datos a listas de difusión ni los usaremos con fines publicitarios. Por favor, evita incluir información clínica sensible en este formulario.
             </p>
           </div>
         </form>

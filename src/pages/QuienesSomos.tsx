@@ -1,11 +1,6 @@
 import {
   CheckCircle2,
-  Eye,
-  HeartPulse,
   MapPin,
-  Microscope,
-  Stethoscope,
-  Target,
 } from 'lucide-react';
 import { SectionHeader } from '../components/SectionHeader';
 import { useReveal } from '../hooks/useReveal';
@@ -22,7 +17,6 @@ const pillars = [
     note: 'Las cirugías se realizan en Valdivia con un equipo entrenado coordinado por el Doctor Mauricio Correa.',
     image: surgeryImage,
     imageAlt: 'Equipo quirúrgico realizando una cirugía laparoscópica',
-    icon: Stethoscope,
   },
   {
     title: 'Terapias de apoyo',
@@ -31,7 +25,6 @@ const pillars = [
     note: 'Las terapias se desarrollan en tres sedes del sur de Chile.',
     image: therapyImage,
     imageAlt: 'Imagen referencial de atención clínica para dolor pélvico',
-    icon: HeartPulse,
   },
   {
     title: 'Investigación',
@@ -40,7 +33,6 @@ const pillars = [
     note: 'La investigación conecta al equipo completo en las cuatro ciudades.',
     image: researchImage,
     imageAlt: 'Imagen referencial de investigación clínica',
-    icon: Microscope,
   },
 ];
 
@@ -118,13 +110,11 @@ function MissionVisionSection() {
             eyebrow="Misión"
             title="Acompañar con medicina especializada y decisiones claras."
             text="Entregar evaluación, tratamiento y seguimiento de alta calidad para pacientes con endometriosis y dolor pélvico, combinando evidencia, experiencia clínica y una relación respetuosa con cada persona."
-            icon={Target}
           />
           <StatementCard
             eyebrow="Visión"
             title="Ser una red de referencia clínica y académica."
             text="Consolidar un modelo de atención que conecte el sur de Chile con investigación, formación y cirugía especializada, elevando el estándar de cuidado para condiciones pélvicas complejas."
-            icon={Eye}
           />
         </div>
       </div>
@@ -155,7 +145,6 @@ function PillarsSection() {
 
 function PillarCard({ pillar }: { pillar: (typeof pillars)[number] }) {
   const { ref, visible } = useReveal();
-  const Icon = pillar.icon;
 
   return (
     <article
@@ -172,10 +161,7 @@ function PillarCard({ pillar }: { pillar: (typeof pillars)[number] }) {
         <div className="absolute inset-0 bg-ink-900/10" aria-hidden />
       </div>
       <div className="p-6">
-        <div className="mb-4 flex items-center gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sage-100 text-sage-700">
-            <Icon className="h-5 w-5" />
-          </span>
+        <div className="mb-4">
           <h3 className="font-display text-xl font-semibold leading-tight text-ink-900">{pillar.title}</h3>
         </div>
         <p className="text-sm leading-relaxed text-ink-600">{pillar.text}</p>
@@ -196,12 +182,10 @@ function StatementCard({
   eyebrow,
   title,
   text,
-  icon: Icon,
 }: {
   eyebrow: string;
   title: string;
   text: string;
-  icon: typeof Target;
 }) {
   const { ref, visible } = useReveal();
 
@@ -210,9 +194,6 @@ function StatementCard({
       ref={ref}
       className={`reveal ${visible ? 'is-visible' : ''} rounded-3xl bg-white p-7 shadow-soft ring-1 ring-sand-200 md:p-8`}
     >
-      <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-sage-100 text-sage-700">
-        <Icon className="h-5 w-5" />
-      </span>
       <p className="eyebrow mb-3">{eyebrow}</p>
       <h3 className="font-display text-2xl font-semibold leading-tight text-ink-900">{title}</h3>
       <p className="mt-4 leading-relaxed text-ink-600">{text}</p>
