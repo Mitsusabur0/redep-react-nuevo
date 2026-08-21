@@ -18,8 +18,10 @@ export function Footer() {
             </Link>
             <div className="mt-5 flex items-center gap-3">
               <a
-                href="#"
-                aria-label="Whatsapp"
+                href="https://wa.me/56951798699"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-ink-700 text-sand-100 transition-colors hover:bg-sage-600"
               >
                 <MessageCircle className="h-4 w-4" />
@@ -68,8 +70,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:+56951798699" className="transition-colors hover:text-white">
-                  +56 9 5179 8699
+                <a
+                  href="https://wa.me/56951798699"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-white"
+                >
+                  WhatsApp →
                 </a>
               </li>
               <li>Valdivia, Chile</li>

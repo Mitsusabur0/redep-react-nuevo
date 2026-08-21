@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState, type FormEvent } from 'react';
-import { AlertCircle, Mail, Phone, MessageCircle, Instagram, Youtube, Send, CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
+import { AlertCircle, Mail, MessageCircle, Instagram, Send, CheckCircle2, Loader2, ShieldCheck } from 'lucide-react';
 import { PageHero } from '../components/PageHero';
 import { TurnstileWidget, type TurnstileWidgetHandle } from '../components/TurnstileWidget';
 import { useReveal } from '../hooks/useReveal';
@@ -71,12 +71,10 @@ function ContactInfo() {
   const { ref, visible } = useReveal();
   const items = [
     { icon: Mail, label: 'Correo', value: 'contacto@redepchile.com', href: 'mailto:contacto@redepchile.com' },
-    { icon: Phone, label: 'Teléfono', value: '+56 9 5179 8699', href: 'tel:+56951798699' },
-    { icon: MessageCircle, label: 'Whatsapp', value: '+56 9 5179 8699', href: 'https://wa.me/56951798699', newTab: true },
+    { icon: MessageCircle, label: 'WhatsApp', value: 'Ir al chat de WhatsApp →', href: 'https://wa.me/56951798699', newTab: true },
   ];
   const socials = [
     { icon: Instagram, label: 'Instagram', href: '#' },
-    { icon: Youtube, label: 'Youtube', href: '#' },
   ];
 
   return (
@@ -113,9 +111,10 @@ function ContactInfo() {
               key={label}
               href={href}
               aria-label={label}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-sand-100 text-sage-600 transition-colors hover:bg-sage-600 hover:text-white"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-sand-100 px-4 text-sage-600 transition-colors hover:bg-sage-600 hover:text-white"
             >
               <Icon className="h-4.5 w-4.5" />
+              <span className="text-sm font-medium">{label} →</span>
             </a>
           ))}
         </div>

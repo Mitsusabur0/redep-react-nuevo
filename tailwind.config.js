@@ -58,8 +58,8 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['"Inter"', 'system-ui', 'sans-serif'],
-        display: ['"Fraunces"', 'Georgia', 'serif'],
+        sans: ['var(--font-body)'],
+        display: ['var(--font-display)'],
       },
       borderRadius: {
         '4xl': '2rem',

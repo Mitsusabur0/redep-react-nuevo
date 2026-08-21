@@ -376,6 +376,7 @@ export const TEAM: TeamMember[] = [
           <li>Directorio Sociedad Chilena de Kinesiología y piso pélvico (SOKIP).</li>
           <li>Docente Universidad Austral de Chile.</li>
         </ul>
+        <p className="mt-3">Solicitar hora presencial en Clínica Costanera Valdivia.</p>
       </>
     ),
     image: andreaGutierrezImage,

@@ -52,8 +52,8 @@ const UI = {
   shadowSoft: '0 2px 20px -8px rgba(47, 44, 38, 0.14)',
   shadowCard: '0 8px 30px -12px rgba(47, 44, 38, 0.2)',
   shadowLift: '0 20px 50px -20px rgba(47, 44, 38, 0.26)',
-  fontSans: '"Inter", system-ui, sans-serif',
-  fontDisplay: '"Fraunces", Georgia, serif',
+  fontSans: 'var(--font-body, "Source Sans 3", system-ui, sans-serif)',
+  fontDisplay: 'var(--font-display, "EB Garamond", Garamond, Georgia, serif)',
 };
 
 const PAL = {
@@ -601,7 +601,8 @@ export default function EnzianApp() {
       hitRef.current = hit;
 
       if (labelsRef.current) {
-        ctx.font = `600 11px ${UI.fontSans}`; ctx.textAlign = 'center';
+        const canvasFont = getComputedStyle(document.documentElement).getPropertyValue('--font-body').trim() || '"Source Sans 3", system-ui, sans-serif';
+        ctx.font = `600 11px ${canvasFont}`; ctx.textAlign = 'center';
         let labs = LABELS;
         if (showBone) labs = labs.concat(BONE_LABELS);
         labs.forEach((Lb) => {
@@ -638,6 +639,12 @@ export default function EnzianApp() {
     const wake = () => { if (!running) { running = true; raf = requestAnimationFrame(loop); } };
     wakeRef.current = wake;
     wake(); // primer render
+
+    const onFontChange = () => {
+      wake();
+      if (document.fonts) document.fonts.ready.then(wake);
+    };
+    window.addEventListener('redep-font-preset-change', onFontChange);
 
     setViewRef.current = (name) => {
       const v = VIEWS[name];
@@ -704,6 +711,7 @@ export default function EnzianApp() {
       canvas.removeEventListener('pointerup', onUp);
       canvas.removeEventListener('pointercancel', onUp);
       canvas.removeEventListener('wheel', onWheel);
+      window.removeEventListener('redep-font-preset-change', onFontChange);
       wakeRef.current = null; setViewRef.current = null;
       try { mount.removeChild(canvas); } catch (e) {}
     };
